@@ -54,9 +54,13 @@ class Tab extends Component {
      * }
      */
     panes: PropTypes.arrayOf(PropTypes.shape({
+      content: customPropTypes.contentShorthand,
       menuItem: customPropTypes.itemShorthand,
-      render: PropTypes.func.isRequired,
+      render: PropTypes.func,
     })),
+
+    /** A Tab can render only active pane. */
+    renderActiveOnly: PropTypes.bool,
   }
 
   static autoControlledProps = [
@@ -65,6 +69,7 @@ class Tab extends Component {
 
   static defaultProps = {
     menu: { attached: true, tabular: true },
+    renderActiveOnly: true,
   }
 
   static _meta = {
@@ -83,6 +88,18 @@ class Tab extends Component {
     this.trySetState({ activeIndex: index })
   }
 
+  renderItems() {
+    const { panes, renderActiveOnly } = this.props
+    const { activeIndex } = this.state
+
+    if (renderActiveOnly) return _.invoke(_.get(panes, `[${activeIndex}]`), 'render', this.props)
+    return _.map(panes, (pane, index) => TabPane.create(pane, {
+      overrideProps: {
+        active: index === activeIndex,
+      },
+    }))
+  }
+
   renderMenu() {
     const { menu, panes } = this.props
     const { activeIndex } = this.state
@@ -97,9 +114,6 @@ class Tab extends Component {
   }
 
   render() {
-    const { panes } = this.props
-    const { activeIndex } = this.state
-
     const menu = this.renderMenu()
     const rest = getUnhandledProps(Tab, this.props)
     const ElementType = getElementType(Tab, this.props)
@@ -107,7 +121,7 @@ class Tab extends Component {
     return (
       <ElementType {...rest}>
         {menu.props.attached !== 'bottom' && menu}
-        {_.invoke(_.get(panes, `[${activeIndex}]`), 'render', this.props)}
+        {this.renderItems()}
         {menu.props.attached === 'bottom' && menu}
       </ElementType>
     )

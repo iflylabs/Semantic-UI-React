@@ -1,4 +1,6 @@
 import * as React from 'react';
+
+import {SemanticShorthandContent} from '../..';
 import { default as TabPane } from './TabPane';
 
 export interface TabProps {
@@ -28,9 +30,13 @@ export interface TabProps {
 
   /** Shorthand props for the Menu. */
   panes?: Array<{
+    content?: SemanticShorthandContent;
     menuItem: any;
-    render: () => React.ReactNode;
+    render?: () => React.ReactNode;
   }>;
+
+  /** A Tab can render only active pane. */
+  renderActiveOnly: boolean;
 }
 
 interface TabComponent extends React.ComponentClass<TabProps> {

@@ -6,6 +6,9 @@ export interface TabPaneProps {
   /** An element type to render as (string or function). */
   as?: any;
 
+  /** A tab pane can be active. */
+  active?: boolean;
+
   /** Primary content. */
   children?: React.ReactNode;
 
