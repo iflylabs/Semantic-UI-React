@@ -100,6 +100,8 @@ export interface PortalProps {
 
   /** Element to be rendered in-place where the portal is defined. */
   trigger?: React.ReactNode;
+
+  frame?: string;
 }
 
 declare const Portal: React.ComponentClass<PortalProps>;

@@ -90,6 +90,8 @@ export interface PopupProps extends PortalProps {
 
   /** Popup width. */
   wide?: boolean | 'very';
+
+  frame?: string ;
 }
 
 interface PopupComponent extends React.ComponentClass<PopupProps> {
