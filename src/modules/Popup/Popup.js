@@ -123,6 +123,9 @@ export default class Popup extends Component {
       PropTypes.bool,
       PropTypes.oneOf(['very']),
     ]),
+
+    /**iFly Custom **/
+    frame: PropTypes.string,
   }
 
   static defaultProps = {
@@ -323,6 +326,7 @@ export default class Popup extends Component {
       size,
       trigger,
       wide,
+      frame,
     } = this.props
 
     const { position, closed } = this.state
@@ -362,6 +366,7 @@ export default class Popup extends Component {
     return (
       <Portal
         {...mergedPortalProps}
+        frame = {this.props.frame}
         trigger={trigger}
         onClose={this.handleClose}
         onMount={this.handlePortalMount}

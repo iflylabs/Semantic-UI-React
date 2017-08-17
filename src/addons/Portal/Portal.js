@@ -119,6 +119,9 @@ class Portal extends Component {
 
     /** Element to be rendered in-place where the portal is defined. */
     trigger: PropTypes.node,
+
+    /**iFly Custom **/
+    frame: PropTypes.string,
   }
 
   static defaultProps = {
@@ -369,9 +372,12 @@ class Portal extends Component {
     if (!isBrowser || this.rootNode) return
 
     debug('mountPortal()')
+    let iframeId = "ifc-chat-window-" + this.props.frame
+    let frameContext = document.getElementById(iframeId)
+    let frameContextBody = frameContext.contentDocument || frameContext.contentWindow.document;
 
     const {
-      mountNode = isBrowser ? document.body : null,
+      mountNode = isBrowser ? frameContextBody : null,
       prepend,
     } = this.props
 
