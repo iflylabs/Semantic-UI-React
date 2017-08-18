@@ -372,11 +372,20 @@ class Portal extends Component {
     if (!isBrowser || this.rootNode) return
 
     debug('mountPortal()')
-    let iframeId = "ifc-chat-window-" + this.props.frame
-    let frameContext = document.getElementById(iframeId)
-    let frameContextBody = frameContext.contentDocument || frameContext.contentWindow.document;
-    console.log(frameContext)
-    console.log(frameContextBody)
+    // let iframeId
+    // let frameContext
+    // let frameContextDoc
+    // let frameContextWin
+
+    /** iFly Custom Code **/
+    if(this.props.frame){
+      let iframeId = "ifc-chat-window-" + this.props.frame
+      let frameContext = document.getElementById(iframeId)
+      let frameContextBody = frameContext.contentDocument || frameContext.contentWindow.document;
+    }
+    else{
+      let frameContextBody = document
+    }
 
     const {
       mountNode = isBrowser ? frameContextBody.body : null,
@@ -388,8 +397,6 @@ class Portal extends Component {
     if (prepend) {
       mountNode.insertBefore(this.rootNode, mountNode.firstElementChild)
     } else {
-      console.log("print mountNode")
-      console.log(mountNode)
       mountNode.appendChild(this.rootNode)
     }
 

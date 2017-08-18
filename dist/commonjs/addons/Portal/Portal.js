@@ -424,11 +424,19 @@ var Portal = function (_Component) {
       if (!_lib.isBrowser || this.rootNode) return;
 
       debug('mountPortal()');
-      var iframeId = "ifc-chat-window-" + this.props.frame;
-      var frameContext = document.getElementById(iframeId);
-      var frameContextBody = frameContext.contentDocument || frameContext.contentWindow.document;
-      console.log(frameContext);
-      console.log(frameContextBody);
+      // let iframeId
+      // let frameContext
+      // let frameContextDoc
+      // let frameContextWin
+
+      /** iFly Custom Code **/
+      if (this.props.frame) {
+        var iframeId = "ifc-chat-window-" + this.props.frame;
+        var frameContext = document.getElementById(iframeId);
+        var _frameContextBody = frameContext.contentDocument || frameContext.contentWindow.document;
+      } else {
+        var _frameContextBody2 = document;
+      }
 
       var _props9 = this.props,
           _props9$mountNode = _props9.mountNode,
@@ -441,8 +449,6 @@ var Portal = function (_Component) {
       if (prepend) {
         mountNode.insertBefore(this.rootNode, mountNode.firstElementChild);
       } else {
-        console.log("print mountNode");
-        console.log(mountNode);
         mountNode.appendChild(this.rootNode);
       }
 

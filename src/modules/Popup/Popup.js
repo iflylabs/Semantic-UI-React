@@ -143,18 +143,35 @@ export default class Popup extends Component {
 
   state = {}
 
+
+  /** iFly Custom Code**/
+  getContext(){
+    let iframeId
+    let frameContext
+    let frame = {}
+
+    if(this.props.frame){
+      iframeId = "ifc-chat-window-" + this.props.frame
+      frameContext = document.getElementById(iframeId)
+      frame.contextDoc = frameContext.contentDocument
+      frame.contextWin = frameContext.contentWindow
+    }
+    else{
+      frame.contextWin = window
+      frame.contextDoc = document
+    }
+    return frame;
+  }
+
   computePopupStyle(positions) {
+
     const style = { position: 'absolute' }
-    let iframeId = "ifc-chat-window-" + this.props.frame
-    let frameContext = document.getElementById(iframeId)
-    let frameContextDoc = frameContext.contentDocument
-    let frameContextWin = frameContext.contentWindow;
     // Do not access window/document when server side rendering
     if (!isBrowser) return style
-
+    let frame = getContext()
     const { offset } = this.props
-    const { pageYOffset, pageXOffset } = frameContextWin
-    const { clientWidth, clientHeight } = frameContextDoc.documentElement
+    const { pageYOffset, pageXOffset } = frame.contextWin
+    const { clientWidth, clientHeight } = frame.contextDoc.documentElement
 
     if (_.includes(positions, 'right')) {
       style.right = Math.round(clientWidth - (this.coords.right + pageXOffset))
@@ -201,13 +218,9 @@ export default class Popup extends Component {
   // check if the style would display
   // the popup outside of the view port
   isStyleInViewport(style) {
-    let iframeId = "ifc-chat-window-" + this.props.frame
-    let frameContext = document.getElementById(iframeId)
-    let frameContextDoc = frameContext.contentDocument
-    let frameContextWin = frameContext.contentWindow;
-
-    const { pageYOffset, pageXOffset } = frameContextWin
-    const { clientWidth, clientHeight } = frameContextDoc.documentElement
+    let frame = getContext()
+    const { pageYOffset, pageXOffset } = frame.contextWin
+    const { clientWidth, clientHeight } = frame.contextDoc.documentElement
 
     const element = {
       top: style.top,
@@ -282,7 +295,8 @@ export default class Popup extends Component {
 
   hideOnScroll = () => {
     this.setState({ closed: true })
-    window.removeEventListener('scroll', this.hideOnScroll)
+    let frame = getContext()
+    frame.contextWin.removeEventListener('scroll', this.hideOnScroll)
     setTimeout(() => this.setState({ closed: false }), 50)
   }
 
@@ -302,8 +316,9 @@ export default class Popup extends Component {
 
   handlePortalMount = (e) => {
     debug('handlePortalMount()')
+    let frame = getContext()
     if (this.props.hideOnScroll) {
-      window.addEventListener('scroll', this.hideOnScroll)
+      frame.contextWin.addEventListener('scroll', this.hideOnScroll)
     }
 
     const { onMount } = this.props

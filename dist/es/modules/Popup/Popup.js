@@ -44,7 +44,8 @@ var Popup = function (_Component) {
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Popup.__proto__ || Object.getPrototypeOf(Popup)).call.apply(_ref, [this].concat(args))), _this), _this.state = {}, _this.hideOnScroll = function () {
       _this.setState({ closed: true });
-      window.removeEventListener('scroll', _this.hideOnScroll);
+      var frame = getContext();
+      frame.contextWin.removeEventListener('scroll', _this.hideOnScroll);
       setTimeout(function () {
         return _this.setState({ closed: false });
       }, 50);
@@ -62,8 +63,9 @@ var Popup = function (_Component) {
       if (onOpen) onOpen(e, _this.props);
     }, _this.handlePortalMount = function (e) {
       debug('handlePortalMount()');
+      var frame = getContext();
       if (_this.props.hideOnScroll) {
-        window.addEventListener('scroll', _this.hideOnScroll);
+        frame.contextWin.addEventListener('scroll', _this.hideOnScroll);
       }
 
       var onMount = _this.props.onMount;
@@ -82,22 +84,41 @@ var Popup = function (_Component) {
   }
 
   _createClass(Popup, [{
+    key: 'getContext',
+
+
+    /** iFly Custom Code**/
+    value: function getContext() {
+      var iframeId = void 0;
+      var frameContext = void 0;
+      var frame = {};
+
+      if (this.props.frame) {
+        iframeId = "ifc-chat-window-" + this.props.frame;
+        frameContext = document.getElementById(iframeId);
+        frame.contextDoc = frameContext.contentDocument;
+        frame.contextWin = frameContext.contentWindow;
+      } else {
+        frame.contextWin = window;
+        frame.contextDoc = document;
+      }
+      return frame;
+    }
+  }, {
     key: 'computePopupStyle',
     value: function computePopupStyle(positions) {
-      var style = { position: 'absolute' };
-      var iframeId = "ifc-chat-window-" + this.props.frame;
-      var frameContext = document.getElementById(iframeId);
-      var frameContextDoc = frameContext.contentDocument;
-      var frameContextWin = frameContext.contentWindow;
-      // Do not access window/document when server side rendering
-      if (!isBrowser) return style;
 
+      var style = { position: 'absolute'
+        // Do not access window/document when server side rendering
+      };if (!isBrowser) return style;
+      var frame = getContext();
       var offset = this.props.offset;
-      var pageYOffset = frameContextWin.pageYOffset,
-          pageXOffset = frameContextWin.pageXOffset;
-      var _frameContextDoc$docu = frameContextDoc.documentElement,
-          clientWidth = _frameContextDoc$docu.clientWidth,
-          clientHeight = _frameContextDoc$docu.clientHeight;
+      var _frame$contextWin = frame.contextWin,
+          pageYOffset = _frame$contextWin.pageYOffset,
+          pageXOffset = _frame$contextWin.pageXOffset;
+      var _frame$contextDoc$doc = frame.contextDoc.documentElement,
+          clientWidth = _frame$contextDoc$doc.clientWidth,
+          clientHeight = _frame$contextDoc$doc.clientHeight;
 
 
       if (_includes(positions, 'right')) {
@@ -150,16 +171,13 @@ var Popup = function (_Component) {
   }, {
     key: 'isStyleInViewport',
     value: function isStyleInViewport(style) {
-      var iframeId = "ifc-chat-window-" + this.props.frame;
-      var frameContext = document.getElementById(iframeId);
-      var frameContextDoc = frameContext.contentDocument;
-      var frameContextWin = frameContext.contentWindow;
-
-      var pageYOffset = frameContextWin.pageYOffset,
-          pageXOffset = frameContextWin.pageXOffset;
-      var _frameContextDoc$docu2 = frameContextDoc.documentElement,
-          clientWidth = _frameContextDoc$docu2.clientWidth,
-          clientHeight = _frameContextDoc$docu2.clientHeight;
+      var frame = getContext();
+      var _frame$contextWin2 = frame.contextWin,
+          pageYOffset = _frame$contextWin2.pageYOffset,
+          pageXOffset = _frame$contextWin2.pageXOffset;
+      var _frame$contextDoc$doc2 = frame.contextDoc.documentElement,
+          clientWidth = _frame$contextDoc$doc2.clientWidth,
+          clientHeight = _frame$contextDoc$doc2.clientHeight;
 
 
       var element = {
