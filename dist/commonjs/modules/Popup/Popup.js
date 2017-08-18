@@ -158,7 +158,7 @@ var Popup = function (_Component) {
       var style = { position: 'absolute'
         // Do not access window/document when server side rendering
       };if (!_lib.isBrowser) return style;
-      var frame = getContext();
+      var frame = this.getContext();
       var offset = this.props.offset;
       var _frame$contextWin = frame.contextWin,
           pageYOffset = _frame$contextWin.pageYOffset,
@@ -218,7 +218,7 @@ var Popup = function (_Component) {
   }, {
     key: 'isStyleInViewport',
     value: function isStyleInViewport(style) {
-      var frame = getContext();
+      var frame = this.getContext();
       var _frame$contextWin2 = frame.contextWin,
           pageYOffset = _frame$contextWin2.pageYOffset,
           pageXOffset = _frame$contextWin2.pageXOffset;
@@ -310,7 +310,7 @@ var Popup = function (_Component) {
       var _this8 = this;
 
       this.setState({ closed: true });
-      var frame = getContext();
+      var frame = this.getContext();
       frame.contextWin.removeEventListener('scroll', this.hideOnScroll);
       setTimeout(function () {
         return _this8.setState({ closed: false });
@@ -338,7 +338,7 @@ var Popup = function (_Component) {
     key: '__handlePortalMount__REACT_HOT_LOADER__',
     value: function __handlePortalMount__REACT_HOT_LOADER__(e) {
       debug('handlePortalMount()');
-      var frame = getContext();
+      var frame = this.getContext();
       if (this.props.hideOnScroll) {
         frame.contextWin.addEventListener('scroll', this.hideOnScroll);
       }

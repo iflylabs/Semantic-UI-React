@@ -205,6 +205,7 @@ var Portal = function (_Component) {
       var frameContextBody = void 0;
 
       /** iFly Custom Code **/
+      console.log(_this.props.frame);
       if (_this.props.frame) {
         iframeId = "ifc-chat-window-" + _this.props.frame;
         frameContext = document.getElementById(iframeId);
@@ -212,7 +213,7 @@ var Portal = function (_Component) {
       } else {
         frameContextBody = document;
       }
-
+      console.log(frameContextBody);
       var _this$props8 = _this.props,
           _this$props8$mountNod = _this$props8.mountNode,
           mountNode = _this$props8$mountNod === undefined ? isBrowser ? frameContextBody.body : null : _this$props8$mountNod,

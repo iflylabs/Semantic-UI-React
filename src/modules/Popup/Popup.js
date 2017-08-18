@@ -168,7 +168,7 @@ export default class Popup extends Component {
     const style = { position: 'absolute' }
     // Do not access window/document when server side rendering
     if (!isBrowser) return style
-    let frame = getContext()
+    let frame = this.getContext()
     const { offset } = this.props
     const { pageYOffset, pageXOffset } = frame.contextWin
     const { clientWidth, clientHeight } = frame.contextDoc.documentElement
@@ -218,7 +218,7 @@ export default class Popup extends Component {
   // check if the style would display
   // the popup outside of the view port
   isStyleInViewport(style) {
-    let frame = getContext()
+    let frame = this.getContext()
     const { pageYOffset, pageXOffset } = frame.contextWin
     const { clientWidth, clientHeight } = frame.contextDoc.documentElement
 
@@ -295,7 +295,7 @@ export default class Popup extends Component {
 
   hideOnScroll = () => {
     this.setState({ closed: true })
-    let frame = getContext()
+    let frame = this.getContext()
     frame.contextWin.removeEventListener('scroll', this.hideOnScroll)
     setTimeout(() => this.setState({ closed: false }), 50)
   }
@@ -316,7 +316,7 @@ export default class Popup extends Component {
 
   handlePortalMount = (e) => {
     debug('handlePortalMount()')
-    let frame = getContext()
+    let frame = this.getContext()
     if (this.props.hideOnScroll) {
       frame.contextWin.addEventListener('scroll', this.hideOnScroll)
     }

@@ -378,6 +378,7 @@ class Portal extends Component {
 
 
     /** iFly Custom Code **/
+    console.log(this.props.frame)
     if(this.props.frame){
       iframeId = "ifc-chat-window-" + this.props.frame
       frameContext = document.getElementById(iframeId)
@@ -386,7 +387,7 @@ class Portal extends Component {
     else{
       frameContextBody = document
     }
-
+    console.log(frameContextBody)
     const {
       mountNode = isBrowser ? frameContextBody.body : null,
       prepend,
