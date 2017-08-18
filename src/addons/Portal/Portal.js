@@ -375,6 +375,8 @@ class Portal extends Component {
     let iframeId = "ifc-chat-window-" + this.props.frame
     let frameContext = document.getElementById(iframeId)
     let frameContextBody = frameContext.contentDocument || frameContext.contentWindow.document;
+    console.log(frameContext)
+    console.log(frameContextBody)
 
     const {
       mountNode = isBrowser ? frameContextBody : null,
@@ -386,6 +388,8 @@ class Portal extends Component {
     if (prepend) {
       mountNode.insertBefore(this.rootNode, mountNode.firstElementChild)
     } else {
+      console.log("print mountNode")
+      console.log(mountNode)
       mountNode.appendChild(this.rootNode)
     }
 
