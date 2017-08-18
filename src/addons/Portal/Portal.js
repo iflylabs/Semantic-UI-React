@@ -372,19 +372,19 @@ class Portal extends Component {
     if (!isBrowser || this.rootNode) return
 
     debug('mountPortal()')
-    // let iframeId
-    // let frameContext
-    // let frameContextDoc
-    // let frameContextWin
+    let iframeId
+    let frameContext
+    let frameContextBody
+
 
     /** iFly Custom Code **/
     if(this.props.frame){
-      let iframeId = "ifc-chat-window-" + this.props.frame
-      let frameContext = document.getElementById(iframeId)
-      let frameContextBody = frameContext.contentDocument || frameContext.contentWindow.document;
+      iframeId = "ifc-chat-window-" + this.props.frame
+      frameContext = document.getElementById(iframeId)
+      frameContextBody = frameContext.contentDocument || frameContext.contentWindow.document;
     }
     else{
-      let frameContextBody = document
+      frameContextBody = document
     }
 
     const {

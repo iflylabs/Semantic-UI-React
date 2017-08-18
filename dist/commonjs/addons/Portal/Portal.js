@@ -424,18 +424,17 @@ var Portal = function (_Component) {
       if (!_lib.isBrowser || this.rootNode) return;
 
       debug('mountPortal()');
-      // let iframeId
-      // let frameContext
-      // let frameContextDoc
-      // let frameContextWin
+      var iframeId = void 0;
+      var frameContext = void 0;
+      var frameContextBody = void 0;
 
       /** iFly Custom Code **/
       if (this.props.frame) {
-        var iframeId = "ifc-chat-window-" + this.props.frame;
-        var frameContext = document.getElementById(iframeId);
-        var _frameContextBody = frameContext.contentDocument || frameContext.contentWindow.document;
+        iframeId = "ifc-chat-window-" + this.props.frame;
+        frameContext = document.getElementById(iframeId);
+        frameContextBody = frameContext.contentDocument || frameContext.contentWindow.document;
       } else {
-        var _frameContextBody2 = document;
+        frameContextBody = document;
       }
 
       var _props9 = this.props,
