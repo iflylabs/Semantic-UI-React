@@ -208,7 +208,7 @@ var Portal = function (_Component) {
 
       var _this$props8 = _this.props,
           _this$props8$mountNod = _this$props8.mountNode,
-          mountNode = _this$props8$mountNod === undefined ? isBrowser ? frameContextBody : null : _this$props8$mountNod,
+          mountNode = _this$props8$mountNod === undefined ? isBrowser ? frameContextBody.body : null : _this$props8$mountNod,
           prepend = _this$props8.prepend;
 
 

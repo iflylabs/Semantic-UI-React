@@ -432,7 +432,7 @@ var Portal = function (_Component) {
 
       var _props9 = this.props,
           _props9$mountNode = _props9.mountNode,
-          mountNode = _props9$mountNode === undefined ? _lib.isBrowser ? frameContextBody : null : _props9$mountNode,
+          mountNode = _props9$mountNode === undefined ? _lib.isBrowser ? frameContextBody.body : null : _props9$mountNode,
           prepend = _props9.prepend;
 
 
