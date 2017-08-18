@@ -379,7 +379,7 @@ class Portal extends Component {
     console.log(frameContextBody)
 
     const {
-      mountNode = isBrowser ? frameContextBody : null,
+      mountNode = isBrowser ? frameContextBody.body : null,
       prepend,
     } = this.props
 
