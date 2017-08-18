@@ -1,0 +1,33 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof2 = require('babel-runtime/helpers/typeof');
+
+var _typeof3 = _interopRequireDefault(_typeof2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var hasDocument = (typeof document === 'undefined' ? 'undefined' : (0, _typeof3.default)(document)) === 'object' && document !== null;
+var hasWindow = (typeof window === 'undefined' ? 'undefined' : (0, _typeof3.default)(window)) === 'object' && window !== null && window.self === window;
+
+var _default = hasDocument && hasWindow;
+
+exports.default = _default;
+;
+
+var _temp = function () {
+  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+    return;
+  }
+
+  __REACT_HOT_LOADER__.register(hasDocument, 'hasDocument', 'src/lib/isBrowser.js');
+
+  __REACT_HOT_LOADER__.register(hasWindow, 'hasWindow', 'src/lib/isBrowser.js');
+
+  __REACT_HOT_LOADER__.register(_default, 'default', 'src/lib/isBrowser.js');
+}();
+
+;
