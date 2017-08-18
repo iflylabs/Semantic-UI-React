@@ -145,13 +145,16 @@ export default class Popup extends Component {
 
   computePopupStyle(positions) {
     const style = { position: 'absolute' }
-
+    let iframeId = "ifc-chat-window-" + this.props.frame
+    let frameContext = document.getElementById(iframeId)
+    let frameContextDoc = frameContext.contentDocument
+    let frameContextWin = frameContext.contentWindow;
     // Do not access window/document when server side rendering
     if (!isBrowser) return style
 
     const { offset } = this.props
-    const { pageYOffset, pageXOffset } = window
-    const { clientWidth, clientHeight } = document.documentElement
+    const { pageYOffset, pageXOffset } = frameContextWin
+    const { clientWidth, clientHeight } = frameContextDoc.documentElement
 
     if (_.includes(positions, 'right')) {
       style.right = Math.round(clientWidth - (this.coords.right + pageXOffset))
@@ -198,8 +201,13 @@ export default class Popup extends Component {
   // check if the style would display
   // the popup outside of the view port
   isStyleInViewport(style) {
-    const { pageYOffset, pageXOffset } = window
-    const { clientWidth, clientHeight } = document.documentElement
+    let iframeId = "ifc-chat-window-" + this.props.frame
+    let frameContext = document.getElementById(iframeId)
+    let frameContextDoc = frameContext.contentDocument
+    let frameContextWin = frameContext.contentWindow;
+
+    const { pageYOffset, pageXOffset } = frameContextWin
+    const { clientWidth, clientHeight } = frameContextDoc.documentElement
 
     const element = {
       top: style.top,

@@ -84,18 +84,20 @@ var Popup = function (_Component) {
   _createClass(Popup, [{
     key: 'computePopupStyle',
     value: function computePopupStyle(positions) {
-      var style = { position: 'absolute'
-
-        // Do not access window/document when server side rendering
-      };if (!isBrowser) return style;
+      var style = { position: 'absolute' };
+      var iframeId = "ifc-chat-window-" + this.props.frame;
+      var frameContext = document.getElementById(iframeId);
+      var frameContextDoc = frameContext.contentDocument;
+      var frameContextWin = frameContext.contentWindow;
+      // Do not access window/document when server side rendering
+      if (!isBrowser) return style;
 
       var offset = this.props.offset;
-      var _window = window,
-          pageYOffset = _window.pageYOffset,
-          pageXOffset = _window.pageXOffset;
-      var _document$documentEle = document.documentElement,
-          clientWidth = _document$documentEle.clientWidth,
-          clientHeight = _document$documentEle.clientHeight;
+      var pageYOffset = frameContextWin.pageYOffset,
+          pageXOffset = frameContextWin.pageXOffset;
+      var _frameContextDoc$docu = frameContextDoc.documentElement,
+          clientWidth = _frameContextDoc$docu.clientWidth,
+          clientHeight = _frameContextDoc$docu.clientHeight;
 
 
       if (_includes(positions, 'right')) {
@@ -148,12 +150,16 @@ var Popup = function (_Component) {
   }, {
     key: 'isStyleInViewport',
     value: function isStyleInViewport(style) {
-      var _window2 = window,
-          pageYOffset = _window2.pageYOffset,
-          pageXOffset = _window2.pageXOffset;
-      var _document$documentEle2 = document.documentElement,
-          clientWidth = _document$documentEle2.clientWidth,
-          clientHeight = _document$documentEle2.clientHeight;
+      var iframeId = "ifc-chat-window-" + this.props.frame;
+      var frameContext = document.getElementById(iframeId);
+      var frameContextDoc = frameContext.contentDocument;
+      var frameContextWin = frameContext.contentWindow;
+
+      var pageYOffset = frameContextWin.pageYOffset,
+          pageXOffset = frameContextWin.pageXOffset;
+      var _frameContextDoc$docu2 = frameContextDoc.documentElement,
+          clientWidth = _frameContextDoc$docu2.clientWidth,
+          clientHeight = _frameContextDoc$docu2.clientHeight;
 
 
       var element = {
