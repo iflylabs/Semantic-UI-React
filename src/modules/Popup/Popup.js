@@ -151,7 +151,7 @@ export default class Popup extends Component {
     let frame = {}
 
     if(this.props.frame){
-      iframeId = "ifc-chat-window-" + this.props.frame
+      iframeId = this.props.frame
       frameContext = document.getElementById(iframeId)
       frame.contextDoc = frameContext.contentDocument
       frame.contextWin = frameContext.contentWindow
