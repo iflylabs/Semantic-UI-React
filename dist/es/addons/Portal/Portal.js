@@ -207,7 +207,7 @@ var Portal = function (_Component) {
       /** iFly Custom Code **/
       console.log(_this.props.frame);
       if (_this.props.frame) {
-        iframeId = "ifc-chat-window-" + _this.props.frame;
+        iframeId = _this.props.frame;
         frameContext = document.getElementById(iframeId);
         frameContextBody = frameContext.contentDocument || frameContext.contentWindow.document;
       } else {
