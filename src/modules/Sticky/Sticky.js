@@ -3,9 +3,11 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
 import {
+  eventStack,
   customPropTypes,
   getElementType,
   getUnhandledProps,
+  isBrowser,
   META,
 } from '../../lib'
 
@@ -16,6 +18,9 @@ export default class Sticky extends Component {
   static propTypes = {
     /** An element type to render as (string or function). */
     as: customPropTypes.as,
+
+    /** A Sticky can be active. */
+    active: PropTypes.bool,
 
     /** Offset in pixels from the bottom of the screen when fixing element to viewport. */
     bottomOffset: PropTypes.number,
@@ -66,11 +71,16 @@ export default class Sticky extends Component {
 
     /** Whether element should be "pushed" by the viewport, attaching to the bottom of the screen when scrolling up. */
     pushing: PropTypes.bool,
+
+    /** Context which sticky should attach onscroll events. */
+    scrollContext: PropTypes.object,
   }
 
   static defaultProps = {
+    active: true,
     bottomOffset: 0,
     offset: 0,
+    scrollContext: isBrowser ? window : null,
   }
 
   static _meta = {
@@ -83,12 +93,51 @@ export default class Sticky extends Component {
   }
 
   componentDidMount() {
-    this.handleUpdate()
-    window.addEventListener('scroll', this.handleUpdate)
+    if (!isBrowser) return
+    const { active } = this.props
+
+    if (active) {
+      this.handleUpdate()
+      this.addListener()
+    }
+  }
+
+  componentWillReceiveProps({ active: next }) {
+    const { active: current } = this.props
+
+    if (current === next) return
+    if (next) {
+      this.handleUpdate()
+      this.addListener()
+      return
+    }
+    this.removeListener()
+    this.setState({ sticky: false })
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleUpdate)
+    if (!isBrowser) return
+    const { active } = this.props
+
+    if (active) this.removeListener()
+  }
+
+  // ----------------------------------------
+  // Events
+  // ----------------------------------------
+
+  addListener = () => {
+    const { scrollContext } = this.props
+
+    eventStack.sub('resize', this.handleUpdate, { target: scrollContext })
+    eventStack.sub('scroll', this.handleUpdate, { target: scrollContext })
+  }
+
+  removeListener = () => {
+    const { scrollContext } = this.props
+
+    eventStack.unsub('resize', this.handleUpdate, { target: scrollContext })
+    eventStack.unsub('scroll', this.handleUpdate, { target: scrollContext })
   }
 
   // ----------------------------------------
@@ -99,7 +148,6 @@ export default class Sticky extends Component {
     const { pushing } = this.state
 
     this.ticking = false
-
     this.assignRects()
 
     if (pushing) {
@@ -152,9 +200,6 @@ export default class Sticky extends Component {
     }
   }
 
-  // Return true if the height of the component is higher than the window
-  isOversized = () => this.stickyRect.height > window.innerHeight
-
   // Return true when the component reached the bottom of the context
   didReachContextBottom = () => {
     const { offset } = this.props
@@ -174,6 +219,9 @@ export default class Sticky extends Component {
 
     return (this.contextRect.bottom + bottomOffset) > window.innerHeight
   }
+
+  // Return true if the height of the component is higher than the window
+  isOversized = () => this.stickyRect.height > window.innerHeight
 
   // ----------------------------------------
   // Stick helpers

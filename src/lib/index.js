@@ -19,6 +19,7 @@ export {
   debug,
   makeDebugger,
 } from './debug'
+export eventStack from './eventStack'
 
 export * from './factories'
 export { default as getUnhandledProps } from './getUnhandledProps'
@@ -38,4 +39,7 @@ export * as SUI from './SUI'
 
 export { default as keyboardKey } from './keyboardKey'
 export { numberToWordMap, numberToWord } from './numberToWord'
+export normalizeOffset from './normalizeOffset'
+export normalizeTransitionDuration from './normalizeTransitionDuration'
 export { default as objectDiff } from './objectDiff'
+export shallowEqual from './shallowEqual'

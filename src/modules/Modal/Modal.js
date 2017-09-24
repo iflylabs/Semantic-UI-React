@@ -33,8 +33,8 @@ class Modal extends Component {
     /** An element type to render as (string or function). */
     as: customPropTypes.as,
 
-    /** Elements to render as Modal action buttons. */
-    actions: PropTypes.arrayOf(customPropTypes.itemShorthand),
+    /** Shorthand for Modal.Actions. Typically an array of button shorthand. */
+    actions: customPropTypes.itemShorthand,
 
     /** A modal can reduce its complexity */
     basic: PropTypes.bool,
@@ -45,7 +45,7 @@ class Modal extends Component {
     /** Additional classes. */
     className: PropTypes.string,
 
-    /** Icon. */
+    /** Shorthand for the close icon. Closes the modal on click. */
     closeIcon: PropTypes.oneOfType([
       PropTypes.node,
       PropTypes.object,
@@ -70,11 +70,22 @@ class Modal extends Component {
       PropTypes.oneOf(['inverted', 'blurring']),
     ]),
 
+    /** Event pool namespace that is used to handle component events */
+    eventPool: PropTypes.string,
+
     /** Modal displayed above the content in bold. */
     header: customPropTypes.itemShorthand,
 
     /** The node where the modal should mount. Defaults to document.body. */
     mountNode: PropTypes.any,
+
+    /**
+     * Action onClick handler when using shorthand `actions`.
+     *
+     * @param {SyntheticEvent} event - React's original SyntheticEvent.
+     * @param {object} data - All props.
+     */
+    onActionClick: PropTypes.func,
 
     /**
      * Called when a close event happens.
@@ -127,6 +138,7 @@ class Modal extends Component {
     dimmer: true,
     closeOnDimmerClick: true,
     closeOnDocumentClick: false,
+    eventPool: 'Modal',
   }
 
   static autoControlledProps = [
@@ -153,10 +165,10 @@ class Modal extends Component {
 
   handleActionsOverrides = predefinedProps => ({
     onActionClick: (e, actionProps) => {
-      const { triggerClose } = actionProps
-
       _.invoke(predefinedProps, 'onActionClick', e, actionProps)
-      if (triggerClose) this.handleClose(e)
+      _.invoke(this.props, 'onActionClick', e, this.props)
+
+      this.handleClose(e)
     },
   })
 
@@ -219,7 +231,7 @@ class Modal extends Component {
     mountNode.classList.remove('blurring')
     mountNode.classList.remove('dimmable')
     mountNode.classList.remove('dimmed')
-    mountNode.classList.remove('scrollable')
+    mountNode.classList.remove('scrolling')
 
     cancelAnimationFrame(this.animationRequestId)
 
@@ -307,7 +319,7 @@ class Modal extends Component {
 
   render() {
     const { open } = this.state
-    const { closeOnDimmerClick, closeOnDocumentClick, dimmer } = this.props
+    const { closeOnDimmerClick, closeOnDocumentClick, dimmer, eventPool } = this.props
     const mountNode = this.getMountNode()
 
     // Short circuit when server side rendering
@@ -345,6 +357,7 @@ class Modal extends Component {
         closeOnRootNodeClick={closeOnDimmerClick}
         {...portalProps}
         className={dimmerClasses}
+        eventPool={eventPool}
         mountNode={mountNode}
         open={open}
         onClose={this.handleClose}

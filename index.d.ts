@@ -1,9 +1,14 @@
 // Addons
+export {
+  default as Responsive,
+  ResponsiveProps,
+  ResponsiveWidthShorthand
+} from './dist/commonjs/addons/Responsive';
 export { default as Confirm, ConfirmProps } from './dist/commonjs/addons/Confirm';
 export { default as Portal, PortalProps } from './dist/commonjs/addons/Portal';
 export { default as Radio, RadioProps } from './dist/commonjs/addons/Radio';
 export { default as Select, SelectProps } from './dist/commonjs/addons/Select';
-export { default as TextArea, TextAreaProps, TextAreaOnChangeData } from './dist/commonjs/addons/TextArea';
+export { default as TextArea, TextAreaProps } from './dist/commonjs/addons/TextArea';
 
 // Behaviors
 export {
@@ -116,6 +121,11 @@ export * from './dist/commonjs';
 
 // Modules
 export { default as Accordion, AccordionProps } from './dist/commonjs/modules/Accordion/Accordion';
+export {
+  default as AccordionAccordion,
+  AccordionAccordionProps,
+  AccordionPanelProps
+} from './dist/commonjs/modules/Accordion/AccordionAccordion';
 export { default as AccordionContent, AccordionContentProps } from './dist/commonjs/modules/Accordion/AccordionContent';
 export { default as AccordionTitle, AccordionTitleProps } from './dist/commonjs/modules/Accordion/AccordionTitle';
 
@@ -165,7 +175,12 @@ export { default as Sticky, StickyProps } from './dist/commonjs/modules/Sticky';
 export { default as Tab, TabProps } from './dist/commonjs/modules/Tab';
 export { default as TabPane, TabPaneProps } from './dist/commonjs/modules/Tab/TabPane';
 
-export { default as Transition, TransitionProps, TRANSITION_STATUSES } from './dist/commonjs/modules/Transition';
+export {
+  default as Transition,
+  TransitionProps,
+  TransitionPropDuration,
+  TRANSITION_STATUSES
+} from './dist/commonjs/modules/Transition';
 export { default as TransitionGroup, TransitionGroupProps } from './dist/commonjs/modules/Transition/TransitionGroup';
 
 // Views
