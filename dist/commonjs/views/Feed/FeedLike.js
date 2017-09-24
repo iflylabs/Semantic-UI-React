@@ -69,7 +69,7 @@ FeedLike.defaultProps = {
   as: 'a'
 };
 
-process.env.NODE_ENV !== "production" ? FeedLike.propTypes = {
+FeedLike.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -84,20 +84,6 @@ process.env.NODE_ENV !== "production" ? FeedLike.propTypes = {
 
   /** Shorthand for icon. Mutually exclusive with children. */
   icon: _lib.customPropTypes.itemShorthand
-} : void 0;
+} : {};
 
-var _default = FeedLike;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(FeedLike, 'FeedLike', 'src/views/Feed/FeedLike.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Feed/FeedLike.js');
-}();
-
-;
+exports.default = FeedLike;

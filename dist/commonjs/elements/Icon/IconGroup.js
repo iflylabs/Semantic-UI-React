@@ -54,7 +54,7 @@ IconGroup._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? IconGroup.propTypes = {
+IconGroup.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -66,24 +66,10 @@ process.env.NODE_ENV !== "production" ? IconGroup.propTypes = {
 
   /** Size of the icon group. */
   size: _propTypes2.default.oneOf((0, _without3.default)(_lib.SUI.SIZES, 'medium'))
-} : void 0;
+} : {};
 
 IconGroup.defaultProps = {
   as: 'i'
 };
 
-var _default = IconGroup;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(IconGroup, 'IconGroup', 'src/elements/Icon/IconGroup.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Icon/IconGroup.js');
-}();
-
-;
+exports.default = IconGroup;

@@ -45,31 +45,17 @@ FormTextArea._meta = {
   type: _lib.META.TYPES.COLLECTION
 };
 
-process.env.NODE_ENV !== "production" ? FormTextArea.propTypes = {
+FormTextArea.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
   /** A FormField control prop. */
   control: _FormField2.default.propTypes.control
-} : void 0;
+} : {};
 
 FormTextArea.defaultProps = {
   as: _FormField2.default,
   control: _TextArea2.default
 };
 
-var _default = FormTextArea;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(FormTextArea, 'FormTextArea', 'src/collections/Form/FormTextArea.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Form/FormTextArea.js');
-}();
-
-;
+exports.default = FormTextArea;

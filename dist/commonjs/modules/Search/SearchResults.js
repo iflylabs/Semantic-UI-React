@@ -46,7 +46,7 @@ SearchResults._meta = {
   type: _lib.META.TYPES.MODULE
 };
 
-process.env.NODE_ENV !== "production" ? SearchResults.propTypes = {
+SearchResults.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -55,20 +55,6 @@ process.env.NODE_ENV !== "production" ? SearchResults.propTypes = {
 
   /** Additional classes. */
   className: _propTypes2.default.string
-} : void 0;
+} : {};
 
-var _default = SearchResults;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(SearchResults, 'SearchResults', 'src/modules/Search/SearchResults.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Search/SearchResults.js');
-}();
-
-;
+exports.default = SearchResults;

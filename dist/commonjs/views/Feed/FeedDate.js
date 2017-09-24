@@ -50,7 +50,7 @@ FeedDate._meta = {
   type: _lib.META.TYPES.VIEW
 };
 
-process.env.NODE_ENV !== "production" ? FeedDate.propTypes = {
+FeedDate.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -62,20 +62,6 @@ process.env.NODE_ENV !== "production" ? FeedDate.propTypes = {
 
   /** Shorthand for primary content. */
   content: _lib.customPropTypes.contentShorthand
-} : void 0;
+} : {};
 
-var _default = FeedDate;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(FeedDate, 'FeedDate', 'src/views/Feed/FeedDate.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Feed/FeedDate.js');
-}();
-
-;
+exports.default = FeedDate;

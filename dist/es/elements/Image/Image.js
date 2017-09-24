@@ -77,7 +77,7 @@ Image._meta = {
   type: META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? Image.propTypes = {
+Image.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: customPropTypes.as,
 
@@ -148,10 +148,8 @@ process.env.NODE_ENV !== "production" ? Image.propTypes = {
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
   /** An image can render wrapped in a `div.ui.image` as alternative HTML markup. */
-  wrapped: customPropTypes.every([PropTypes.bool,
-  // these props wrap the image in an a tag already
-  customPropTypes.disallow(['href'])])
-} : void 0;
+  wrapped: PropTypes.bool
+} : {};
 
 Image.defaultProps = {
   as: 'img',

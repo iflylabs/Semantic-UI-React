@@ -60,12 +60,9 @@ var _Transition2 = _interopRequireDefault(_Transition);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var debug = (0, _lib.makeDebugger)('transition_group');
-
 /**
  * A Transition.Group animates children as they mount and unmount.
  */
-
 var TransitionGroup = function (_React$Component) {
   (0, _inherits3.default)(TransitionGroup, _React$Component);
 
@@ -80,13 +77,7 @@ var TransitionGroup = function (_React$Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (_ref = TransitionGroup.__proto__ || Object.getPrototypeOf(TransitionGroup)).call.apply(_ref, [this].concat(args)));
 
-    _this.handleOnHide = function () {
-      return _this.__handleOnHide__REACT_HOT_LOADER__.apply(_this, arguments);
-    };
-
-    _this.wrapChild = function () {
-      return _this.__wrapChild__REACT_HOT_LOADER__.apply(_this, arguments);
-    };
+    _initialiseProps.call(_this);
 
     var children = _this.props.children;
 
@@ -100,8 +91,6 @@ var TransitionGroup = function (_React$Component) {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       var _this2 = this;
-
-      debug('componentWillReceiveProps()');
 
       var prevMapping = this.state.children;
 
@@ -139,49 +128,8 @@ var TransitionGroup = function (_React$Component) {
       this.setState({ children: children });
     }
   }, {
-    key: '__handleOnHide__REACT_HOT_LOADER__',
-    value: function __handleOnHide__REACT_HOT_LOADER__(nothing, childProps) {
-      debug('handleOnHide', childProps);
-      var reactKey = childProps.reactKey;
-
-
-      this.setState(function (state) {
-        var children = (0, _extends3.default)({}, state.children);
-        delete children[reactKey];
-
-        return { children: children };
-      });
-    }
-  }, {
-    key: '__wrapChild__REACT_HOT_LOADER__',
-    value: function __wrapChild__REACT_HOT_LOADER__(child) {
-      var transitionOnMount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      var _props = this.props,
-          animation = _props.animation,
-          duration = _props.duration;
-      var key = child.key;
-
-
-      return _react2.default.createElement(
-        _Transition2.default,
-        {
-          animation: animation,
-          duration: duration,
-          key: key,
-          onHide: this.handleOnHide,
-          reactKey: key,
-          transitionOnMount: transitionOnMount
-        },
-        child
-      );
-    }
-  }, {
     key: 'render',
     value: function render() {
-      debug('render');
-      debug('props', this.props);
-      debug('state', this.state);
-
       var children = this.state.children;
 
       var ElementType = (0, _lib.getElementType)(TransitionGroup, this.props);
@@ -207,9 +155,47 @@ TransitionGroup._meta = {
   type: _lib.META.TYPES.MODULE
 };
 TransitionGroup.handledProps = ['animation', 'as', 'children', 'duration'];
-var _default = TransitionGroup;
-exports.default = _default;
-process.env.NODE_ENV !== "production" ? TransitionGroup.propTypes = {
+
+var _initialiseProps = function _initialiseProps() {
+  var _this3 = this;
+
+  this.handleOnHide = function (nothing, childProps) {
+    var reactKey = childProps.reactKey;
+
+
+    _this3.setState(function (state) {
+      var children = (0, _extends3.default)({}, state.children);
+      delete children[reactKey];
+
+      return { children: children };
+    });
+  };
+
+  this.wrapChild = function (child) {
+    var transitionOnMount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    var _props = _this3.props,
+        animation = _props.animation,
+        duration = _props.duration;
+    var key = child.key;
+
+
+    return _react2.default.createElement(
+      _Transition2.default,
+      {
+        animation: animation,
+        duration: duration,
+        key: key,
+        onHide: _this3.handleOnHide,
+        reactKey: key,
+        transitionOnMount: transitionOnMount
+      },
+      child
+    );
+  };
+};
+
+exports.default = TransitionGroup;
+TransitionGroup.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -220,20 +206,8 @@ process.env.NODE_ENV !== "production" ? TransitionGroup.propTypes = {
   children: _propTypes2.default.node,
 
   /** Duration of the CSS transition animation in milliseconds. */
-  duration: _propTypes2.default.number
-} : void 0;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(debug, 'debug', 'src/modules/Transition/TransitionGroup.js');
-
-  __REACT_HOT_LOADER__.register(TransitionGroup, 'TransitionGroup', 'src/modules/Transition/TransitionGroup.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Transition/TransitionGroup.js');
-}();
-
-;
+  duration: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.shape({
+    hide: _propTypes2.default.number.isRequired,
+    show: _propTypes2.default.number.isRequired
+  }), _propTypes2.default.string])
+} : {};

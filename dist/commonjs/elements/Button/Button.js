@@ -93,63 +93,25 @@ var Button = function (_Component) {
     }
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Button.__proto__ || Object.getPrototypeOf(Button)).call.apply(_ref, [this].concat(args))), _this), _this.computeElementType = function () {
-      var _this2;
-
-      return (_this2 = _this).__computeElementType__REACT_HOT_LOADER__.apply(_this2, arguments);
-    }, _this.computeTabIndex = function () {
-      var _this3;
-
-      return (_this3 = _this).__computeTabIndex__REACT_HOT_LOADER__.apply(_this3, arguments);
-    }, _this.focus = function () {
-      var _this4;
-
-      return (_this4 = _this).__focus__REACT_HOT_LOADER__.apply(_this4, arguments);
-    }, _this.handleClick = function () {
-      var _this5;
-
-      return (_this5 = _this).__handleClick__REACT_HOT_LOADER__.apply(_this5, arguments);
-    }, _this.handleRef = function () {
-      var _this6;
-
-      return (_this6 = _this).__handleRef__REACT_HOT_LOADER__.apply(_this6, arguments);
-    }, _this.hasIconClass = function () {
-      var _this7;
-
-      return (_this7 = _this).__hasIconClass__REACT_HOT_LOADER__.apply(_this7, arguments);
-    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
-  }
-
-  (0, _createClass3.default)(Button, [{
-    key: '__computeElementType__REACT_HOT_LOADER__',
-    value: function __computeElementType__REACT_HOT_LOADER__() {
-      var _props = this.props,
-          attached = _props.attached,
-          label = _props.label;
+      var _this$props = _this.props,
+          attached = _this$props.attached,
+          label = _this$props.label;
 
 
       if (!(0, _isNil3.default)(attached) || !(0, _isNil3.default)(label)) return 'div';
-    }
-  }, {
-    key: '__computeTabIndex__REACT_HOT_LOADER__',
-    value: function __computeTabIndex__REACT_HOT_LOADER__(ElementType) {
-      var _props2 = this.props,
-          disabled = _props2.disabled,
-          tabIndex = _props2.tabIndex;
+    }, _this.computeTabIndex = function (ElementType) {
+      var _this$props2 = _this.props,
+          disabled = _this$props2.disabled,
+          tabIndex = _this$props2.tabIndex;
 
 
       if (!(0, _isNil3.default)(tabIndex)) return tabIndex;
       if (disabled) return -1;
       if (ElementType === 'div') return 0;
-    }
-  }, {
-    key: '__focus__REACT_HOT_LOADER__',
-    value: function __focus__REACT_HOT_LOADER__() {
-      return (0, _invoke3.default)(this.ref, 'focus');
-    }
-  }, {
-    key: '__handleClick__REACT_HOT_LOADER__',
-    value: function __handleClick__REACT_HOT_LOADER__(e) {
-      var disabled = this.props.disabled;
+    }, _this.focus = function () {
+      return (0, _invoke3.default)(_this.ref, 'focus');
+    }, _this.handleClick = function (e) {
+      var disabled = _this.props.disabled;
 
 
       if (disabled) {
@@ -157,54 +119,50 @@ var Button = function (_Component) {
         return;
       }
 
-      (0, _invoke3.default)(this.props, 'onClick', e, this.props);
-    }
-  }, {
-    key: '__handleRef__REACT_HOT_LOADER__',
-    value: function __handleRef__REACT_HOT_LOADER__(c) {
-      return this.ref = c;
-    }
-  }, {
-    key: '__hasIconClass__REACT_HOT_LOADER__',
-    value: function __hasIconClass__REACT_HOT_LOADER__() {
-      var _props3 = this.props,
-          labelPosition = _props3.labelPosition,
-          children = _props3.children,
-          content = _props3.content,
-          icon = _props3.icon;
+      (0, _invoke3.default)(_this.props, 'onClick', e, _this.props);
+    }, _this.handleRef = function (c) {
+      return _this.ref = c;
+    }, _this.hasIconClass = function () {
+      var _this$props3 = _this.props,
+          labelPosition = _this$props3.labelPosition,
+          children = _this$props3.children,
+          content = _this$props3.content,
+          icon = _this$props3.icon;
 
 
       if (icon === true) return true;
       return icon && (labelPosition || _lib.childrenUtils.isNil(children) && (0, _isNil3.default)(content));
-    }
-  }, {
+    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+  }
+
+  (0, _createClass3.default)(Button, [{
     key: 'render',
     value: function render() {
-      var _props4 = this.props,
-          active = _props4.active,
-          animated = _props4.animated,
-          attached = _props4.attached,
-          basic = _props4.basic,
-          children = _props4.children,
-          circular = _props4.circular,
-          className = _props4.className,
-          color = _props4.color,
-          compact = _props4.compact,
-          content = _props4.content,
-          disabled = _props4.disabled,
-          floated = _props4.floated,
-          fluid = _props4.fluid,
-          icon = _props4.icon,
-          inverted = _props4.inverted,
-          label = _props4.label,
-          labelPosition = _props4.labelPosition,
-          loading = _props4.loading,
-          negative = _props4.negative,
-          positive = _props4.positive,
-          primary = _props4.primary,
-          secondary = _props4.secondary,
-          size = _props4.size,
-          toggle = _props4.toggle;
+      var _props = this.props,
+          active = _props.active,
+          animated = _props.animated,
+          attached = _props.attached,
+          basic = _props.basic,
+          children = _props.children,
+          circular = _props.circular,
+          className = _props.className,
+          color = _props.color,
+          compact = _props.compact,
+          content = _props.content,
+          disabled = _props.disabled,
+          floated = _props.floated,
+          fluid = _props.fluid,
+          icon = _props.icon,
+          inverted = _props.inverted,
+          label = _props.label,
+          labelPosition = _props.labelPosition,
+          loading = _props.loading,
+          negative = _props.negative,
+          positive = _props.positive,
+          primary = _props.primary,
+          secondary = _props.secondary,
+          size = _props.size,
+          toggle = _props.toggle;
 
 
       var baseClasses = (0, _classnames2.default)(color, size, (0, _lib.useKeyOnly)(active, 'active'), (0, _lib.useKeyOnly)(basic, 'basic'), (0, _lib.useKeyOnly)(circular, 'circular'), (0, _lib.useKeyOnly)(compact, 'compact'), (0, _lib.useKeyOnly)(fluid, 'fluid'), (0, _lib.useKeyOnly)(this.hasIconClass(), 'icon'), (0, _lib.useKeyOnly)(inverted, 'inverted'), (0, _lib.useKeyOnly)(loading, 'loading'), (0, _lib.useKeyOnly)(negative, 'negative'), (0, _lib.useKeyOnly)(positive, 'positive'), (0, _lib.useKeyOnly)(primary, 'primary'), (0, _lib.useKeyOnly)(secondary, 'secondary'), (0, _lib.useKeyOnly)(toggle, 'toggle'), (0, _lib.useKeyOrValueAndKey)(animated, 'animated'), (0, _lib.useKeyOrValueAndKey)(attached, 'attached'));
@@ -271,7 +229,7 @@ Button.Content = _ButtonContent2.default;
 Button.Group = _ButtonGroup2.default;
 Button.Or = _ButtonOr2.default;
 Button.handledProps = ['active', 'animated', 'as', 'attached', 'basic', 'children', 'circular', 'className', 'color', 'compact', 'content', 'disabled', 'floated', 'fluid', 'icon', 'inverted', 'label', 'labelPosition', 'loading', 'negative', 'onClick', 'positive', 'primary', 'secondary', 'size', 'tabIndex', 'toggle'];
-process.env.NODE_ENV !== "production" ? Button.propTypes = {
+Button.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -281,8 +239,8 @@ process.env.NODE_ENV !== "production" ? Button.propTypes = {
   /** A button can animate to show hidden content. */
   animated: _propTypes2.default.oneOfType([_propTypes2.default.bool, _propTypes2.default.oneOf(['fade', 'vertical'])]),
 
-  /** A button can be attached to the top or bottom of other content. */
-  attached: _propTypes2.default.oneOf(['left', 'right', 'top', 'bottom']),
+  /** A button can be attached to other content. */
+  attached: _propTypes2.default.oneOfType([_propTypes2.default.bool, _propTypes2.default.oneOf(['left', 'right', 'top', 'bottom'])]),
 
   /** A basic button is less pronounced. */
   basic: _propTypes2.default.bool,
@@ -358,25 +316,11 @@ process.env.NODE_ENV !== "production" ? Button.propTypes = {
 
   /** A button can be formatted to toggle on and off. */
   toggle: _propTypes2.default.bool
-} : void 0;
+} : {};
 
 
 Button.create = (0, _lib.createShorthandFactory)(Button, function (value) {
   return { content: value };
 });
 
-var _default = Button;
-exports.default = _default;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Button, 'Button', 'src/elements/Button/Button.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Button/Button.js');
-}();
-
-;
+exports.default = Button;

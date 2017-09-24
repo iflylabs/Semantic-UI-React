@@ -17,12 +17,3 @@ module.exports = (0, _extends3.default)({}, semanticUIReact); // Heads Up!
 // Do not replace this with named exports.
 // We need to export an object here for browser builds.
 // Otherwise, we end up with every component on the window.
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-}();
-
-;

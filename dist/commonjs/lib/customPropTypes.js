@@ -339,7 +339,7 @@ var contentShorthand = exports.contentShorthand = function contentShorthand() {
  * a props object, or an element.
  */
 var itemShorthand = exports.itemShorthand = function itemShorthand() {
-  return every([disallow(['children']), _propTypes2.default.oneOfType([_propTypes2.default.node, _propTypes2.default.object])]).apply(undefined, arguments);
+  return every([disallow(['children']), _propTypes2.default.oneOfType([_propTypes2.default.node, _propTypes2.default.object, _propTypes2.default.arrayOf(_propTypes2.default.oneOfType([_propTypes2.default.node, _propTypes2.default.object]))])]).apply(undefined, arguments);
 };
 
 /**
@@ -386,38 +386,3 @@ var deprecate = exports.deprecate = function deprecate(help, validator) {
     return error;
   };
 };
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(typeOf, 'typeOf', 'src/lib/customPropTypes.js');
-
-  __REACT_HOT_LOADER__.register(as, 'as', 'src/lib/customPropTypes.js');
-
-  __REACT_HOT_LOADER__.register(suggest, 'suggest', 'src/lib/customPropTypes.js');
-
-  __REACT_HOT_LOADER__.register(disallow, 'disallow', 'src/lib/customPropTypes.js');
-
-  __REACT_HOT_LOADER__.register(every, 'every', 'src/lib/customPropTypes.js');
-
-  __REACT_HOT_LOADER__.register(some, 'some', 'src/lib/customPropTypes.js');
-
-  __REACT_HOT_LOADER__.register(givenProps, 'givenProps', 'src/lib/customPropTypes.js');
-
-  __REACT_HOT_LOADER__.register(demand, 'demand', 'src/lib/customPropTypes.js');
-
-  __REACT_HOT_LOADER__.register(onlyProp, 'onlyProp', 'src/lib/customPropTypes.js');
-
-  __REACT_HOT_LOADER__.register(contentShorthand, 'contentShorthand', 'src/lib/customPropTypes.js');
-
-  __REACT_HOT_LOADER__.register(itemShorthand, 'itemShorthand', 'src/lib/customPropTypes.js');
-
-  __REACT_HOT_LOADER__.register(collectionShorthand, 'collectionShorthand', 'src/lib/customPropTypes.js');
-
-  __REACT_HOT_LOADER__.register(deprecate, 'deprecate', 'src/lib/customPropTypes.js');
-}();
-
-;

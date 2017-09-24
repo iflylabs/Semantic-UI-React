@@ -67,25 +67,38 @@ var TextArea = function (_Component) {
     }
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = TextArea.__proto__ || Object.getPrototypeOf(TextArea)).call.apply(_ref, [this].concat(args))), _this), _this.focus = function () {
-      var _this2;
+      return _this.ref.focus();
+    }, _this.handleChange = function (e) {
+      var value = (0, _get3.default)(e, 'target.value');
 
-      return (_this2 = _this).__focus__REACT_HOT_LOADER__.apply(_this2, arguments);
-    }, _this.handleChange = function () {
-      var _this3;
+      (0, _invoke3.default)(_this.props, 'onChange', e, (0, _extends3.default)({}, _this.props, { value: value }));
+    }, _this.handleInput = function (e) {
+      var value = (0, _get3.default)(e, 'target.value');
 
-      return (_this3 = _this).__handleChange__REACT_HOT_LOADER__.apply(_this3, arguments);
-    }, _this.handleRef = function () {
-      var _this4;
-
-      return (_this4 = _this).__handleRef__REACT_HOT_LOADER__.apply(_this4, arguments);
+      (0, _invoke3.default)(_this.props, 'onInput', e, (0, _extends3.default)({}, _this.props, { value: value }));
+      _this.updateHeight();
+    }, _this.handleRef = function (c) {
+      return _this.ref = c;
     }, _this.removeAutoHeightStyles = function () {
-      var _this5;
-
-      return (_this5 = _this).__removeAutoHeightStyles__REACT_HOT_LOADER__.apply(_this5, arguments);
+      _this.ref.style.height = null;
+      _this.ref.style.resize = null;
     }, _this.updateHeight = function () {
-      var _this6;
+      var autoHeight = _this.props.autoHeight;
 
-      return (_this6 = _this).__updateHeight__REACT_HOT_LOADER__.apply(_this6, arguments);
+      if (!_this.ref || !autoHeight) return;
+
+      var _window$getComputedSt = window.getComputedStyle(_this.ref),
+          minHeight = _window$getComputedSt.minHeight,
+          borderBottomWidth = _window$getComputedSt.borderBottomWidth,
+          borderTopWidth = _window$getComputedSt.borderTopWidth;
+
+      var borderHeight = (0, _sum3.default)([borderBottomWidth, borderTopWidth].map(function (x) {
+        return parseFloat(x);
+      }));
+
+      // Measure the scrollHeight and update the height to match.
+      _this.ref.style.height = 'auto';
+      _this.ref.style.height = Math.max(parseFloat(minHeight), Math.ceil(_this.ref.scrollHeight + borderHeight)) + 'px';
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
@@ -107,50 +120,6 @@ var TextArea = function (_Component) {
       }
     }
   }, {
-    key: '__focus__REACT_HOT_LOADER__',
-    value: function __focus__REACT_HOT_LOADER__() {
-      return this.ref.focus();
-    }
-  }, {
-    key: '__handleChange__REACT_HOT_LOADER__',
-    value: function __handleChange__REACT_HOT_LOADER__(e) {
-      var value = (0, _get3.default)(e, 'target.value');
-
-      (0, _invoke3.default)(this.props, 'onChange', e, (0, _extends3.default)({}, this.props, { value: value }));
-      this.updateHeight();
-    }
-  }, {
-    key: '__handleRef__REACT_HOT_LOADER__',
-    value: function __handleRef__REACT_HOT_LOADER__(c) {
-      return this.ref = c;
-    }
-  }, {
-    key: '__removeAutoHeightStyles__REACT_HOT_LOADER__',
-    value: function __removeAutoHeightStyles__REACT_HOT_LOADER__() {
-      this.ref.style.height = null;
-      this.ref.style.resize = null;
-    }
-  }, {
-    key: '__updateHeight__REACT_HOT_LOADER__',
-    value: function __updateHeight__REACT_HOT_LOADER__() {
-      var autoHeight = this.props.autoHeight;
-
-      if (!this.ref || !autoHeight) return;
-
-      var _window$getComputedSt = window.getComputedStyle(this.ref),
-          minHeight = _window$getComputedSt.minHeight,
-          borderBottomWidth = _window$getComputedSt.borderBottomWidth,
-          borderTopWidth = _window$getComputedSt.borderTopWidth;
-
-      var borderHeight = (0, _sum3.default)([borderBottomWidth, borderTopWidth].map(function (x) {
-        return parseFloat(x);
-      }));
-
-      // Measure the scrollHeight and update the height to match.
-      this.ref.style.height = 'auto';
-      this.ref.style.height = Math.max(parseFloat(minHeight), Math.ceil(this.ref.scrollHeight + borderHeight)) + 'px';
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -166,6 +135,7 @@ var TextArea = function (_Component) {
 
       return _react2.default.createElement(ElementType, (0, _extends3.default)({}, rest, {
         onChange: this.handleChange,
+        onInput: this.handleInput,
         ref: this.handleRef,
         rows: rows,
         style: (0, _extends3.default)({ resize: resize }, style),
@@ -184,8 +154,8 @@ TextArea.defaultProps = {
   as: 'textarea',
   rows: 3
 };
-TextArea.handledProps = ['as', 'autoHeight', 'onChange', 'rows', 'style', 'value'];
-process.env.NODE_ENV !== "production" ? TextArea.propTypes = {
+TextArea.handledProps = ['as', 'autoHeight', 'onChange', 'onInput', 'rows', 'style', 'value'];
+TextArea.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -199,6 +169,13 @@ process.env.NODE_ENV !== "production" ? TextArea.propTypes = {
    */
   onChange: _propTypes2.default.func,
 
+  /**
+   * Called on input.
+   * @param {SyntheticEvent} event - The React SyntheticEvent object
+   * @param {object} data - All props and the event value.
+   */
+  onInput: _propTypes2.default.func,
+
   /** Indicates row count for a TextArea. */
   rows: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
 
@@ -207,19 +184,5 @@ process.env.NODE_ENV !== "production" ? TextArea.propTypes = {
 
   /** The value of the textarea. */
   value: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string])
-} : void 0;
-var _default = TextArea;
-exports.default = _default;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(TextArea, 'TextArea', 'src/addons/TextArea/TextArea.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/addons/TextArea/TextArea.js');
-}();
-
-;
+} : {};
+exports.default = TextArea;

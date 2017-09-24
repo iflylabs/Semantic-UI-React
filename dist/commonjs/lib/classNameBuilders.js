@@ -153,26 +153,3 @@ var useWidthProp = exports.useWidthProp = function useWidthProp(val) {
   }
   return (0, _numberToWord.numberToWord)(val);
 };
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(useKeyOnly, 'useKeyOnly', 'src/lib/classNameBuilders.js');
-
-  __REACT_HOT_LOADER__.register(useValueAndKey, 'useValueAndKey', 'src/lib/classNameBuilders.js');
-
-  __REACT_HOT_LOADER__.register(useKeyOrValueAndKey, 'useKeyOrValueAndKey', 'src/lib/classNameBuilders.js');
-
-  __REACT_HOT_LOADER__.register(useOnlyProp, 'useOnlyProp', 'src/lib/classNameBuilders.js');
-
-  __REACT_HOT_LOADER__.register(useTextAlignProp, 'useTextAlignProp', 'src/lib/classNameBuilders.js');
-
-  __REACT_HOT_LOADER__.register(useVerticalAlignProp, 'useVerticalAlignProp', 'src/lib/classNameBuilders.js');
-
-  __REACT_HOT_LOADER__.register(useWidthProp, 'useWidthProp', 'src/lib/classNameBuilders.js');
-}();
-
-;

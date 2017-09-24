@@ -75,7 +75,7 @@ FeedSummary._meta = {
   type: _lib.META.TYPES.VIEW
 };
 
-process.env.NODE_ENV !== "production" ? FeedSummary.propTypes = {
+FeedSummary.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -93,20 +93,6 @@ process.env.NODE_ENV !== "production" ? FeedSummary.propTypes = {
 
   /** Shorthand for FeedUser. */
   user: _lib.customPropTypes.itemShorthand
-} : void 0;
+} : {};
 
-var _default = FeedSummary;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(FeedSummary, 'FeedSummary', 'src/views/Feed/FeedSummary.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Feed/FeedSummary.js');
-}();
-
-;
+exports.default = FeedSummary;

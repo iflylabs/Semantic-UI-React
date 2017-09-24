@@ -1,9 +1,11 @@
 import _extends from 'babel-runtime/helpers/extends';
+import _without from 'lodash/without';
 import cx from 'classnames';
+
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { childrenUtils, createShorthand, customPropTypes, getElementType, getUnhandledProps, META, useKeyOnly } from '../../lib';
+import { childrenUtils, createShorthand, customPropTypes, getElementType, getUnhandledProps, META, SUI, useKeyOnly, useTextAlignProp } from '../../lib';
 import CardDescription from './CardDescription';
 import CardHeader from './CardHeader';
 import CardMeta from './CardMeta';
@@ -17,10 +19,11 @@ function CardContent(props) {
       description = props.description,
       extra = props.extra,
       header = props.header,
-      meta = props.meta;
+      meta = props.meta,
+      textAlign = props.textAlign;
 
 
-  var classes = cx(className, useKeyOnly(extra, 'extra'), 'content');
+  var classes = cx(useKeyOnly(extra, 'extra'), useTextAlignProp(textAlign), 'content', className);
   var rest = getUnhandledProps(CardContent, props);
   var ElementType = getElementType(CardContent, props);
 
@@ -47,14 +50,14 @@ function CardContent(props) {
   );
 }
 
-CardContent.handledProps = ['as', 'children', 'className', 'description', 'extra', 'header', 'meta'];
+CardContent.handledProps = ['as', 'children', 'className', 'description', 'extra', 'header', 'meta', 'textAlign'];
 CardContent._meta = {
   name: 'CardContent',
   parent: 'Card',
   type: META.TYPES.VIEW
 };
 
-process.env.NODE_ENV !== "production" ? CardContent.propTypes = {
+CardContent.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: customPropTypes.as,
 
@@ -74,7 +77,10 @@ process.env.NODE_ENV !== "production" ? CardContent.propTypes = {
   header: customPropTypes.itemShorthand,
 
   /** Shorthand for CardMeta. */
-  meta: customPropTypes.itemShorthand
-} : void 0;
+  meta: customPropTypes.itemShorthand,
+
+  /** A card content can adjust its text alignment. */
+  textAlign: PropTypes.oneOf(_without(SUI.TEXT_ALIGNMENTS, 'justified'))
+} : {};
 
 export default CardContent;

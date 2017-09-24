@@ -60,7 +60,7 @@ SearchCategory.defaultProps = {
   }
 };
 
-process.env.NODE_ENV !== "production" ? SearchCategory.propTypes = {
+SearchCategory.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -86,20 +86,6 @@ process.env.NODE_ENV !== "production" ? SearchCategory.propTypes = {
 
   /** Array of Search.Result props. */
   results: _propTypes2.default.array
-} : void 0;
+} : {};
 
-var _default = SearchCategory;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(SearchCategory, 'SearchCategory', 'src/modules/Search/SearchCategory.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Search/SearchCategory.js');
-}();
-
-;
+exports.default = SearchCategory;

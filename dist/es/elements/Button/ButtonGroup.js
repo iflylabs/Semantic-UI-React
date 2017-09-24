@@ -3,7 +3,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { customPropTypes, getElementType, getUnhandledProps, META, SUI, useKeyOnly, useValueAndKey, useWidthProp } from '../../lib';
+import { customPropTypes, getElementType, getUnhandledProps, META, SUI, useKeyOnly, useKeyOrValueAndKey, useValueAndKey, useWidthProp } from '../../lib';
 
 /**
  * Buttons can be grouped.
@@ -30,7 +30,7 @@ function ButtonGroup(props) {
       widths = props.widths;
 
 
-  var classes = cx('ui', color, size, useKeyOnly(basic, 'basic'), useKeyOnly(compact, 'compact'), useKeyOnly(fluid, 'fluid'), useKeyOnly(icon, 'icon'), useKeyOnly(inverted, 'inverted'), useKeyOnly(labeled, 'labeled'), useKeyOnly(negative, 'negative'), useKeyOnly(positive, 'positive'), useKeyOnly(primary, 'primary'), useKeyOnly(secondary, 'secondary'), useKeyOnly(toggle, 'toggle'), useKeyOnly(vertical, 'vertical'), useValueAndKey(attached, 'attached'), useValueAndKey(floated, 'floated'), useWidthProp(widths), 'buttons', className);
+  var classes = cx('ui', color, size, useKeyOnly(basic, 'basic'), useKeyOnly(compact, 'compact'), useKeyOnly(fluid, 'fluid'), useKeyOnly(icon, 'icon'), useKeyOnly(inverted, 'inverted'), useKeyOnly(labeled, 'labeled'), useKeyOnly(negative, 'negative'), useKeyOnly(positive, 'positive'), useKeyOnly(primary, 'primary'), useKeyOnly(secondary, 'secondary'), useKeyOnly(toggle, 'toggle'), useKeyOnly(vertical, 'vertical'), useKeyOrValueAndKey(attached, 'attached'), useValueAndKey(floated, 'floated'), useWidthProp(widths), 'buttons', className);
   var rest = getUnhandledProps(ButtonGroup, props);
   var ElementType = getElementType(ButtonGroup, props);
 
@@ -48,12 +48,12 @@ ButtonGroup._meta = {
   type: META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? ButtonGroup.propTypes = {
+ButtonGroup.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: customPropTypes.as,
 
-  /** A button can be attached to the top or bottom of other content. */
-  attached: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
+  /** Groups can be attached to other content. */
+  attached: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['left', 'right', 'top', 'bottom'])]),
 
   /** Groups can be less pronounced. */
   basic: PropTypes.bool,
@@ -108,6 +108,6 @@ process.env.NODE_ENV !== "production" ? ButtonGroup.propTypes = {
 
   /** Groups can have their widths divided evenly. */
   widths: PropTypes.oneOf(SUI.WIDTHS)
-} : void 0;
+} : {};
 
 export default ButtonGroup;

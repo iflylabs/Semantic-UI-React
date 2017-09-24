@@ -59,149 +59,165 @@ var Sticky = function (_Component) {
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Sticky.__proto__ || Object.getPrototypeOf(Sticky)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
       sticky: false
-    }, _this.update = function () {
-      var _this2;
+    }, _this.addListener = function () {
+      var scrollContext = _this.props.scrollContext;
 
-      return (_this2 = _this).__update__REACT_HOT_LOADER__.apply(_this2, arguments);
-    }, _this.handleUpdate = function () {
-      var _this3;
 
-      return (_this3 = _this).__handleUpdate__REACT_HOT_LOADER__.apply(_this3, arguments);
+      _lib.eventStack.sub('resize', _this.handleUpdate, { target: scrollContext });
+      _lib.eventStack.sub('scroll', _this.handleUpdate, { target: scrollContext });
+    }, _this.removeListener = function () {
+      var scrollContext = _this.props.scrollContext;
+
+
+      _lib.eventStack.unsub('resize', _this.handleUpdate, { target: scrollContext });
+      _lib.eventStack.unsub('scroll', _this.handleUpdate, { target: scrollContext });
+    }, _this.update = function (e) {
+      var pushing = _this.state.pushing;
+
+
+      _this.ticking = false;
+      _this.assignRects();
+
+      if (pushing) {
+        if (_this.didReachStartingPoint()) return _this.stickToContextTop(e);
+        if (_this.didTouchScreenBottom()) return _this.stickToScreenBottom(e);
+        return _this.stickToContextBottom(e);
+      }
+
+      if (_this.isOversized()) {
+        if (_this.contextRect.top > 0) return _this.stickToContextTop(e);
+        if (_this.contextRect.bottom < window.innerHeight) return _this.stickToContextBottom(e);
+      }
+
+      if (_this.didTouchScreenTop()) {
+        if (_this.didReachContextBottom()) return _this.stickToContextBottom(e);
+        return _this.stickToScreenTop(e);
+      }
+
+      return _this.stickToContextTop(e);
+    }, _this.handleUpdate = function (e) {
+      if (!_this.ticking) {
+        _this.ticking = true;
+        requestAnimationFrame(function () {
+          return _this.update(e);
+        });
+      }
     }, _this.assignRects = function () {
-      var _this4;
+      var context = _this.props.context;
 
-      return (_this4 = _this).__assignRects__REACT_HOT_LOADER__.apply(_this4, arguments);
-    }, _this.isOversized = function () {
-      var _this5;
 
-      return (_this5 = _this).__isOversized__REACT_HOT_LOADER__.apply(_this5, arguments);
+      _this.triggerRect = _this.triggerRef.getBoundingClientRect();
+      _this.contextRect = (context || document.body).getBoundingClientRect();
+      _this.stickyRect = _this.stickyRef.getBoundingClientRect();
     }, _this.didReachContextBottom = function () {
-      var _this6;
+      var offset = _this.props.offset;
 
-      return (_this6 = _this).__didReachContextBottom__REACT_HOT_LOADER__.apply(_this6, arguments);
+
+      return _this.stickyRect.height + offset >= _this.contextRect.bottom;
     }, _this.didReachStartingPoint = function () {
-      var _this7;
-
-      return (_this7 = _this).__didReachStartingPoint__REACT_HOT_LOADER__.apply(_this7, arguments);
+      return _this.stickyRect.top <= _this.triggerRect.top;
     }, _this.didTouchScreenTop = function () {
-      var _this8;
-
-      return (_this8 = _this).__didTouchScreenTop__REACT_HOT_LOADER__.apply(_this8, arguments);
+      return _this.triggerRect.top < _this.props.offset;
     }, _this.didTouchScreenBottom = function () {
-      var _this9;
+      var bottomOffset = _this.props.bottomOffset;
 
-      return (_this9 = _this).__didTouchScreenBottom__REACT_HOT_LOADER__.apply(_this9, arguments);
-    }, _this.pushing = function () {
-      var _this10;
 
-      return (_this10 = _this).__pushing__REACT_HOT_LOADER__.apply(_this10, arguments);
-    }, _this.stick = function () {
-      var _this11;
+      return _this.contextRect.bottom + bottomOffset > window.innerHeight;
+    }, _this.isOversized = function () {
+      return _this.stickyRect.height > window.innerHeight;
+    }, _this.pushing = function (pushing) {
+      var possible = _this.props.pushing;
 
-      return (_this11 = _this).__stick__REACT_HOT_LOADER__.apply(_this11, arguments);
-    }, _this.unstick = function () {
-      var _this12;
 
-      return (_this12 = _this).__unstick__REACT_HOT_LOADER__.apply(_this12, arguments);
-    }, _this.stickToContextBottom = function () {
-      var _this13;
+      if (possible) _this.setState({ pushing: pushing });
+    }, _this.stick = function (e) {
+      _this.setState({ sticky: true });
+      (0, _invoke3.default)(_this.props, 'onStick', e, _this.props);
+    }, _this.unstick = function (e) {
+      _this.setState({ sticky: false });
+      (0, _invoke3.default)(_this.props, 'onUnstick', e, _this.props);
+    }, _this.stickToContextBottom = function (e) {
+      var top = _this.contextRect.bottom - _this.stickyRect.height;
 
-      return (_this13 = _this).__stickToContextBottom__REACT_HOT_LOADER__.apply(_this13, arguments);
-    }, _this.stickToContextTop = function () {
-      var _this14;
+      (0, _invoke3.default)(_this.props, 'onBottom', e, _this.props);
 
-      return (_this14 = _this).__stickToContextTop__REACT_HOT_LOADER__.apply(_this14, arguments);
-    }, _this.stickToScreenBottom = function () {
-      var _this15;
+      _this.stick(e);
+      _this.setState({ top: top, bottom: null });
+      _this.pushing(true);
+    }, _this.stickToContextTop = function (e) {
+      (0, _invoke3.default)(_this.props, 'onTop', e, _this.props);
 
-      return (_this15 = _this).__stickToScreenBottom__REACT_HOT_LOADER__.apply(_this15, arguments);
-    }, _this.stickToScreenTop = function () {
-      var _this16;
+      _this.unstick(e);
+      _this.pushing(false);
+    }, _this.stickToScreenBottom = function (e) {
+      var bottom = _this.props.bottomOffset;
 
-      return (_this16 = _this).__stickToScreenTop__REACT_HOT_LOADER__.apply(_this16, arguments);
-    }, _this.handleStickyRef = function () {
-      var _this17;
 
-      return (_this17 = _this).__handleStickyRef__REACT_HOT_LOADER__.apply(_this17, arguments);
-    }, _this.handleTriggerRef = function () {
-      var _this18;
+      _this.stick(e);
+      _this.setState({ bottom: bottom, top: null });
+    }, _this.stickToScreenTop = function (e) {
+      var top = _this.props.offset;
 
-      return (_this18 = _this).__handleTriggerRef__REACT_HOT_LOADER__.apply(_this18, arguments);
+
+      _this.stick(e);
+      _this.setState({ top: top, bottom: null });
+    }, _this.handleStickyRef = function (c) {
+      return _this.stickyRef = c;
+    }, _this.handleTriggerRef = function (c) {
+      return _this.triggerRef = c;
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(Sticky, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.handleUpdate();
-      window.addEventListener('scroll', this.handleUpdate);
+      if (!_lib.isBrowser) return;
+      var active = this.props.active;
+
+
+      if (active) {
+        this.handleUpdate();
+        this.addListener();
+      }
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(_ref2) {
+      var next = _ref2.active;
+      var current = this.props.active;
+
+
+      if (current === next) return;
+      if (next) {
+        this.handleUpdate();
+        this.addListener();
+        return;
+      }
+      this.removeListener();
+      this.setState({ sticky: false });
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      window.removeEventListener('scroll', this.handleUpdate);
+      if (!_lib.isBrowser) return;
+      var active = this.props.active;
+
+
+      if (active) this.removeListener();
     }
+
+    // ----------------------------------------
+    // Events
+    // ----------------------------------------
 
     // ----------------------------------------
     // Handlers
     // ----------------------------------------
 
-  }, {
-    key: '__update__REACT_HOT_LOADER__',
-    value: function __update__REACT_HOT_LOADER__(e) {
-      var pushing = this.state.pushing;
-
-
-      this.ticking = false;
-
-      this.assignRects();
-
-      if (pushing) {
-        if (this.didReachStartingPoint()) return this.stickToContextTop(e);
-        if (this.didTouchScreenBottom()) return this.stickToScreenBottom(e);
-        return this.stickToContextBottom(e);
-      }
-
-      if (this.isOversized()) {
-        if (this.contextRect.top > 0) return this.stickToContextTop(e);
-        if (this.contextRect.bottom < window.innerHeight) return this.stickToContextBottom(e);
-      }
-
-      if (this.didTouchScreenTop()) {
-        if (this.didReachContextBottom()) return this.stickToContextBottom(e);
-        return this.stickToScreenTop(e);
-      }
-
-      return this.stickToContextTop(e);
-    }
-  }, {
-    key: '__handleUpdate__REACT_HOT_LOADER__',
-
-
     // ----------------------------------------
     // Helpers
     // ----------------------------------------
 
-    value: function __handleUpdate__REACT_HOT_LOADER__(e) {
-      var _this19 = this;
-
-      if (!this.ticking) {
-        this.ticking = true;
-        requestAnimationFrame(function () {
-          return _this19.update(e);
-        });
-      }
-    }
-  }, {
-    key: '__assignRects__REACT_HOT_LOADER__',
-    value: function __assignRects__REACT_HOT_LOADER__() {
-      var context = this.props.context;
-
-
-      this.triggerRect = this.triggerRef.getBoundingClientRect();
-      this.contextRect = (context || document.body).getBoundingClientRect();
-      this.stickyRect = this.stickyRef.getBoundingClientRect();
-    }
   }, {
     key: 'computeStyle',
     value: function computeStyle() {
@@ -220,45 +236,19 @@ var Sticky = function (_Component) {
       };
     }
 
-    // Return true if the height of the component is higher than the window
-
-  }, {
-    key: '__isOversized__REACT_HOT_LOADER__',
-
-
     // Return true when the component reached the bottom of the context
-    value: function __isOversized__REACT_HOT_LOADER__() {
-      return this.stickyRect.height > window.innerHeight;
-    }
-  }, {
-    key: '__didReachContextBottom__REACT_HOT_LOADER__',
 
 
     // Return true when the component reached the starting point
-    value: function __didReachContextBottom__REACT_HOT_LOADER__() {
-      var offset = this.props.offset;
-
-
-      return this.stickyRect.height + offset >= this.contextRect.bottom;
-    }
-  }, {
-    key: '__didReachStartingPoint__REACT_HOT_LOADER__',
 
 
     // Return true when the top of the screen overpasses the Sticky component
-    value: function __didReachStartingPoint__REACT_HOT_LOADER__() {
-      return this.stickyRect.top <= this.triggerRect.top;
-    }
-  }, {
-    key: '__didTouchScreenTop__REACT_HOT_LOADER__',
 
 
     // Return true when the bottom of the screen overpasses the Sticky component
-    value: function __didTouchScreenTop__REACT_HOT_LOADER__() {
-      return this.triggerRect.top < this.props.offset;
-    }
-  }, {
-    key: '__didTouchScreenBottom__REACT_HOT_LOADER__',
+
+
+    // Return true if the height of the component is higher than the window
 
 
     // ----------------------------------------
@@ -266,93 +256,20 @@ var Sticky = function (_Component) {
     // ----------------------------------------
 
     // If true, the component will stick to the bottom of the screen instead of the top
-    value: function __didTouchScreenBottom__REACT_HOT_LOADER__() {
-      var bottomOffset = this.props.bottomOffset;
-
-
-      return this.contextRect.bottom + bottomOffset > window.innerHeight;
-    }
-  }, {
-    key: '__pushing__REACT_HOT_LOADER__',
-    value: function __pushing__REACT_HOT_LOADER__(pushing) {
-      var possible = this.props.pushing;
-
-
-      if (possible) this.setState({ pushing: pushing });
-    }
-  }, {
-    key: '__stick__REACT_HOT_LOADER__',
-    value: function __stick__REACT_HOT_LOADER__(e) {
-      this.setState({ sticky: true });
-      (0, _invoke3.default)(this.props, 'onStick', e, this.props);
-    }
-  }, {
-    key: '__unstick__REACT_HOT_LOADER__',
-    value: function __unstick__REACT_HOT_LOADER__(e) {
-      this.setState({ sticky: false });
-      (0, _invoke3.default)(this.props, 'onUnstick', e, this.props);
-    }
-  }, {
-    key: '__stickToContextBottom__REACT_HOT_LOADER__',
-    value: function __stickToContextBottom__REACT_HOT_LOADER__(e) {
-      var top = this.contextRect.bottom - this.stickyRect.height;
-
-      (0, _invoke3.default)(this.props, 'onBottom', e, this.props);
-
-      this.stick(e);
-      this.setState({ top: top, bottom: null });
-      this.pushing(true);
-    }
-  }, {
-    key: '__stickToContextTop__REACT_HOT_LOADER__',
-    value: function __stickToContextTop__REACT_HOT_LOADER__(e) {
-      (0, _invoke3.default)(this.props, 'onTop', e, this.props);
-
-      this.unstick(e);
-      this.pushing(false);
-    }
-  }, {
-    key: '__stickToScreenBottom__REACT_HOT_LOADER__',
-    value: function __stickToScreenBottom__REACT_HOT_LOADER__(e) {
-      var bottom = this.props.bottomOffset;
-
-
-      this.stick(e);
-      this.setState({ bottom: bottom, top: null });
-    }
-  }, {
-    key: '__stickToScreenTop__REACT_HOT_LOADER__',
 
 
     // ----------------------------------------
     // Refs
     // ----------------------------------------
 
-    value: function __stickToScreenTop__REACT_HOT_LOADER__(e) {
-      var top = this.props.offset;
-
-
-      this.stick(e);
-      this.setState({ top: top, bottom: null });
-    }
   }, {
-    key: '__handleStickyRef__REACT_HOT_LOADER__',
-    value: function __handleStickyRef__REACT_HOT_LOADER__(c) {
-      return this.stickyRef = c;
-    }
-  }, {
-    key: '__handleTriggerRef__REACT_HOT_LOADER__',
+    key: 'render',
 
 
     // ----------------------------------------
     // Render
     // ----------------------------------------
 
-    value: function __handleTriggerRef__REACT_HOT_LOADER__(c) {
-      return this.triggerRef = c;
-    }
-  }, {
-    key: 'render',
     value: function render() {
       var _props = this.props,
           children = _props.children,
@@ -377,19 +294,23 @@ var Sticky = function (_Component) {
 }(_react.Component);
 
 Sticky.defaultProps = {
+  active: true,
   bottomOffset: 0,
-  offset: 0
+  offset: 0,
+  scrollContext: _lib.isBrowser ? window : null
 };
 Sticky._meta = {
   name: 'Sticky',
   type: _lib.META.TYPES.MODULE
 };
-Sticky.handledProps = ['as', 'bottomOffset', 'children', 'className', 'context', 'offset', 'onBottom', 'onStick', 'onTop', 'onUnstick', 'pushing'];
-var _default = Sticky;
-exports.default = _default;
-process.env.NODE_ENV !== "production" ? Sticky.propTypes = {
+Sticky.handledProps = ['active', 'as', 'bottomOffset', 'children', 'className', 'context', 'offset', 'onBottom', 'onStick', 'onTop', 'onUnstick', 'pushing', 'scrollContext'];
+exports.default = Sticky;
+Sticky.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
+
+  /** A Sticky can be active. */
+  active: _propTypes2.default.bool,
 
   /** Offset in pixels from the bottom of the screen when fixing element to viewport. */
   bottomOffset: _propTypes2.default.number,
@@ -439,18 +360,8 @@ process.env.NODE_ENV !== "production" ? Sticky.propTypes = {
   onUnstick: _propTypes2.default.func,
 
   /** Whether element should be "pushed" by the viewport, attaching to the bottom of the screen when scrolling up. */
-  pushing: _propTypes2.default.bool
-} : void 0;
-;
+  pushing: _propTypes2.default.bool,
 
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Sticky, 'Sticky', 'src/modules/Sticky/Sticky.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Sticky/Sticky.js');
-}();
-
-;
+  /** Context which sticky should attach onscroll events. */
+  scrollContext: _propTypes2.default.object
+} : {};

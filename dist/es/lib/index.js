@@ -11,6 +11,9 @@ export { _customPropTypes as customPropTypes };
 
 
 export { debug, makeDebugger } from './debug';
+import _eventStack from './eventStack';
+export { _eventStack as eventStack };
+
 
 export * from './factories';
 export { default as getUnhandledProps } from './getUnhandledProps';
@@ -28,4 +31,11 @@ export { _SUI as SUI };
 
 export { default as keyboardKey } from './keyboardKey';
 export { numberToWordMap, numberToWord } from './numberToWord';
+import _normalizeOffset from './normalizeOffset';
+export { _normalizeOffset as normalizeOffset };
+import _normalizeTransitionDuration from './normalizeTransitionDuration';
+export { _normalizeTransitionDuration as normalizeTransitionDuration };
+
 export { default as objectDiff } from './objectDiff';
+import _shallowEqual from './shallowEqual';
+export { _shallowEqual as shallowEqual };

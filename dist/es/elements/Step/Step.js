@@ -3,7 +3,9 @@ import _classCallCheck from 'babel-runtime/helpers/classCallCheck';
 import _createClass from 'babel-runtime/helpers/createClass';
 import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructorReturn';
 import _inherits from 'babel-runtime/helpers/inherits';
+import _invoke from 'lodash/invoke';
 import cx from 'classnames';
+
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
@@ -34,10 +36,10 @@ var Step = function (_Component) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Step.__proto__ || Object.getPrototypeOf(Step)).call.apply(_ref, [this].concat(args))), _this), _this.handleClick = function (e) {
-      var onClick = _this.props.onClick;
+      var disabled = _this.props.disabled;
 
 
-      if (onClick) onClick(e, _this.props);
+      if (!disabled) _invoke(_this.props, 'onClick', e, _this.props);
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -94,7 +96,7 @@ Step.Group = StepGroup;
 Step.Title = StepTitle;
 Step.handledProps = ['active', 'as', 'children', 'className', 'completed', 'description', 'disabled', 'href', 'icon', 'link', 'onClick', 'ordered', 'title'];
 export default Step;
-process.env.NODE_ENV !== "production" ? Step.propTypes = {
+Step.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: customPropTypes.as,
 
@@ -139,4 +141,4 @@ process.env.NODE_ENV !== "production" ? Step.propTypes = {
 
   /** Shorthand for StepTitle. */
   title: customPropTypes.itemShorthand
-} : void 0;
+} : {};

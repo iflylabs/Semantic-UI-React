@@ -50,7 +50,7 @@ FeedUser._meta = {
   type: _lib.META.TYPES.VIEW
 };
 
-process.env.NODE_ENV !== "production" ? FeedUser.propTypes = {
+FeedUser.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -62,24 +62,10 @@ process.env.NODE_ENV !== "production" ? FeedUser.propTypes = {
 
   /** Shorthand for primary content. */
   content: _lib.customPropTypes.contentShorthand
-} : void 0;
+} : {};
 
 FeedUser.defaultProps = {
   as: 'a'
 };
 
-var _default = FeedUser;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(FeedUser, 'FeedUser', 'src/views/Feed/FeedUser.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Feed/FeedUser.js');
-}();
-
-;
+exports.default = FeedUser;

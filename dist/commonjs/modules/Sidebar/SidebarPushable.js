@@ -49,7 +49,7 @@ SidebarPushable._meta = {
   parent: 'Sidebar'
 };
 
-process.env.NODE_ENV !== "production" ? SidebarPushable.propTypes = {
+SidebarPushable.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -58,20 +58,6 @@ process.env.NODE_ENV !== "production" ? SidebarPushable.propTypes = {
 
   /** Additional classes. */
   className: _propTypes2.default.string
-} : void 0;
+} : {};
 
-var _default = SidebarPushable;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(SidebarPushable, 'SidebarPushable', 'src/modules/Sidebar/SidebarPushable.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Sidebar/SidebarPushable.js');
-}();
-
-;
+exports.default = SidebarPushable;

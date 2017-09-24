@@ -134,7 +134,7 @@ Table.defaultProps = {
   as: 'table'
 };
 
-process.env.NODE_ENV !== "production" ? Table.propTypes = {
+Table.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -226,7 +226,7 @@ process.env.NODE_ENV !== "production" ? Table.propTypes = {
 
   /** A table can adjust its text alignment. */
   verticalAlign: _propTypes2.default.oneOf(_lib.SUI.VERTICAL_ALIGNMENTS)
-} : void 0;
+} : {};
 
 Table.Body = _TableBody2.default;
 Table.Cell = _TableCell2.default;
@@ -235,18 +235,4 @@ Table.Header = _TableHeader2.default;
 Table.HeaderCell = _TableHeaderCell2.default;
 Table.Row = _TableRow2.default;
 
-var _default = Table;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Table, 'Table', 'src/collections/Table/Table.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Table/Table.js');
-}();
-
-;
+exports.default = Table;

@@ -45,31 +45,17 @@ FormCheckbox._meta = {
   type: _lib.META.TYPES.COLLECTION
 };
 
-process.env.NODE_ENV !== "production" ? FormCheckbox.propTypes = {
+FormCheckbox.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
   /** A FormField control prop. */
   control: _FormField2.default.propTypes.control
-} : void 0;
+} : {};
 
 FormCheckbox.defaultProps = {
   as: _FormField2.default,
   control: _Checkbox2.default
 };
 
-var _default = FormCheckbox;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(FormCheckbox, 'FormCheckbox', 'src/collections/Form/FormCheckbox.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Form/FormCheckbox.js');
-}();
-
-;
+exports.default = FormCheckbox;

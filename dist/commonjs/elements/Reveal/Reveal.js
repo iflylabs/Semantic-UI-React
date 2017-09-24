@@ -57,7 +57,7 @@ Reveal._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? Reveal.propTypes = {
+Reveal.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -78,22 +78,8 @@ process.env.NODE_ENV !== "production" ? Reveal.propTypes = {
 
   /** An element can show its content without delay. */
   instant: _propTypes2.default.bool
-} : void 0;
+} : {};
 
 Reveal.Content = _RevealContent2.default;
 
-var _default = Reveal;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Reveal, 'Reveal', 'src/elements/Reveal/Reveal.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Reveal/Reveal.js');
-}();
-
-;
+exports.default = Reveal;

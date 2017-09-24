@@ -66,28 +66,19 @@ var Sidebar = function (_Component) {
     }
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Sidebar.__proto__ || Object.getPrototypeOf(Sidebar)).call.apply(_ref, [this].concat(args))), _this), _this.startAnimating = function () {
-      var _this2;
+      var duration = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 500;
 
-      return (_this2 = _this).__startAnimating__REACT_HOT_LOADER__.apply(_this2, arguments);
+      clearTimeout(_this.stopAnimatingTimer);
+
+      _this.setState({ animating: true });
+
+      _this.stopAnimatingTimer = setTimeout(function () {
+        return _this.setState({ animating: false });
+      }, duration);
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(Sidebar, [{
-    key: '__startAnimating__REACT_HOT_LOADER__',
-    value: function __startAnimating__REACT_HOT_LOADER__() {
-      var _this3 = this;
-
-      var duration = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 500;
-
-      clearTimeout(this.stopAnimatingTimer);
-
-      this.setState({ animating: true });
-
-      this.stopAnimatingTimer = setTimeout(function () {
-        return _this3.setState({ animating: false });
-      }, duration);
-    }
-  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       if (nextProps.visible !== this.props.visible) {
@@ -133,7 +124,7 @@ Sidebar._meta = {
 Sidebar.Pushable = _SidebarPushable2.default;
 Sidebar.Pusher = _SidebarPusher2.default;
 Sidebar.handledProps = ['animation', 'as', 'children', 'className', 'defaultVisible', 'direction', 'visible', 'width'];
-process.env.NODE_ENV !== "production" ? Sidebar.propTypes = {
+Sidebar.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -157,19 +148,5 @@ process.env.NODE_ENV !== "production" ? Sidebar.propTypes = {
 
   /** Sidebar width. */
   width: _propTypes2.default.oneOf(['very thin', 'thin', 'wide', 'very wide'])
-} : void 0;
-var _default = Sidebar;
-exports.default = _default;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Sidebar, 'Sidebar', 'src/modules/Sidebar/Sidebar.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Sidebar/Sidebar.js');
-}();
-
-;
+} : {};
+exports.default = Sidebar;

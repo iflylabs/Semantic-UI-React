@@ -38,27 +38,13 @@ TableFooter._meta = {
   parent: 'Table'
 };
 
-process.env.NODE_ENV !== "production" ? TableFooter.propTypes = {
+TableFooter.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as
-} : void 0;
+} : {};
 
 TableFooter.defaultProps = {
   as: 'tfoot'
 };
 
-var _default = TableFooter;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(TableFooter, 'TableFooter', 'src/collections/Table/TableFooter.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Table/TableFooter.js');
-}();
-
-;
+exports.default = TableFooter;

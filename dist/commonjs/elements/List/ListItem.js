@@ -28,6 +28,10 @@ var _isPlainObject2 = require('lodash/isPlainObject');
 
 var _isPlainObject3 = _interopRequireDefault(_isPlainObject2);
 
+var _invoke2 = require('lodash/invoke');
+
+var _invoke3 = _interopRequireDefault(_invoke2);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -81,22 +85,15 @@ var ListItem = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = ListItem.__proto__ || Object.getPrototypeOf(ListItem)).call.apply(_ref, [this].concat(args))), _this), _this.handleClick = function () {
-      var _this2;
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = ListItem.__proto__ || Object.getPrototypeOf(ListItem)).call.apply(_ref, [this].concat(args))), _this), _this.handleClick = function (e) {
+      var disabled = _this.props.disabled;
 
-      return (_this2 = _this).__handleClick__REACT_HOT_LOADER__.apply(_this2, arguments);
+
+      if (!disabled) (0, _invoke3.default)(_this.props, 'onClick', e, _this.props);
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(ListItem, [{
-    key: '__handleClick__REACT_HOT_LOADER__',
-    value: function __handleClick__REACT_HOT_LOADER__(e) {
-      var onClick = this.props.onClick;
-
-
-      if (onClick) onClick(e, this.props);
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -173,7 +170,7 @@ ListItem._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 ListItem.handledProps = ['active', 'as', 'children', 'className', 'content', 'description', 'disabled', 'header', 'icon', 'image', 'onClick', 'value'];
-process.env.NODE_ENV !== "production" ? ListItem.propTypes = {
+ListItem.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -223,25 +220,11 @@ process.env.NODE_ENV !== "production" ? ListItem.propTypes = {
 
   /** A value for an ordered list. */
   value: _propTypes2.default.string
-} : void 0;
+} : {};
 
 
 ListItem.create = (0, _lib.createShorthandFactory)(ListItem, function (content) {
   return { content: content };
 });
 
-var _default = ListItem;
-exports.default = _default;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(ListItem, 'ListItem', 'src/elements/List/ListItem.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/List/ListItem.js');
-}();
-
-;
+exports.default = ListItem;

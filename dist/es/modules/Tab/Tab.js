@@ -1,16 +1,19 @@
+import _objectWithoutProperties from 'babel-runtime/helpers/objectWithoutProperties';
 import _extends from 'babel-runtime/helpers/extends';
 import _classCallCheck from 'babel-runtime/helpers/classCallCheck';
 import _createClass from 'babel-runtime/helpers/createClass';
 import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructorReturn';
 import _inherits from 'babel-runtime/helpers/inherits';
-import _get from 'lodash/get';
 import _map from 'lodash/map';
+import _get from 'lodash/get';
 import _invoke from 'lodash/invoke';
 
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { AutoControlledComponent as Component, customPropTypes, getElementType, getUnhandledProps, META } from '../../lib';
+import Grid from '../../collections/Grid/Grid';
+import GridColumn from '../../collections/Grid/GridColumn';
 import Menu from '../../collections/Menu/Menu';
 import TabPane from './TabPane';
 
@@ -48,11 +51,30 @@ var Tab = function (_Component) {
       return { activeIndex: 0 };
     }
   }, {
+    key: 'renderItems',
+    value: function renderItems() {
+      var _props = this.props,
+          panes = _props.panes,
+          renderActiveOnly = _props.renderActiveOnly;
+      var activeIndex = this.state.activeIndex;
+
+
+      if (renderActiveOnly) return _invoke(_get(panes, '[' + activeIndex + ']'), 'render', this.props);
+      return _map(panes, function (_ref3, index) {
+        var pane = _ref3.pane;
+        return TabPane.create(pane, {
+          overrideProps: {
+            active: index === activeIndex
+          }
+        });
+      });
+    }
+  }, {
     key: 'renderMenu',
     value: function renderMenu() {
-      var _props = this.props,
-          menu = _props.menu,
-          panes = _props.panes;
+      var _props2 = this.props,
+          menu = _props2.menu,
+          panes = _props2.panes;
       var activeIndex = this.state.activeIndex;
 
 
@@ -65,21 +87,46 @@ var Tab = function (_Component) {
       });
     }
   }, {
+    key: 'renderVertical',
+    value: function renderVertical(menu) {
+      var grid = this.props.grid;
+
+      var paneWidth = grid.paneWidth,
+          tabWidth = grid.tabWidth,
+          gridProps = _objectWithoutProperties(grid, ['paneWidth', 'tabWidth']);
+
+      return React.createElement(
+        Grid,
+        gridProps,
+        menu.props.tabular !== 'right' && GridColumn.create({ width: tabWidth, children: menu }),
+        GridColumn.create({
+          width: paneWidth,
+          children: this.renderItems(),
+          stretched: true
+        }),
+        menu.props.tabular === 'right' && GridColumn.create({ width: tabWidth, children: menu })
+      );
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var panes = this.props.panes;
-      var activeIndex = this.state.activeIndex;
-
-
       var menu = this.renderMenu();
       var rest = getUnhandledProps(Tab, this.props);
       var ElementType = getElementType(Tab, this.props);
+
+      if (menu.props.vertical) {
+        return React.createElement(
+          ElementType,
+          rest,
+          this.renderVertical(menu)
+        );
+      }
 
       return React.createElement(
         ElementType,
         rest,
         menu.props.attached !== 'bottom' && menu,
-        _invoke(_get(panes, '[' + activeIndex + ']'), 'render', this.props),
+        this.renderItems(),
         menu.props.attached === 'bottom' && menu
       );
     }
@@ -90,15 +137,17 @@ var Tab = function (_Component) {
 
 Tab.autoControlledProps = ['activeIndex'];
 Tab.defaultProps = {
-  menu: { attached: true, tabular: true }
+  grid: { paneWidth: 12, tabWidth: 4 },
+  menu: { attached: true, tabular: true },
+  renderActiveOnly: true
 };
 Tab._meta = {
   name: 'Tab',
   type: META.TYPES.MODULE
 };
 Tab.Pane = TabPane;
-Tab.handledProps = ['activeIndex', 'as', 'defaultActiveIndex', 'menu', 'onTabChange', 'panes'];
-process.env.NODE_ENV !== "production" ? Tab.propTypes = {
+Tab.handledProps = ['activeIndex', 'as', 'defaultActiveIndex', 'grid', 'menu', 'onTabChange', 'panes', 'renderActiveOnly'];
+Tab.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: customPropTypes.as,
 
@@ -111,6 +160,9 @@ process.env.NODE_ENV !== "production" ? Tab.propTypes = {
   /** Shorthand props for the Menu. */
   menu: PropTypes.object,
 
+  /** Shorthand props for the Grid. */
+  grid: PropTypes.object,
+
   /**
    * Called on tab change.
    *
@@ -122,16 +174,19 @@ process.env.NODE_ENV !== "production" ? Tab.propTypes = {
 
   /**
    * Array of objects describing each Menu.Item and Tab.Pane:
-   * {
-   *   menuItem: 'Home',
-   *   render: () => <Tab.Pane>Welcome!</Tab.Pane>
-   * }
+   * { menuItem: 'Home', render: () => <Tab.Pane /> }
+   * or
+   * { menuItem: 'Home', pane: 'Welcome' }
    */
   panes: PropTypes.arrayOf(PropTypes.shape({
     menuItem: customPropTypes.itemShorthand,
-    render: PropTypes.func.isRequired
-  }))
-} : void 0;
+    pane: customPropTypes.itemShorthand,
+    render: PropTypes.func
+  })),
+
+  /** A Tab can render only active pane. */
+  renderActiveOnly: PropTypes.bool
+} : {};
 
 
 export default Tab;

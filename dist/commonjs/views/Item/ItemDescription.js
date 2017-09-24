@@ -50,7 +50,7 @@ ItemDescription._meta = {
   type: _lib.META.TYPES.VIEW
 };
 
-process.env.NODE_ENV !== "production" ? ItemDescription.propTypes = {
+ItemDescription.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -62,24 +62,10 @@ process.env.NODE_ENV !== "production" ? ItemDescription.propTypes = {
 
   /** Shorthand for primary content. */
   content: _lib.customPropTypes.contentShorthand
-} : void 0;
+} : {};
 
 ItemDescription.create = (0, _lib.createShorthandFactory)(ItemDescription, function (content) {
   return { content: content };
 });
 
-var _default = ItemDescription;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(ItemDescription, 'ItemDescription', 'src/views/Item/ItemDescription.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Item/ItemDescription.js');
-}();
-
-;
+exports.default = ItemDescription;

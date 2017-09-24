@@ -72,7 +72,7 @@ StepContent._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? StepContent.propTypes = {
+StepContent.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -87,20 +87,6 @@ process.env.NODE_ENV !== "production" ? StepContent.propTypes = {
 
   /** Shorthand for StepTitle. */
   title: _lib.customPropTypes.itemShorthand
-} : void 0;
+} : {};
 
-var _default = StepContent;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(StepContent, 'StepContent', 'src/elements/Step/StepContent.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Step/StepContent.js');
-}();
-
-;
+exports.default = StepContent;

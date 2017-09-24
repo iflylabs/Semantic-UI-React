@@ -89,29 +89,20 @@ var List = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = List.__proto__ || Object.getPrototypeOf(List)).call.apply(_ref, [this].concat(args))), _this), _this.handleItemOverrides = function () {
-      var _this2;
-
-      return (_this2 = _this).__handleItemOverrides__REACT_HOT_LOADER__.apply(_this2, arguments);
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = List.__proto__ || Object.getPrototypeOf(List)).call.apply(_ref, [this].concat(args))), _this), _this.handleItemOverrides = function (predefinedProps) {
+      return {
+        onClick: function onClick(e, itemProps) {
+          (0, _invoke3.default)(predefinedProps, 'onClick', e, itemProps);
+          (0, _invoke3.default)(_this.props, 'onItemClick', e, itemProps);
+        }
+      };
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(List, [{
-    key: '__handleItemOverrides__REACT_HOT_LOADER__',
-    value: function __handleItemOverrides__REACT_HOT_LOADER__(predefinedProps) {
-      var _this3 = this;
-
-      return {
-        onClick: function onClick(e, itemProps) {
-          (0, _invoke3.default)(predefinedProps, 'onClick', e, itemProps);
-          (0, _invoke3.default)(_this3.props, 'onItemClick', e, itemProps);
-        }
-      };
-    }
-  }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
+      var _this2 = this;
 
       var _props = this.props,
           animated = _props.animated,
@@ -148,7 +139,7 @@ var List = function (_Component) {
         ElementType,
         (0, _extends3.default)({}, rest, { role: 'list', className: classes }),
         (0, _map3.default)(items, function (item) {
-          return _ListItem2.default.create(item, { overrideProps: _this4.handleItemOverrides });
+          return _ListItem2.default.create(item, { overrideProps: _this2.handleItemOverrides });
         })
       );
     }
@@ -167,7 +158,7 @@ List.Icon = _ListIcon2.default;
 List.Item = _ListItem2.default;
 List.List = _ListList2.default;
 List.handledProps = ['animated', 'as', 'bulleted', 'celled', 'children', 'className', 'divided', 'floated', 'horizontal', 'inverted', 'items', 'link', 'onItemClick', 'ordered', 'relaxed', 'selection', 'size', 'verticalAlign'];
-process.env.NODE_ENV !== "production" ? List.propTypes = {
+List.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -226,19 +217,5 @@ process.env.NODE_ENV !== "production" ? List.propTypes = {
 
   /** An element inside a list can be vertically aligned. */
   verticalAlign: _propTypes2.default.oneOf(_lib.SUI.VERTICAL_ALIGNMENTS)
-} : void 0;
-var _default = List;
-exports.default = _default;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(List, 'List', 'src/elements/List/List.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/List/List.js');
-}();
-
-;
+} : {};
+exports.default = List;

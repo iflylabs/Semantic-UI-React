@@ -81,12 +81,12 @@ ModalActions._meta = {
 };
 ModalActions.handledProps = ['actions', 'as', 'children', 'className', 'onActionClick'];
 export default ModalActions;
-process.env.NODE_ENV !== "production" ? ModalActions.propTypes = {
+ModalActions.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: customPropTypes.as,
 
-  /** Elements to render as Modal action buttons. */
-  actions: customPropTypes.every([customPropTypes.disallow(['children']), PropTypes.arrayOf(customPropTypes.itemShorthand)]),
+  /** Array of shorthand buttons. */
+  actions: customPropTypes.collectionShorthand,
 
   /** Primary content. */
   children: PropTypes.node,
@@ -95,13 +95,13 @@ process.env.NODE_ENV !== "production" ? ModalActions.propTypes = {
   className: PropTypes.string,
 
   /**
-   * onClick handler for an action. Mutually exclusive with children.
+   * Action onClick handler when using shorthand `actions`.
    *
    * @param {SyntheticEvent} event - React's original SyntheticEvent.
-   * @param {object} data - All item props.
+   * @param {object} data - All props from the clicked action.
    */
   onActionClick: customPropTypes.every([customPropTypes.disallow(['children']), PropTypes.func])
-} : void 0;
+} : {};
 
 
 ModalActions.create = createShorthandFactory(ModalActions, function (actions) {

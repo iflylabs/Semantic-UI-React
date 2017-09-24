@@ -98,97 +98,44 @@ var Input = function (_Component) {
     }
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Input.__proto__ || Object.getPrototypeOf(Input)).call.apply(_ref, [this].concat(args))), _this), _this.computeIcon = function () {
-      var _this2;
-
-      return (_this2 = _this).__computeIcon__REACT_HOT_LOADER__.apply(_this2, arguments);
-    }, _this.computeTabIndex = function () {
-      var _this3;
-
-      return (_this3 = _this).__computeTabIndex__REACT_HOT_LOADER__.apply(_this3, arguments);
-    }, _this.focus = function () {
-      var _this4;
-
-      return (_this4 = _this).__focus__REACT_HOT_LOADER__.apply(_this4, arguments);
-    }, _this.handleChange = function () {
-      var _this5;
-
-      return (_this5 = _this).__handleChange__REACT_HOT_LOADER__.apply(_this5, arguments);
-    }, _this.handleChildOverrides = function () {
-      var _this6;
-
-      return (_this6 = _this).__handleChildOverrides__REACT_HOT_LOADER__.apply(_this6, arguments);
-    }, _this.handleInputRef = function () {
-      var _this7;
-
-      return (_this7 = _this).__handleInputRef__REACT_HOT_LOADER__.apply(_this7, arguments);
-    }, _this.partitionProps = function () {
-      var _this8;
-
-      return (_this8 = _this).__partitionProps__REACT_HOT_LOADER__.apply(_this8, arguments);
-    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
-  }
-
-  (0, _createClass3.default)(Input, [{
-    key: '__computeIcon__REACT_HOT_LOADER__',
-    value: function __computeIcon__REACT_HOT_LOADER__() {
-      var _props = this.props,
-          loading = _props.loading,
-          icon = _props.icon;
+      var _this$props = _this.props,
+          loading = _this$props.loading,
+          icon = _this$props.icon;
 
 
       if (!(0, _isNil3.default)(icon)) return icon;
       if (loading) return 'spinner';
-    }
-  }, {
-    key: '__computeTabIndex__REACT_HOT_LOADER__',
-    value: function __computeTabIndex__REACT_HOT_LOADER__() {
-      var _props2 = this.props,
-          disabled = _props2.disabled,
-          tabIndex = _props2.tabIndex;
+    }, _this.computeTabIndex = function () {
+      var _this$props2 = _this.props,
+          disabled = _this$props2.disabled,
+          tabIndex = _this$props2.tabIndex;
 
 
       if (!(0, _isNil3.default)(tabIndex)) return tabIndex;
       if (disabled) return -1;
-    }
-  }, {
-    key: '__focus__REACT_HOT_LOADER__',
-    value: function __focus__REACT_HOT_LOADER__() {
-      return this.inputRef.focus();
-    }
-  }, {
-    key: '__handleChange__REACT_HOT_LOADER__',
-    value: function __handleChange__REACT_HOT_LOADER__(e) {
+    }, _this.focus = function () {
+      return _this.inputRef.focus();
+    }, _this.handleChange = function (e) {
       var value = (0, _get3.default)(e, 'target.value');
 
-      (0, _invoke3.default)(this.props, 'onChange', e, (0, _extends3.default)({}, this.props, { value: value }));
-    }
-  }, {
-    key: '__handleChildOverrides__REACT_HOT_LOADER__',
-    value: function __handleChildOverrides__REACT_HOT_LOADER__(child, defaultProps) {
-      var _this9 = this;
-
+      (0, _invoke3.default)(_this.props, 'onChange', e, (0, _extends3.default)({}, _this.props, { value: value }));
+    }, _this.handleChildOverrides = function (child, defaultProps) {
       return (0, _extends3.default)({}, defaultProps, child.props, {
         ref: function ref(c) {
           (0, _invoke3.default)(child, 'ref', c);
-          _this9.handleInputRef(c);
+          _this.handleInputRef(c);
         }
       });
-    }
-  }, {
-    key: '__handleInputRef__REACT_HOT_LOADER__',
-    value: function __handleInputRef__REACT_HOT_LOADER__(c) {
-      return this.inputRef = c;
-    }
-  }, {
-    key: '__partitionProps__REACT_HOT_LOADER__',
-    value: function __partitionProps__REACT_HOT_LOADER__() {
-      var _props3 = this.props,
-          disabled = _props3.disabled,
-          type = _props3.type;
+    }, _this.handleInputRef = function (c) {
+      return _this.inputRef = c;
+    }, _this.partitionProps = function () {
+      var _this$props3 = _this.props,
+          disabled = _this$props3.disabled,
+          type = _this$props3.type;
 
 
-      var tabIndex = this.computeTabIndex();
-      var unhandled = (0, _lib.getUnhandledProps)(Input, this.props);
+      var tabIndex = _this.computeTabIndex();
+      var unhandled = (0, _lib.getUnhandledProps)(Input, _this.props);
 
       var _partitionHTMLInputPr = (0, _lib.partitionHTMLInputProps)(unhandled),
           _partitionHTMLInputPr2 = (0, _slicedToArray3.default)(_partitionHTMLInputPr, 2),
@@ -199,34 +146,36 @@ var Input = function (_Component) {
         disabled: disabled,
         type: type,
         tabIndex: tabIndex,
-        onChange: this.handleChange,
-        ref: this.handleInputRef
+        onChange: _this.handleChange,
+        ref: _this.handleInputRef
       }), rest];
-    }
-  }, {
+    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+  }
+
+  (0, _createClass3.default)(Input, [{
     key: 'render',
     value: function render() {
-      var _this10 = this;
+      var _this2 = this;
 
-      var _props4 = this.props,
-          action = _props4.action,
-          actionPosition = _props4.actionPosition,
-          children = _props4.children,
-          className = _props4.className,
-          disabled = _props4.disabled,
-          error = _props4.error,
-          fluid = _props4.fluid,
-          focus = _props4.focus,
-          icon = _props4.icon,
-          iconPosition = _props4.iconPosition,
-          input = _props4.input,
-          inverted = _props4.inverted,
-          label = _props4.label,
-          labelPosition = _props4.labelPosition,
-          loading = _props4.loading,
-          size = _props4.size,
-          transparent = _props4.transparent,
-          type = _props4.type;
+      var _props = this.props,
+          action = _props.action,
+          actionPosition = _props.actionPosition,
+          children = _props.children,
+          className = _props.className,
+          disabled = _props.disabled,
+          error = _props.error,
+          fluid = _props.fluid,
+          focus = _props.focus,
+          icon = _props.icon,
+          iconPosition = _props.iconPosition,
+          input = _props.input,
+          inverted = _props.inverted,
+          label = _props.label,
+          labelPosition = _props.labelPosition,
+          loading = _props.loading,
+          size = _props.size,
+          transparent = _props.transparent,
+          type = _props.type;
 
 
       var classes = (0, _classnames2.default)('ui', size, (0, _lib.useKeyOnly)(disabled, 'disabled'), (0, _lib.useKeyOnly)(error, 'error'), (0, _lib.useKeyOnly)(fluid, 'fluid'), (0, _lib.useKeyOnly)(focus, 'focus'), (0, _lib.useKeyOnly)(inverted, 'inverted'), (0, _lib.useKeyOnly)(loading, 'loading'), (0, _lib.useKeyOnly)(transparent, 'transparent'), (0, _lib.useValueAndKey)(actionPosition, 'action') || (0, _lib.useKeyOnly)(action, 'action'), (0, _lib.useValueAndKey)(iconPosition, 'icon') || (0, _lib.useKeyOnly)(icon || loading, 'icon'), (0, _lib.useValueAndKey)(labelPosition, 'labeled') || (0, _lib.useKeyOnly)(label, 'labeled'), 'input', className);
@@ -245,7 +194,7 @@ var Input = function (_Component) {
         // add htmlInputProps to the `<input />` child
         var childElements = (0, _map3.default)(_react.Children.toArray(children), function (child) {
           if (child.type !== 'input') return child;
-          return (0, _react.cloneElement)(child, _this10.handleChildOverrides(child, htmlInputProps));
+          return (0, _react.cloneElement)(child, _this2.handleChildOverrides(child, htmlInputProps));
         });
 
         return _react2.default.createElement(
@@ -291,7 +240,7 @@ Input._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 Input.handledProps = ['action', 'actionPosition', 'as', 'children', 'className', 'disabled', 'error', 'fluid', 'focus', 'icon', 'iconPosition', 'input', 'inverted', 'label', 'labelPosition', 'loading', 'onChange', 'size', 'tabIndex', 'transparent', 'type'];
-process.env.NODE_ENV !== "production" ? Input.propTypes = {
+Input.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -359,25 +308,11 @@ process.env.NODE_ENV !== "production" ? Input.propTypes = {
 
   /** The HTML input type. */
   type: _propTypes2.default.string
-} : void 0;
+} : {};
 
 
 Input.create = (0, _lib.createShorthandFactory)(Input, function (type) {
   return { type: type };
 });
 
-var _default = Input;
-exports.default = _default;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Input, 'Input', 'src/elements/Input/Input.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Input/Input.js');
-}();
-
-;
+exports.default = Input;

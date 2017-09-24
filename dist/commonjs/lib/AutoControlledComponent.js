@@ -153,9 +153,7 @@ var AutoControlledComponent = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (_ref = AutoControlledComponent.__proto__ || Object.getPrototypeOf(AutoControlledComponent)).call.apply(_ref, [this].concat(args)));
 
-    _this.trySetState = function () {
-      return _this.__trySetState__REACT_HOT_LOADER__.apply(_this, arguments);
-    };
+    _initialiseProps.call(_this);
 
     var autoControlledProps = _this.constructor.autoControlledProps;
 
@@ -268,58 +266,41 @@ var AutoControlledComponent = function (_Component) {
      * @param {object} [state] Actual state, useful when you also need to setState.
      */
 
-  }, {
-    key: '__trySetState__REACT_HOT_LOADER__',
-    value: function __trySetState__REACT_HOT_LOADER__(maybeState, state) {
-      var _this3 = this;
-
-      var autoControlledProps = this.constructor.autoControlledProps;
-
-      if (process.env.NODE_ENV !== 'production') {
-        var name = this.constructor.name;
-        // warn about failed attempts to setState for keys not listed in autoControlledProps
-
-        var illegalKeys = (0, _difference3.default)((0, _keys3.default)(maybeState), autoControlledProps);
-        if (!(0, _isEmpty3.default)(illegalKeys)) {
-          console.error([name + ' called trySetState() with controlled props: "' + illegalKeys + '".', 'State will not be set.', 'Only props in static autoControlledProps will be set on state.'].join(' '));
-        }
-      }
-
-      var newState = Object.keys(maybeState).reduce(function (acc, prop) {
-        // ignore props defined by the parent
-        if (_this3.props[prop] !== undefined) return acc;
-
-        // ignore props not listed in auto controlled props
-        if (autoControlledProps.indexOf(prop) === -1) return acc;
-
-        acc[prop] = maybeState[prop];
-        return acc;
-      }, {});
-
-      if (state) newState = (0, _extends3.default)({}, newState, state);
-
-      if (Object.keys(newState).length > 0) this.setState(newState);
-    }
   }]);
   return AutoControlledComponent;
 }(_react.Component);
 
-var _default = AutoControlledComponent;
-exports.default = _default;
-;
+var _initialiseProps = function _initialiseProps() {
+  var _this3 = this;
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
+  this.trySetState = function (maybeState, state) {
+    var autoControlledProps = _this3.constructor.autoControlledProps;
 
-  __REACT_HOT_LOADER__.register(getDefaultPropName, 'getDefaultPropName', 'src/lib/AutoControlledComponent.js');
+    if (process.env.NODE_ENV !== 'production') {
+      var name = _this3.constructor.name;
+      // warn about failed attempts to setState for keys not listed in autoControlledProps
 
-  __REACT_HOT_LOADER__.register(getAutoControlledStateValue, 'getAutoControlledStateValue', 'src/lib/AutoControlledComponent.js');
+      var illegalKeys = (0, _difference3.default)((0, _keys3.default)(maybeState), autoControlledProps);
+      if (!(0, _isEmpty3.default)(illegalKeys)) {
+        console.error([name + ' called trySetState() with controlled props: "' + illegalKeys + '".', 'State will not be set.', 'Only props in static autoControlledProps will be set on state.'].join(' '));
+      }
+    }
 
-  __REACT_HOT_LOADER__.register(AutoControlledComponent, 'AutoControlledComponent', 'src/lib/AutoControlledComponent.js');
+    var newState = Object.keys(maybeState).reduce(function (acc, prop) {
+      // ignore props defined by the parent
+      if (_this3.props[prop] !== undefined) return acc;
 
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/lib/AutoControlledComponent.js');
-}();
+      // ignore props not listed in auto controlled props
+      if (autoControlledProps.indexOf(prop) === -1) return acc;
 
-;
+      acc[prop] = maybeState[prop];
+      return acc;
+    }, {});
+
+    if (state) newState = (0, _extends3.default)({}, newState, state);
+
+    if (Object.keys(newState).length > 0) _this3.setState(newState);
+  };
+};
+
+exports.default = AutoControlledComponent;

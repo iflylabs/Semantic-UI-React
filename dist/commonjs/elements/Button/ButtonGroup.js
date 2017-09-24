@@ -49,7 +49,7 @@ function ButtonGroup(props) {
       widths = props.widths;
 
 
-  var classes = (0, _classnames2.default)('ui', color, size, (0, _lib.useKeyOnly)(basic, 'basic'), (0, _lib.useKeyOnly)(compact, 'compact'), (0, _lib.useKeyOnly)(fluid, 'fluid'), (0, _lib.useKeyOnly)(icon, 'icon'), (0, _lib.useKeyOnly)(inverted, 'inverted'), (0, _lib.useKeyOnly)(labeled, 'labeled'), (0, _lib.useKeyOnly)(negative, 'negative'), (0, _lib.useKeyOnly)(positive, 'positive'), (0, _lib.useKeyOnly)(primary, 'primary'), (0, _lib.useKeyOnly)(secondary, 'secondary'), (0, _lib.useKeyOnly)(toggle, 'toggle'), (0, _lib.useKeyOnly)(vertical, 'vertical'), (0, _lib.useValueAndKey)(attached, 'attached'), (0, _lib.useValueAndKey)(floated, 'floated'), (0, _lib.useWidthProp)(widths), 'buttons', className);
+  var classes = (0, _classnames2.default)('ui', color, size, (0, _lib.useKeyOnly)(basic, 'basic'), (0, _lib.useKeyOnly)(compact, 'compact'), (0, _lib.useKeyOnly)(fluid, 'fluid'), (0, _lib.useKeyOnly)(icon, 'icon'), (0, _lib.useKeyOnly)(inverted, 'inverted'), (0, _lib.useKeyOnly)(labeled, 'labeled'), (0, _lib.useKeyOnly)(negative, 'negative'), (0, _lib.useKeyOnly)(positive, 'positive'), (0, _lib.useKeyOnly)(primary, 'primary'), (0, _lib.useKeyOnly)(secondary, 'secondary'), (0, _lib.useKeyOnly)(toggle, 'toggle'), (0, _lib.useKeyOnly)(vertical, 'vertical'), (0, _lib.useKeyOrValueAndKey)(attached, 'attached'), (0, _lib.useValueAndKey)(floated, 'floated'), (0, _lib.useWidthProp)(widths), 'buttons', className);
   var rest = (0, _lib.getUnhandledProps)(ButtonGroup, props);
   var ElementType = (0, _lib.getElementType)(ButtonGroup, props);
 
@@ -67,12 +67,12 @@ ButtonGroup._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? ButtonGroup.propTypes = {
+ButtonGroup.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
-  /** A button can be attached to the top or bottom of other content. */
-  attached: _propTypes2.default.oneOf(['left', 'right', 'top', 'bottom']),
+  /** Groups can be attached to other content. */
+  attached: _propTypes2.default.oneOfType([_propTypes2.default.bool, _propTypes2.default.oneOf(['left', 'right', 'top', 'bottom'])]),
 
   /** Groups can be less pronounced. */
   basic: _propTypes2.default.bool,
@@ -127,20 +127,6 @@ process.env.NODE_ENV !== "production" ? ButtonGroup.propTypes = {
 
   /** Groups can have their widths divided evenly. */
   widths: _propTypes2.default.oneOf(_lib.SUI.WIDTHS)
-} : void 0;
+} : {};
 
-var _default = ButtonGroup;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(ButtonGroup, 'ButtonGroup', 'src/elements/Button/ButtonGroup.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Button/ButtonGroup.js');
-}();
-
-;
+exports.default = ButtonGroup;

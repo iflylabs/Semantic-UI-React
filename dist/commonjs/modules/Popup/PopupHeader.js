@@ -45,7 +45,7 @@ function PopupHeader(props) {
 }
 
 PopupHeader.handledProps = ['as', 'children', 'className'];
-process.env.NODE_ENV !== "production" ? PopupHeader.propTypes = {
+PopupHeader.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -54,7 +54,7 @@ process.env.NODE_ENV !== "production" ? PopupHeader.propTypes = {
 
   /** Additional classes. */
   className: _propTypes2.default.string
-} : void 0;
+} : {};
 
 PopupHeader._meta = {
   name: 'PopupHeader',
@@ -65,14 +65,3 @@ PopupHeader._meta = {
 PopupHeader.create = (0, _lib.createShorthandFactory)(PopupHeader, function (children) {
   return { children: children };
 });
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(PopupHeader, 'PopupHeader', 'src/modules/Popup/PopupHeader.js');
-}();
-
-;

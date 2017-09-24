@@ -63,7 +63,7 @@ GridRow._meta = {
   type: _lib.META.TYPES.COLLECTION
 };
 
-process.env.NODE_ENV !== "production" ? GridRow.propTypes = {
+GridRow.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -99,20 +99,6 @@ process.env.NODE_ENV !== "production" ? GridRow.propTypes = {
 
   /** A row can specify its vertical alignment to have all its columns vertically centered. */
   verticalAlign: _propTypes2.default.oneOf(_lib.SUI.VERTICAL_ALIGNMENTS)
-} : void 0;
+} : {};
 
-var _default = GridRow;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(GridRow, 'GridRow', 'src/collections/Grid/GridRow.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Grid/GridRow.js');
-}();
-
-;
+exports.default = GridRow;

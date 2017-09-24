@@ -50,7 +50,7 @@ StatisticLabel._meta = {
   type: _lib.META.TYPES.VIEW
 };
 
-process.env.NODE_ENV !== "production" ? StatisticLabel.propTypes = {
+StatisticLabel.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -62,20 +62,6 @@ process.env.NODE_ENV !== "production" ? StatisticLabel.propTypes = {
 
   /** Shorthand for primary content. */
   label: _lib.customPropTypes.contentShorthand
-} : void 0;
+} : {};
 
-var _default = StatisticLabel;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(StatisticLabel, 'StatisticLabel', 'src/views/Statistic/StatisticLabel.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Statistic/StatisticLabel.js');
-}();
-
-;
+exports.default = StatisticLabel;

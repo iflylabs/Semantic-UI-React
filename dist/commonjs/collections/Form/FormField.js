@@ -136,7 +136,7 @@ FormField._meta = {
   type: _lib.META.TYPES.COLLECTION
 };
 
-process.env.NODE_ENV !== "production" ? FormField.propTypes = {
+FormField.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -180,20 +180,6 @@ process.env.NODE_ENV !== "production" ? FormField.propTypes = {
 
   /** A field can specify its width in grid columns */
   width: _propTypes2.default.oneOf(_lib.SUI.WIDTHS)
-} : void 0;
+} : {};
 
-var _default = FormField;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(FormField, 'FormField', 'src/collections/Form/FormField.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Form/FormField.js');
-}();
-
-;
+exports.default = FormField;

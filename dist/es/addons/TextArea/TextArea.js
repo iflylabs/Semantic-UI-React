@@ -37,6 +37,10 @@ var TextArea = function (_Component) {
       var value = _get(e, 'target.value');
 
       _invoke(_this.props, 'onChange', e, _extends({}, _this.props, { value: value }));
+    }, _this.handleInput = function (e) {
+      var value = _get(e, 'target.value');
+
+      _invoke(_this.props, 'onInput', e, _extends({}, _this.props, { value: value }));
       _this.updateHeight();
     }, _this.handleRef = function (c) {
       return _this.ref = c;
@@ -96,6 +100,7 @@ var TextArea = function (_Component) {
 
       return React.createElement(ElementType, _extends({}, rest, {
         onChange: this.handleChange,
+        onInput: this.handleInput,
         ref: this.handleRef,
         rows: rows,
         style: _extends({ resize: resize }, style),
@@ -115,8 +120,8 @@ TextArea.defaultProps = {
   as: 'textarea',
   rows: 3
 };
-TextArea.handledProps = ['as', 'autoHeight', 'onChange', 'rows', 'style', 'value'];
-process.env.NODE_ENV !== "production" ? TextArea.propTypes = {
+TextArea.handledProps = ['as', 'autoHeight', 'onChange', 'onInput', 'rows', 'style', 'value'];
+TextArea.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: customPropTypes.as,
 
@@ -130,6 +135,13 @@ process.env.NODE_ENV !== "production" ? TextArea.propTypes = {
    */
   onChange: PropTypes.func,
 
+  /**
+   * Called on input.
+   * @param {SyntheticEvent} event - The React SyntheticEvent object
+   * @param {object} data - All props and the event value.
+   */
+  onInput: PropTypes.func,
+
   /** Indicates row count for a TextArea. */
   rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
@@ -138,7 +150,7 @@ process.env.NODE_ENV !== "production" ? TextArea.propTypes = {
 
   /** The value of the textarea. */
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-} : void 0;
+} : {};
 
 
 export default TextArea;

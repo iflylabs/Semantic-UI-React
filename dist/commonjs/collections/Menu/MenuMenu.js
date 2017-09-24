@@ -51,7 +51,7 @@ MenuMenu._meta = {
   parent: 'Menu'
 };
 
-process.env.NODE_ENV !== "production" ? MenuMenu.propTypes = {
+MenuMenu.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -63,20 +63,6 @@ process.env.NODE_ENV !== "production" ? MenuMenu.propTypes = {
 
   /** A sub menu can take left or right position. */
   position: _propTypes2.default.oneOf(['left', 'right'])
-} : void 0;
+} : {};
 
-var _default = MenuMenu;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(MenuMenu, 'MenuMenu', 'src/collections/Menu/MenuMenu.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Menu/MenuMenu.js');
-}();
-
-;
+exports.default = MenuMenu;

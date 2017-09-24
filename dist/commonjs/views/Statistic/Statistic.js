@@ -80,7 +80,7 @@ Statistic._meta = {
   type: _lib.META.TYPES.VIEW
 };
 
-process.env.NODE_ENV !== "production" ? Statistic.propTypes = {
+Statistic.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -113,24 +113,10 @@ process.env.NODE_ENV !== "production" ? Statistic.propTypes = {
 
   /** Value content of the Statistic. */
   value: _lib.customPropTypes.contentShorthand
-} : void 0;
+} : {};
 
 Statistic.Group = _StatisticGroup2.default;
 Statistic.Label = _StatisticLabel2.default;
 Statistic.Value = _StatisticValue2.default;
 
-var _default = Statistic;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Statistic, 'Statistic', 'src/views/Statistic/Statistic.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Statistic/Statistic.js');
-}();
-
-;
+exports.default = Statistic;

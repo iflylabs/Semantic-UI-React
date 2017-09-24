@@ -360,20 +360,4 @@ keyboardKey.RightAngleBracket = keyboardKey['>'];
 keyboardKey.LeftSquareBracket = keyboardKey['['];
 keyboardKey.RightSquareBracket = keyboardKey[']'];
 
-var _default = keyboardKey;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(codes, 'codes', 'src/lib/keyboardKey.js');
-
-  __REACT_HOT_LOADER__.register(keyboardKey, 'keyboardKey', 'src/lib/keyboardKey.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/lib/keyboardKey.js');
-}();
-
-;
+exports.default = keyboardKey;

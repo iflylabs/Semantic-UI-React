@@ -18,15 +18,6 @@ var _transform3 = _interopRequireDefault(_transform2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _default = function _default(source, target) {
-  return (0, _transform3.default)(source, function (res, val, key) {
-    // deleted keys
-    if (!(0, _has3.default)(target, key)) res[key] = '[DELETED]';
-    // new keys / changed values
-    else if (!(0, _isEqual3.default)(val, target[key])) res[key] = target[key];
-  }, {});
-};
-
 /**
  * Naive and inefficient object difference, intended for development / debugging use only.
  * Deleted keys are shown as [DELETED].
@@ -42,15 +33,11 @@ var _default = function _default(source, target) {
  * objectDiff(a, b)
  * //=> { foo: 'baz' }
  */
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/lib/objectDiff.js');
-}();
-
-;
+exports.default = function (source, target) {
+  return (0, _transform3.default)(source, function (res, val, key) {
+    // deleted keys
+    if (!(0, _has3.default)(target, key)) res[key] = '[DELETED]';
+    // new keys / changed values
+    else if (!(0, _isEqual3.default)(val, target[key])) res[key] = target[key];
+  }, {});
+};

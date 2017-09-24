@@ -50,7 +50,7 @@ ListHeader._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? ListHeader.propTypes = {
+ListHeader.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -62,24 +62,10 @@ process.env.NODE_ENV !== "production" ? ListHeader.propTypes = {
 
   /** Shorthand for primary content. */
   content: _lib.customPropTypes.contentShorthand
-} : void 0;
+} : {};
 
 ListHeader.create = (0, _lib.createShorthandFactory)(ListHeader, function (content) {
   return { content: content };
 });
 
-var _default = ListHeader;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(ListHeader, 'ListHeader', 'src/elements/List/ListHeader.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/List/ListHeader.js');
-}();
-
-;
+exports.default = ListHeader;

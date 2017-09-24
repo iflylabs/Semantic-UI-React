@@ -50,7 +50,7 @@ HeaderSubheader._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? HeaderSubheader.propTypes = {
+HeaderSubheader.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -62,24 +62,10 @@ process.env.NODE_ENV !== "production" ? HeaderSubheader.propTypes = {
 
   /** Shorthand for primary content. */
   content: _lib.customPropTypes.contentShorthand
-} : void 0;
+} : {};
 
 HeaderSubheader.create = (0, _lib.createShorthandFactory)(HeaderSubheader, function (content) {
   return { content: content };
 });
 
-var _default = HeaderSubheader;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(HeaderSubheader, 'HeaderSubheader', 'src/elements/Header/HeaderSubheader.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Header/HeaderSubheader.js');
-}();
-
-;
+exports.default = HeaderSubheader;

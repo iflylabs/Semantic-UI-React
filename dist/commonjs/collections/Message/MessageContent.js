@@ -49,7 +49,7 @@ MessageContent._meta = {
   type: _lib.META.TYPES.COLLECTION
 };
 
-process.env.NODE_ENV !== "production" ? MessageContent.propTypes = {
+MessageContent.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -58,20 +58,6 @@ process.env.NODE_ENV !== "production" ? MessageContent.propTypes = {
 
   /** Additional classes. */
   className: _propTypes2.default.string
-} : void 0;
+} : {};
 
-var _default = MessageContent;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(MessageContent, 'MessageContent', 'src/collections/Message/MessageContent.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Message/MessageContent.js');
-}();
-
-;
+exports.default = MessageContent;

@@ -204,28 +204,3 @@ var createHTMLLabel = exports.createHTMLLabel = createShorthandFactory('label', 
 var createHTMLParagraph = exports.createHTMLParagraph = createShorthandFactory('p', function (val) {
   return { children: val };
 });
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(createShorthand, 'createShorthand', 'src/lib/factories.js');
-
-  __REACT_HOT_LOADER__.register(createShorthandFactory, 'createShorthandFactory', 'src/lib/factories.js');
-
-  __REACT_HOT_LOADER__.register(createHTMLDivision, 'createHTMLDivision', 'src/lib/factories.js');
-
-  __REACT_HOT_LOADER__.register(createHTMLIframe, 'createHTMLIframe', 'src/lib/factories.js');
-
-  __REACT_HOT_LOADER__.register(createHTMLImage, 'createHTMLImage', 'src/lib/factories.js');
-
-  __REACT_HOT_LOADER__.register(createHTMLInput, 'createHTMLInput', 'src/lib/factories.js');
-
-  __REACT_HOT_LOADER__.register(createHTMLLabel, 'createHTMLLabel', 'src/lib/factories.js');
-
-  __REACT_HOT_LOADER__.register(createHTMLParagraph, 'createHTMLParagraph', 'src/lib/factories.js');
-}();
-
-;

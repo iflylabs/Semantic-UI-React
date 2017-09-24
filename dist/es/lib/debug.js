@@ -1,9 +1,5 @@
-import isBrowser from './isBrowser';
 
-var _debug = void 0;
-var noop = function noop() {
-  return undefined;
-};
+import isBrowser from './isBrowser';
 
 if (isBrowser && process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
   // Heads Up!
@@ -21,14 +17,7 @@ if (isBrowser && process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !
     /* eslint-enable no-console */
   }
 
-  _debug = require('debug');
-
   // enable what ever settings we got from storage
-  _debug.enable(DEBUG);
-} else {
-  _debug = function _debug() {
-    return noop;
-  };
 }
 
 /**
@@ -41,9 +30,7 @@ if (isBrowser && process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !
  * debug('Some message')
  * @returns {Function}
  */
-export var makeDebugger = function makeDebugger(namespace) {
-  return _debug('semanticUIReact:' + namespace);
-};
+export var makeDebugger = function makeDebugger(namespace) {};
 
 /**
  * Default debugger, simple log.

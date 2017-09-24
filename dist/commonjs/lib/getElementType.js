@@ -40,18 +40,4 @@ function getElementType(Component, props, getDefault) {
   return defaultProps.as || 'div';
 }
 
-var _default = getElementType;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(getElementType, 'getElementType', 'src/lib/getElementType.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/lib/getElementType.js');
-}();
-
-;
+exports.default = getElementType;

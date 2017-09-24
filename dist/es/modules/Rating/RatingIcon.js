@@ -27,9 +27,7 @@ var RatingIcon = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = RatingIcon.__proto__ || Object.getPrototypeOf(RatingIcon)).call.apply(_ref, [this].concat(args))), _this), _this.defaultProps = {
-      as: 'i'
-    }, _this.handleClick = function (e) {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = RatingIcon.__proto__ || Object.getPrototypeOf(RatingIcon)).call.apply(_ref, [this].concat(args))), _this), _this.handleClick = function (e) {
       var onClick = _this.props.onClick;
 
 
@@ -86,6 +84,9 @@ var RatingIcon = function (_Component) {
   return RatingIcon;
 }(Component);
 
+RatingIcon.defaultProps = {
+  as: 'i'
+};
 RatingIcon._meta = {
   name: 'RatingIcon',
   parent: 'Rating',
@@ -93,7 +94,7 @@ RatingIcon._meta = {
 };
 RatingIcon.handledProps = ['active', 'as', 'className', 'index', 'onClick', 'onKeyUp', 'onMouseEnter', 'selected'];
 export default RatingIcon;
-process.env.NODE_ENV !== "production" ? RatingIcon.propTypes = {
+RatingIcon.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: customPropTypes.as,
 
@@ -132,4 +133,4 @@ process.env.NODE_ENV !== "production" ? RatingIcon.propTypes = {
 
   /** Indicates selection of an icon. */
   selected: PropTypes.bool
-} : void 0;
+} : {};

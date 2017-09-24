@@ -45,31 +45,17 @@ FormSelect._meta = {
   type: _lib.META.TYPES.COLLECTION
 };
 
-process.env.NODE_ENV !== "production" ? FormSelect.propTypes = {
+FormSelect.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
   /** A FormField control prop. */
   control: _FormField2.default.propTypes.control
-} : void 0;
+} : {};
 
 FormSelect.defaultProps = {
   as: _FormField2.default,
   control: _Select2.default
 };
 
-var _default = FormSelect;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(FormSelect, 'FormSelect', 'src/collections/Form/FormSelect.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Form/FormSelect.js');
-}();
-
-;
+exports.default = FormSelect;

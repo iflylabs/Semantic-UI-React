@@ -50,7 +50,7 @@ ImageGroup._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? ImageGroup.propTypes = {
+ImageGroup.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -62,20 +62,6 @@ process.env.NODE_ENV !== "production" ? ImageGroup.propTypes = {
 
   /** A group of images can be formatted to have the same size. */
   size: _propTypes2.default.oneOf(_lib.SUI.SIZES)
-} : void 0;
+} : {};
 
-var _default = ImageGroup;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(ImageGroup, 'ImageGroup', 'src/elements/Image/ImageGroup.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Image/ImageGroup.js');
-}();
-
-;
+exports.default = ImageGroup;

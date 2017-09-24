@@ -77,22 +77,15 @@ var DropdownItem = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = DropdownItem.__proto__ || Object.getPrototypeOf(DropdownItem)).call.apply(_ref, [this].concat(args))), _this), _this.handleClick = function () {
-      var _this2;
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = DropdownItem.__proto__ || Object.getPrototypeOf(DropdownItem)).call.apply(_ref, [this].concat(args))), _this), _this.handleClick = function (e) {
+      var onClick = _this.props.onClick;
 
-      return (_this2 = _this).__handleClick__REACT_HOT_LOADER__.apply(_this2, arguments);
+
+      if (onClick) onClick(e, _this.props);
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(DropdownItem, [{
-    key: '__handleClick__REACT_HOT_LOADER__',
-    value: function __handleClick__REACT_HOT_LOADER__(e) {
-      var onClick = this.props.onClick;
-
-
-      if (onClick) onClick(e, this.props);
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -162,7 +155,7 @@ DropdownItem._meta = {
   type: _lib.META.TYPES.MODULE
 };
 DropdownItem.handledProps = ['active', 'as', 'children', 'className', 'content', 'description', 'disabled', 'flag', 'icon', 'image', 'label', 'onClick', 'selected', 'text', 'value'];
-process.env.NODE_ENV !== "production" ? DropdownItem.propTypes = {
+DropdownItem.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -215,25 +208,11 @@ process.env.NODE_ENV !== "production" ? DropdownItem.propTypes = {
 
   /** Stored value. */
   value: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string])
-} : void 0;
+} : {};
 
 
 DropdownItem.create = (0, _lib.createShorthandFactory)(DropdownItem, function (opts) {
   return opts;
 });
 
-var _default = DropdownItem;
-exports.default = _default;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(DropdownItem, 'DropdownItem', 'src/modules/Dropdown/DropdownItem.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Dropdown/DropdownItem.js');
-}();
-
-;
+exports.default = DropdownItem;

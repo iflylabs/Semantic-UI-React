@@ -57,67 +57,44 @@ var RatingIcon = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = RatingIcon.__proto__ || Object.getPrototypeOf(RatingIcon)).call.apply(_ref, [this].concat(args))), _this), _this.defaultProps = {
-      as: 'i'
-    }, _this.handleClick = function () {
-      var _this2;
-
-      return (_this2 = _this).__handleClick__REACT_HOT_LOADER__.apply(_this2, arguments);
-    }, _this.handleKeyUp = function () {
-      var _this3;
-
-      return (_this3 = _this).__handleKeyUp__REACT_HOT_LOADER__.apply(_this3, arguments);
-    }, _this.handleMouseEnter = function () {
-      var _this4;
-
-      return (_this4 = _this).__handleMouseEnter__REACT_HOT_LOADER__.apply(_this4, arguments);
-    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
-  }
-
-  (0, _createClass3.default)(RatingIcon, [{
-    key: '__handleClick__REACT_HOT_LOADER__',
-    value: function __handleClick__REACT_HOT_LOADER__(e) {
-      var onClick = this.props.onClick;
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = RatingIcon.__proto__ || Object.getPrototypeOf(RatingIcon)).call.apply(_ref, [this].concat(args))), _this), _this.handleClick = function (e) {
+      var onClick = _this.props.onClick;
 
 
-      if (onClick) onClick(e, this.props);
-    }
-  }, {
-    key: '__handleKeyUp__REACT_HOT_LOADER__',
-    value: function __handleKeyUp__REACT_HOT_LOADER__(e) {
-      var _props = this.props,
-          onClick = _props.onClick,
-          onKeyUp = _props.onKeyUp;
+      if (onClick) onClick(e, _this.props);
+    }, _this.handleKeyUp = function (e) {
+      var _this$props = _this.props,
+          onClick = _this$props.onClick,
+          onKeyUp = _this$props.onKeyUp;
 
 
-      if (onKeyUp) onKeyUp(e, this.props);
+      if (onKeyUp) onKeyUp(e, _this.props);
 
       if (onClick) {
         switch (_lib.keyboardKey.getCode(e)) {
           case _lib.keyboardKey.Enter:
           case _lib.keyboardKey.Spacebar:
             e.preventDefault();
-            onClick(e, this.props);
+            onClick(e, _this.props);
             break;
           default:
         }
       }
-    }
-  }, {
-    key: '__handleMouseEnter__REACT_HOT_LOADER__',
-    value: function __handleMouseEnter__REACT_HOT_LOADER__(e) {
-      var onMouseEnter = this.props.onMouseEnter;
+    }, _this.handleMouseEnter = function (e) {
+      var onMouseEnter = _this.props.onMouseEnter;
 
 
-      if (onMouseEnter) onMouseEnter(e, this.props);
-    }
-  }, {
+      if (onMouseEnter) onMouseEnter(e, _this.props);
+    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+  }
+
+  (0, _createClass3.default)(RatingIcon, [{
     key: 'render',
     value: function render() {
-      var _props2 = this.props,
-          active = _props2.active,
-          className = _props2.className,
-          selected = _props2.selected;
+      var _props = this.props,
+          active = _props.active,
+          className = _props.className,
+          selected = _props.selected;
 
       var classes = (0, _classnames2.default)((0, _lib.useKeyOnly)(active, 'active'), (0, _lib.useKeyOnly)(selected, 'selected'), 'icon', className);
       var rest = (0, _lib.getUnhandledProps)(RatingIcon, this.props);
@@ -136,15 +113,17 @@ var RatingIcon = function (_Component) {
   return RatingIcon;
 }(_react.Component);
 
+RatingIcon.defaultProps = {
+  as: 'i'
+};
 RatingIcon._meta = {
   name: 'RatingIcon',
   parent: 'Rating',
   type: _lib.META.TYPES.MODULE
 };
 RatingIcon.handledProps = ['active', 'as', 'className', 'index', 'onClick', 'onKeyUp', 'onMouseEnter', 'selected'];
-var _default = RatingIcon;
-exports.default = _default;
-process.env.NODE_ENV !== "production" ? RatingIcon.propTypes = {
+exports.default = RatingIcon;
+RatingIcon.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -183,17 +162,4 @@ process.env.NODE_ENV !== "production" ? RatingIcon.propTypes = {
 
   /** Indicates selection of an icon. */
   selected: _propTypes2.default.bool
-} : void 0;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(RatingIcon, 'RatingIcon', 'src/modules/Rating/RatingIcon.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Rating/RatingIcon.js');
-}();
-
-;
+} : {};

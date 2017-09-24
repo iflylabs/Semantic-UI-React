@@ -59,7 +59,7 @@ FormGroup._meta = {
   type: _lib.META.TYPES.COLLECTION
 };
 
-process.env.NODE_ENV !== "production" ? FormGroup.propTypes = {
+FormGroup.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -80,20 +80,6 @@ process.env.NODE_ENV !== "production" ? FormGroup.propTypes = {
 
   /** Fields Groups can specify their width in grid columns or automatically divide fields to be equal width. */
   widths: _propTypes2.default.oneOf([].concat((0, _toConsumableArray3.default)(_lib.SUI.WIDTHS), ['equal']))
-} : void 0;
+} : {};
 
-var _default = FormGroup;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(FormGroup, 'FormGroup', 'src/collections/Form/FormGroup.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Form/FormGroup.js');
-}();
-
-;
+exports.default = FormGroup;

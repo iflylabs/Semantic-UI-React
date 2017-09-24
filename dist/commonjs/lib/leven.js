@@ -52,18 +52,4 @@ if (process.env.NODE_ENV !== 'production') {
   };
 }
 
-var _default = leven;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(leven, 'leven', 'src/lib/leven.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/lib/leven.js');
-}();
-
-;
+exports.default = leven;

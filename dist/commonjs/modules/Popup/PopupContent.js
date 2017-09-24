@@ -45,7 +45,7 @@ function PopupContent(props) {
 }
 
 PopupContent.handledProps = ['as', 'children', 'className'];
-process.env.NODE_ENV !== "production" ? PopupContent.propTypes = {
+PopupContent.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -54,7 +54,7 @@ process.env.NODE_ENV !== "production" ? PopupContent.propTypes = {
 
   /** Classes to add to the Popup content className. */
   className: _propTypes2.default.string
-} : void 0;
+} : {};
 
 PopupContent._meta = {
   name: 'PopupContent',
@@ -65,14 +65,3 @@ PopupContent._meta = {
 PopupContent.create = (0, _lib.createShorthandFactory)(PopupContent, function (children) {
   return { children: children };
 });
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(PopupContent, 'PopupContent', 'src/modules/Popup/PopupContent.js');
-}();
-
-;

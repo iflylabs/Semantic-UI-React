@@ -89,33 +89,16 @@ var mergeChildMappings = exports.mergeChildMappings = function mergeChildMapping
   (0, _forEach3.default)((0, _keys3.default)(next), function (nextKey) {
     if ((0, _has3.default)(nextKeysPending, nextKey)) {
       (0, _forEach3.default)(nextKeysPending[nextKey], function (pendingKey) {
-        childMapping[pendingKey] = getValue(pendingKey, next, prev);
+        childMapping[pendingKey] = getValue(pendingKey, prev, next);
       });
     }
 
-    childMapping[nextKey] = getValue(nextKey, next, prev);
+    childMapping[nextKey] = getValue(nextKey, prev, next);
   });
 
   (0, _forEach3.default)(pendingKeys, function (pendingKey) {
-    childMapping[pendingKey] = getValue(pendingKey, next, prev);
+    childMapping[pendingKey] = getValue(pendingKey, prev, next);
   });
 
   return childMapping;
 };
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(getChildMapping, 'getChildMapping', 'src/lib/childMapping.js');
-
-  __REACT_HOT_LOADER__.register(getPendingKeys, 'getPendingKeys', 'src/lib/childMapping.js');
-
-  __REACT_HOT_LOADER__.register(getValue, 'getValue', 'src/lib/childMapping.js');
-
-  __REACT_HOT_LOADER__.register(mergeChildMappings, 'mergeChildMappings', 'src/lib/childMapping.js');
-}();
-
-;

@@ -70,20 +70,3 @@ var partitionHTMLInputProps = exports.partitionHTMLInputProps = function partiti
 
   return [inputProps, rest];
 };
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(htmlInputAttrs, 'htmlInputAttrs', 'src/lib/htmlInputPropsUtils.js');
-
-  __REACT_HOT_LOADER__.register(htmlInputEvents, 'htmlInputEvents', 'src/lib/htmlInputPropsUtils.js');
-
-  __REACT_HOT_LOADER__.register(htmlInputProps, 'htmlInputProps', 'src/lib/htmlInputPropsUtils.js');
-
-  __REACT_HOT_LOADER__.register(partitionHTMLInputProps, 'partitionHTMLInputProps', 'src/lib/htmlInputPropsUtils.js');
-}();
-
-;

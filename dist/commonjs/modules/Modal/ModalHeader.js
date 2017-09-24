@@ -50,7 +50,7 @@ ModalHeader._meta = {
   parent: 'Modal'
 };
 
-process.env.NODE_ENV !== "production" ? ModalHeader.propTypes = {
+ModalHeader.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -62,24 +62,10 @@ process.env.NODE_ENV !== "production" ? ModalHeader.propTypes = {
 
   /** Shorthand for primary content. */
   content: _lib.customPropTypes.contentShorthand
-} : void 0;
+} : {};
 
 ModalHeader.create = (0, _lib.createShorthandFactory)(ModalHeader, function (content) {
   return { content: content };
 });
 
-var _default = ModalHeader;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(ModalHeader, 'ModalHeader', 'src/modules/Modal/ModalHeader.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Modal/ModalHeader.js');
-}();
-
-;
+exports.default = ModalHeader;

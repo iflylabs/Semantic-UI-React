@@ -8,6 +8,10 @@ var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
 
+var _without2 = require('lodash/without');
+
+var _without3 = _interopRequireDefault(_without2);
+
 var _map2 = require('lodash/map');
 
 var _map3 = _interopRequireDefault(_map2);
@@ -41,10 +45,11 @@ function CardGroup(props) {
       doubling = props.doubling,
       items = props.items,
       itemsPerRow = props.itemsPerRow,
-      stackable = props.stackable;
+      stackable = props.stackable,
+      textAlign = props.textAlign;
 
 
-  var classes = (0, _classnames2.default)('ui', (0, _lib.useKeyOnly)(doubling, 'doubling'), (0, _lib.useKeyOnly)(stackable, 'stackable'), (0, _lib.useWidthProp)(itemsPerRow), className, 'cards');
+  var classes = (0, _classnames2.default)('ui', (0, _lib.useKeyOnly)(doubling, 'doubling'), (0, _lib.useKeyOnly)(stackable, 'stackable'), (0, _lib.useTextAlignProp)(textAlign), (0, _lib.useWidthProp)(itemsPerRow), 'cards', className);
   var rest = (0, _lib.getUnhandledProps)(CardGroup, props);
   var ElementType = (0, _lib.getElementType)(CardGroup, props);
 
@@ -68,14 +73,14 @@ function CardGroup(props) {
   );
 }
 
-CardGroup.handledProps = ['as', 'children', 'className', 'doubling', 'items', 'itemsPerRow', 'stackable'];
+CardGroup.handledProps = ['as', 'children', 'className', 'doubling', 'items', 'itemsPerRow', 'stackable', 'textAlign'];
 CardGroup._meta = {
   name: 'CardGroup',
   parent: 'Card',
   type: _lib.META.TYPES.VIEW
 };
 
-process.env.NODE_ENV !== "production" ? CardGroup.propTypes = {
+CardGroup.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -95,21 +100,10 @@ process.env.NODE_ENV !== "production" ? CardGroup.propTypes = {
   itemsPerRow: _propTypes2.default.oneOf(_lib.SUI.WIDTHS),
 
   /** A group of cards can automatically stack rows to a single columns on mobile devices. */
-  stackable: _propTypes2.default.bool
-} : void 0;
+  stackable: _propTypes2.default.bool,
 
-var _default = CardGroup;
-exports.default = _default;
-;
+  /** A card group can adjust its text alignment. */
+  textAlign: _propTypes2.default.oneOf((0, _without3.default)(_lib.SUI.TEXT_ALIGNMENTS, 'justified'))
+} : {};
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(CardGroup, 'CardGroup', 'src/views/Card/CardGroup.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Card/CardGroup.js');
-}();
-
-;
+exports.default = CardGroup;

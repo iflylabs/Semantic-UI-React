@@ -60,7 +60,7 @@ SegmentGroup._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? SegmentGroup.propTypes = {
+SegmentGroup.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -87,20 +87,6 @@ process.env.NODE_ENV !== "production" ? SegmentGroup.propTypes = {
 
   /** Formatted to show it contains multiple pages. */
   stacked: _propTypes2.default.bool
-} : void 0;
+} : {};
 
-var _default = SegmentGroup;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(SegmentGroup, 'SegmentGroup', 'src/elements/Segment/SegmentGroup.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Segment/SegmentGroup.js');
-}();
-
-;
+exports.default = SegmentGroup;

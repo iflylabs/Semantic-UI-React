@@ -58,7 +58,7 @@ CommentGroup._meta = {
   type: _lib.META.TYPES.VIEW
 };
 
-process.env.NODE_ENV !== "production" ? CommentGroup.propTypes = {
+CommentGroup.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -79,20 +79,6 @@ process.env.NODE_ENV !== "production" ? CommentGroup.propTypes = {
 
   /** A comment list can be threaded to showing the relationship between conversations. */
   threaded: _propTypes2.default.bool
-} : void 0;
+} : {};
 
-var _default = CommentGroup;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(CommentGroup, 'CommentGroup', 'src/views/Comment/CommentGroup.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Comment/CommentGroup.js');
-}();
-
-;
+exports.default = CommentGroup;

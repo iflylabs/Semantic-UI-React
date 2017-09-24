@@ -8,6 +8,22 @@ var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
 
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -29,24 +45,46 @@ var names = ['ad', 'andorra', 'ae', 'united arab emirates', 'uae', 'af', 'afghan
 /**
  * A flag is is used to represent a political state.
  */
-function Flag(props) {
-  var className = props.className,
-      name = props.name;
 
-  var classes = (0, _classnames2.default)(name, 'flag', className);
-  var rest = (0, _lib.getUnhandledProps)(Flag, props);
-  var ElementType = (0, _lib.getElementType)(Flag, props);
+var Flag = function (_Component) {
+  (0, _inherits3.default)(Flag, _Component);
 
-  return _react2.default.createElement(ElementType, (0, _extends3.default)({}, rest, { className: classes }));
-}
+  function Flag() {
+    (0, _classCallCheck3.default)(this, Flag);
+    return (0, _possibleConstructorReturn3.default)(this, (Flag.__proto__ || Object.getPrototypeOf(Flag)).apply(this, arguments));
+  }
 
-Flag.handledProps = ['as', 'className', 'name'];
+  (0, _createClass3.default)(Flag, [{
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps) {
+      return !(0, _lib.shallowEqual)(this.props, nextProps);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          className = _props.className,
+          name = _props.name;
+
+      var classes = (0, _classnames2.default)(name, 'flag', className);
+      var rest = (0, _lib.getUnhandledProps)(Flag, this.props);
+      var ElementType = (0, _lib.getElementType)(Flag, this.props);
+
+      return _react2.default.createElement(ElementType, (0, _extends3.default)({}, rest, { className: classes }));
+    }
+  }]);
+  return Flag;
+}(_react.Component);
+
+Flag.defaultProps = {
+  as: 'i'
+};
 Flag._meta = {
   name: 'Flag',
   type: _lib.META.TYPES.ELEMENT
 };
-
-process.env.NODE_ENV !== "production" ? Flag.propTypes = {
+Flag.handledProps = ['as', 'className', 'name'];
+Flag.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -55,30 +93,11 @@ process.env.NODE_ENV !== "production" ? Flag.propTypes = {
 
   /** Flag name, can use the two digit country code, the full name, or a common alias. */
   name: _lib.customPropTypes.suggest(names)
-} : void 0;
+} : {};
 
-Flag.defaultProps = {
-  as: 'i'
-};
 
 Flag.create = (0, _lib.createShorthandFactory)(Flag, function (value) {
   return { name: value };
 });
 
-var _default = Flag;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(names, 'names', 'src/elements/Flag/Flag.js');
-
-  __REACT_HOT_LOADER__.register(Flag, 'Flag', 'src/elements/Flag/Flag.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Flag/Flag.js');
-}();
-
-;
+exports.default = Flag;

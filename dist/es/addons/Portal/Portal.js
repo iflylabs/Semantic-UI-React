@@ -9,9 +9,7 @@ import PropTypes from 'prop-types';
 import { Children, cloneElement } from 'react';
 import ReactDOM from 'react-dom';
 
-import { AutoControlledComponent as Component, isBrowser, keyboardKey, makeDebugger, META } from '../../lib';
-
-var debug = makeDebugger('portal');
+import { AutoControlledComponent as Component, eventStack, isBrowser, keyboardKey, META } from '../../lib';
 
 /**
  * A component that allows you to render children outside their parent.
@@ -20,7 +18,6 @@ var debug = makeDebugger('portal');
  * @see Dimmer
  * @see Confirm
  */
-
 var Portal = function (_Component) {
   _inherits(Portal, _Component);
 
@@ -50,15 +47,12 @@ var Portal = function (_Component) {
       var didClickInRootNode = _this.rootNode.contains(e.target);
 
       if (closeOnDocumentClick && !didClickInRootNode || closeOnRootNodeClick && didClickInRootNode) {
-        debug('handleDocumentClick()');
 
         _this.close(e);
       }
     }, _this.handleEscape = function (e) {
       if (!_this.props.closeOnEscape) return;
       if (keyboardKey.getCode(e) !== keyboardKey.Escape) return;
-
-      debug('handleEscape()');
 
       _this.close(e);
     }, _this.handlePortalMouseLeave = function (e) {
@@ -69,7 +63,6 @@ var Portal = function (_Component) {
 
       if (!closeOnPortalMouseLeave) return;
 
-      debug('handlePortalMouseLeave()');
       _this.mouseLeaveTimer = _this.closeWithTimeout(e, mouseLeaveDelay);
     }, _this.handlePortalMouseEnter = function () {
       // In order to enable mousing from the trigger to the portal, we need to
@@ -79,7 +72,6 @@ var Portal = function (_Component) {
 
       if (!closeOnPortalMouseLeave) return;
 
-      debug('handlePortalMouseEnter()');
       clearTimeout(_this.mouseLeaveTimer);
     }, _this.handleTriggerBlur = function (e) {
       var _this$props3 = _this.props,
@@ -95,7 +87,6 @@ var Portal = function (_Component) {
 
       if (!closeOnTriggerBlur || didFocusPortal) return;
 
-      debug('handleTriggerBlur()');
       _this.close(e);
     }, _this.handleTriggerClick = function (e) {
       var _this$props4 = _this.props,
@@ -109,11 +100,9 @@ var Portal = function (_Component) {
       _invoke(trigger, 'props.onClick', e);
 
       if (open && closeOnTriggerClick) {
-        debug('handleTriggerClick() - close');
 
         _this.close(e);
       } else if (!open && openOnTriggerClick) {
-        debug('handleTriggerClick() - open');
 
         _this.open(e);
       }
@@ -128,7 +117,6 @@ var Portal = function (_Component) {
 
       if (!openOnTriggerFocus) return;
 
-      debug('handleTriggerFocus()');
       _this.open(e);
     }, _this.handleTriggerMouseLeave = function (e) {
       clearTimeout(_this.mouseEnterTimer);
@@ -144,7 +132,6 @@ var Portal = function (_Component) {
 
       if (!closeOnTriggerMouseLeave) return;
 
-      debug('handleTriggerMouseLeave()');
       _this.mouseLeaveTimer = _this.closeWithTimeout(e, mouseLeaveDelay);
     }, _this.handleTriggerMouseEnter = function (e) {
       clearTimeout(_this.mouseLeaveTimer);
@@ -160,18 +147,14 @@ var Portal = function (_Component) {
 
       if (!openOnTriggerMouseEnter) return;
 
-      debug('handleTriggerMouseEnter()');
       _this.mouseEnterTimer = _this.openWithTimeout(e, mouseEnterDelay);
     }, _this.open = function (e) {
-      debug('open()');
-
       var onOpen = _this.props.onOpen;
 
       if (onOpen) onOpen(e, _this.props);
 
       _this.trySetState({ open: true });
     }, _this.openWithTimeout = function (e, delay) {
-      debug('openWithTimeout()', delay);
       // React wipes the entire event object and suggests using e.persist() if
       // you need the event for async access. However, even with e.persist
       // certain required props (e.g. currentTarget) are null so we're forced to clone.
@@ -180,15 +163,12 @@ var Portal = function (_Component) {
         return _this.open(eventClone);
       }, delay || 0);
     }, _this.close = function (e) {
-      debug('close()');
-
       var onClose = _this.props.onClose;
 
       if (onClose) onClose(e, _this.props);
 
       _this.trySetState({ open: false });
     }, _this.closeWithTimeout = function (e, delay) {
-      debug('closeWithTimeout()', delay);
       // React wipes the entire event object and suggests using e.persist() if
       // you need the event for async access. However, even with e.persist
       // certain required props (e.g. currentTarget) are null so we're forced to clone.
@@ -199,7 +179,6 @@ var Portal = function (_Component) {
     }, _this.mountPortal = function () {
       if (!isBrowser || _this.rootNode) return;
 
-      debug('mountPortal()');
       var iframeId = void 0;
       var frameContext = void 0;
       var frameContextBody = void 0;
@@ -215,6 +194,7 @@ var Portal = function (_Component) {
       }
       console.log(frameContextBody);
       var _this$props8 = _this.props,
+          eventPool = _this$props8.eventPool,
           _this$props8$mountNod = _this$props8.mountNode,
           mountNode = _this$props8$mountNod === undefined ? isBrowser ? frameContextBody.body : null : _this$props8$mountNod,
           prepend = _this$props8.prepend;
@@ -228,32 +208,27 @@ var Portal = function (_Component) {
         mountNode.appendChild(_this.rootNode);
       }
 
-      document.addEventListener('click', _this.handleDocumentClick);
-      document.addEventListener('keydown', _this.handleEscape);
-
-      var onMount = _this.props.onMount;
-
-      if (onMount) onMount(null, _this.props);
+      eventStack.sub('click', _this.handleDocumentClick, eventPool);
+      eventStack.sub('keydown', _this.handleEscape, eventPool);
+      _invoke(_this.props, 'onMount', null, _this.props);
     }, _this.unmountPortal = function () {
       if (!isBrowser || !_this.rootNode) return;
 
-      debug('unmountPortal()');
+      var eventPool = _this.props.eventPool;
+
 
       ReactDOM.unmountComponentAtNode(_this.rootNode);
       _this.rootNode.parentNode.removeChild(_this.rootNode);
 
-      _this.portalNode.removeEventListener('mouseleave', _this.handlePortalMouseLeave);
-      _this.portalNode.removeEventListener('mouseenter', _this.handlePortalMouseEnter);
+      eventStack.unsub('mouseleave', _this.handlePortalMouseLeave, { target: _this.portalNode });
+      eventStack.unsub('mouseenter', _this.handlePortalMouseEnter, { target: _this.portalNode });
 
       _this.rootNode = null;
       _this.portalNode = null;
 
-      document.removeEventListener('click', _this.handleDocumentClick);
-      document.removeEventListener('keydown', _this.handleEscape);
-
-      var onUnmount = _this.props.onUnmount;
-
-      if (onUnmount) onUnmount(null, _this.props);
+      eventStack.unsub('click', _this.handleDocumentClick, eventPool);
+      eventStack.unsub('keydown', _this.handleEscape, eventPool);
+      _invoke(_this.props, 'onUnmount', null, _this.props);
     }, _this.handleRef = function (c) {
       // TODO: Replace findDOMNode with Ref component when it will be merged
       _this.triggerNode = ReactDOM.findDOMNode(c); // eslint-disable-line react/no-find-dom-node
@@ -263,13 +238,11 @@ var Portal = function (_Component) {
   _createClass(Portal, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      debug('componentDidMount()');
       this.renderPortal();
     }
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate(prevProps, prevState) {
-      debug('componentDidUpdate()');
       // NOTE: Ideally the portal rendering would happen in the render() function
       // but React gives a warning about not being pure and suggests doing it
       // within this method.
@@ -278,7 +251,6 @@ var Portal = function (_Component) {
       this.renderPortal();
 
       if (prevState.open && !this.state.open) {
-        debug('portal closed');
         this.unmountPortal();
       }
     }
@@ -310,8 +282,6 @@ var Portal = function (_Component) {
       var _this2 = this;
 
       if (!this.state.open) return;
-      debug('renderPortal()');
-
       var _props = this.props,
           children = _props.children,
           className = _props.className;
@@ -326,15 +296,15 @@ var Portal = function (_Component) {
 
       // when re-rendering, first remove listeners before re-adding them to the new node
       if (this.portalNode) {
-        this.portalNode.removeEventListener('mouseleave', this.handlePortalMouseLeave);
-        this.portalNode.removeEventListener('mouseenter', this.handlePortalMouseEnter);
+        eventStack.unsub('mouseleave', this.handlePortalMouseLeave, { target: this.portalNode });
+        eventStack.unsub('mouseenter', this.handlePortalMouseEnter, { target: this.portalNode });
       }
 
       ReactDOM.unstable_renderSubtreeIntoContainer(this, Children.only(children), this.rootNode, function () {
         _this2.portalNode = _this2.rootNode.firstElementChild;
 
-        _this2.portalNode.addEventListener('mouseleave', _this2.handlePortalMouseLeave);
-        _this2.portalNode.addEventListener('mouseenter', _this2.handlePortalMouseEnter);
+        eventStack.sub('mouseleave', _this2.handlePortalMouseLeave, { target: _this2.portalNode });
+        eventStack.sub('mouseenter', _this2.handlePortalMouseEnter, { target: _this2.portalNode });
       });
     }
   }, {
@@ -362,6 +332,7 @@ var Portal = function (_Component) {
 Portal.defaultProps = {
   closeOnDocumentClick: true,
   closeOnEscape: true,
+  eventPool: 'default',
   openOnTriggerClick: true
 };
 Portal.autoControlledProps = ['open'];
@@ -369,8 +340,8 @@ Portal._meta = {
   name: 'Portal',
   type: META.TYPES.ADDON
 };
-Portal.handledProps = ['children', 'className', 'closeOnDocumentClick', 'closeOnEscape', 'closeOnPortalMouseLeave', 'closeOnRootNodeClick', 'closeOnTriggerBlur', 'closeOnTriggerClick', 'closeOnTriggerMouseLeave', 'defaultOpen', 'frame', 'mountNode', 'mouseEnterDelay', 'mouseLeaveDelay', 'onClose', 'onMount', 'onOpen', 'onUnmount', 'open', 'openOnTriggerClick', 'openOnTriggerFocus', 'openOnTriggerMouseEnter', 'prepend', 'trigger'];
-process.env.NODE_ENV !== "production" ? Portal.propTypes = {
+Portal.handledProps = ['children', 'className', 'closeOnDocumentClick', 'closeOnEscape', 'closeOnPortalMouseLeave', 'closeOnRootNodeClick', 'closeOnTriggerBlur', 'closeOnTriggerClick', 'closeOnTriggerMouseLeave', 'defaultOpen', 'eventPool', 'frame', 'mountNode', 'mouseEnterDelay', 'mouseLeaveDelay', 'onClose', 'onMount', 'onOpen', 'onUnmount', 'open', 'openOnTriggerClick', 'openOnTriggerFocus', 'openOnTriggerMouseEnter', 'prepend', 'trigger'];
+Portal.propTypes = process.env.NODE_ENV !== "production" ? {
   /** Primary content. */
   children: PropTypes.node.isRequired,
 
@@ -409,6 +380,9 @@ process.env.NODE_ENV !== "production" ? Portal.propTypes = {
 
   /** Initial value of open. */
   defaultOpen: PropTypes.bool,
+
+  /** Event pool namespace that is used to handle component events */
+  eventPool: PropTypes.string,
 
   /** The node where the portal should mount. */
   mountNode: PropTypes.any,
@@ -471,7 +445,7 @@ process.env.NODE_ENV !== "production" ? Portal.propTypes = {
 
   /**iFly Custom **/
   frame: PropTypes.string
-} : void 0;
+} : {};
 
 
 export default Portal;

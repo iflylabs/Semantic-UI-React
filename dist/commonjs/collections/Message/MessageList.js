@@ -58,7 +58,7 @@ MessageList._meta = {
   type: _lib.META.TYPES.COLLECTION
 };
 
-process.env.NODE_ENV !== "production" ? MessageList.propTypes = {
+MessageList.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -70,7 +70,7 @@ process.env.NODE_ENV !== "production" ? MessageList.propTypes = {
 
   /** Shorthand Message.Items. */
   items: _lib.customPropTypes.collectionShorthand
-} : void 0;
+} : {};
 
 MessageList.defaultProps = {
   as: 'ul'
@@ -80,18 +80,4 @@ MessageList.create = (0, _lib.createShorthandFactory)(MessageList, function (val
   return { items: val };
 });
 
-var _default = MessageList;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(MessageList, 'MessageList', 'src/collections/Message/MessageList.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Message/MessageList.js');
-}();
-
-;
+exports.default = MessageList;

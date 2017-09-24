@@ -85,7 +85,7 @@ TableCell.defaultProps = {
   as: 'td'
 };
 
-process.env.NODE_ENV !== "production" ? TableCell.propTypes = {
+TableCell.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -136,24 +136,10 @@ process.env.NODE_ENV !== "production" ? TableCell.propTypes = {
 
   /** A table can specify the width of individual columns independently. */
   width: _propTypes2.default.oneOf(_lib.SUI.WIDTHS)
-} : void 0;
+} : {};
 
 TableCell.create = (0, _lib.createShorthandFactory)(TableCell, function (content) {
   return { content: content };
 });
 
-var _default = TableCell;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(TableCell, 'TableCell', 'src/collections/Table/TableCell.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Table/TableCell.js');
-}();
-
-;
+exports.default = TableCell;

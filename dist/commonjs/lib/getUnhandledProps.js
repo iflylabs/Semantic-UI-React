@@ -23,18 +23,4 @@ var getUnhandledProps = function getUnhandledProps(Component, props) {
   }, {});
 };
 
-var _default = getUnhandledProps;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(getUnhandledProps, 'getUnhandledProps', 'src/lib/getUnhandledProps.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/lib/getUnhandledProps.js');
-}();
-
-;
+exports.default = getUnhandledProps;

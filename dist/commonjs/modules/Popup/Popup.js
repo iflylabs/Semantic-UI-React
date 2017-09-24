@@ -37,6 +37,14 @@ var _assign2 = require('lodash/assign');
 
 var _assign3 = _interopRequireDefault(_assign2);
 
+var _invoke2 = require('lodash/invoke');
+
+var _invoke3 = _interopRequireDefault(_invoke2);
+
+var _isArray2 = require('lodash/isArray');
+
+var _isArray3 = _interopRequireDefault(_isArray2);
+
 var _mapValues2 = require('lodash/mapValues');
 
 var _mapValues3 = _interopRequireDefault(_mapValues2);
@@ -81,8 +89,6 @@ var _PopupHeader2 = _interopRequireDefault(_PopupHeader);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var debug = (0, _lib.makeDebugger)('popup');
-
 var POSITIONS = exports.POSITIONS = ['top left', 'top right', 'bottom right', 'bottom left', 'right center', 'left center', 'top center', 'bottom center'];
 
 /**
@@ -104,29 +110,42 @@ var Popup = function (_Component) {
     }
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Popup.__proto__ || Object.getPrototypeOf(Popup)).call.apply(_ref, [this].concat(args))), _this), _this.state = {}, _this.hideOnScroll = function () {
-      var _this2;
+      _this.setState({ closed: true });
+      var frame = _this.getContext();
 
-      return (_this2 = _this).__hideOnScroll__REACT_HOT_LOADER__.apply(_this2, arguments);
-    }, _this.handleClose = function () {
-      var _this3;
+      _lib.eventStack.unsub('scroll', _this.hideOnScroll, { target: frame.contextWin });
 
-      return (_this3 = _this).__handleClose__REACT_HOT_LOADER__.apply(_this3, arguments);
-    }, _this.handleOpen = function () {
-      var _this4;
+      setTimeout(function () {
+        return _this.setState({ closed: false });
+      }, 50);
+    }, _this.handleClose = function (e) {
+      var onClose = _this.props.onClose;
 
-      return (_this4 = _this).__handleOpen__REACT_HOT_LOADER__.apply(_this4, arguments);
-    }, _this.handlePortalMount = function () {
-      var _this5;
+      if (onClose) onClose(e, _this.props);
+    }, _this.handleOpen = function (e) {
+      _this.coords = e.currentTarget.getBoundingClientRect();
 
-      return (_this5 = _this).__handlePortalMount__REACT_HOT_LOADER__.apply(_this5, arguments);
-    }, _this.handlePortalUnmount = function () {
-      var _this6;
+      var onOpen = _this.props.onOpen;
 
-      return (_this6 = _this).__handlePortalUnmount__REACT_HOT_LOADER__.apply(_this6, arguments);
-    }, _this.handlePopupRef = function () {
-      var _this7;
+      if (onOpen) onOpen(e, _this.props);
+    }, _this.handlePortalMount = function (e) {
 
-      return (_this7 = _this).__handlePopupRef__REACT_HOT_LOADER__.apply(_this7, arguments);
+      var frame = _this.getContext();
+
+      var hideOnScroll = _this.props.hideOnScroll;
+
+
+      if (hideOnScroll) _lib.eventStack.sub('scroll', _this.hideOnScroll, { target: frame.contextWin });
+      (0, _invoke3.default)(_this.props, 'onMount', e, _this.props);
+    }, _this.handlePortalUnmount = function (e) {
+      var hideOnScroll = _this.props.hideOnScroll;
+
+
+      if (hideOnScroll) _lib.eventStack.unsub('scroll', _this.hideOnScroll, { target: window });
+      (0, _invoke3.default)(_this.props, 'onUnmount', e, _this.props);
+    }, _this.handlePopupRef = function (popupRef) {
+      _this.popupCoords = popupRef ? popupRef.getBoundingClientRect() : null;
+      _this.setPopupStyle();
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
@@ -281,20 +300,22 @@ var Popup = function (_Component) {
           on = _props.on,
           hoverable = _props.hoverable;
 
+      var normalizedOn = (0, _isArray3.default)(on) ? on : [on];
 
       if (hoverable) {
         portalProps.closeOnPortalMouseLeave = true;
         portalProps.mouseLeaveDelay = 300;
       }
-
-      if (on === 'click') {
+      if ((0, _includes3.default)(normalizedOn, 'click')) {
         portalProps.openOnTriggerClick = true;
         portalProps.closeOnTriggerClick = true;
         portalProps.closeOnDocumentClick = true;
-      } else if (on === 'focus') {
+      }
+      if ((0, _includes3.default)(normalizedOn, 'focus')) {
         portalProps.openOnTriggerFocus = true;
         portalProps.closeOnTriggerBlur = true;
-      } else if (on === 'hover') {
+      }
+      if ((0, _includes3.default)(normalizedOn, 'hover')) {
         portalProps.openOnTriggerMouseEnter = true;
         portalProps.closeOnTriggerMouseLeave = true;
         // Taken from SUI: https://git.io/vPmCm
@@ -303,64 +324,6 @@ var Popup = function (_Component) {
       }
 
       return portalProps;
-    }
-  }, {
-    key: '__hideOnScroll__REACT_HOT_LOADER__',
-    value: function __hideOnScroll__REACT_HOT_LOADER__() {
-      var _this8 = this;
-
-      this.setState({ closed: true });
-      var frame = this.getContext();
-      frame.contextWin.removeEventListener('scroll', this.hideOnScroll);
-      setTimeout(function () {
-        return _this8.setState({ closed: false });
-      }, 50);
-    }
-  }, {
-    key: '__handleClose__REACT_HOT_LOADER__',
-    value: function __handleClose__REACT_HOT_LOADER__(e) {
-      debug('handleClose()');
-      var onClose = this.props.onClose;
-
-      if (onClose) onClose(e, this.props);
-    }
-  }, {
-    key: '__handleOpen__REACT_HOT_LOADER__',
-    value: function __handleOpen__REACT_HOT_LOADER__(e) {
-      debug('handleOpen()');
-      this.coords = e.currentTarget.getBoundingClientRect();
-
-      var onOpen = this.props.onOpen;
-
-      if (onOpen) onOpen(e, this.props);
-    }
-  }, {
-    key: '__handlePortalMount__REACT_HOT_LOADER__',
-    value: function __handlePortalMount__REACT_HOT_LOADER__(e) {
-      debug('handlePortalMount()');
-      var frame = this.getContext();
-      if (this.props.hideOnScroll) {
-        frame.contextWin.addEventListener('scroll', this.hideOnScroll);
-      }
-
-      var onMount = this.props.onMount;
-
-      if (onMount) onMount(e, this.props);
-    }
-  }, {
-    key: '__handlePortalUnmount__REACT_HOT_LOADER__',
-    value: function __handlePortalUnmount__REACT_HOT_LOADER__(e) {
-      debug('handlePortalUnmount()');
-      var onUnmount = this.props.onUnmount;
-
-      if (onUnmount) onUnmount(e, this.props);
-    }
-  }, {
-    key: '__handlePopupRef__REACT_HOT_LOADER__',
-    value: function __handlePopupRef__REACT_HOT_LOADER__(popupRef) {
-      debug('popupMounted()');
-      this.popupCoords = popupRef ? popupRef.getBoundingClientRect() : null;
-      this.setPopupStyle();
     }
   }, {
     key: 'render',
@@ -402,7 +365,7 @@ var Popup = function (_Component) {
       );
 
       var mergedPortalProps = (0, _extends3.default)({}, this.getPortalProps(), portalProps);
-      debug('portal props:', mergedPortalProps);
+
 
       return _react2.default.createElement(
         _Portal2.default,
@@ -432,9 +395,8 @@ Popup._meta = {
 Popup.Content = _PopupContent2.default;
 Popup.Header = _PopupHeader2.default;
 Popup.handledProps = ['basic', 'children', 'className', 'content', 'flowing', 'frame', 'header', 'hideOnScroll', 'hoverable', 'inverted', 'offset', 'on', 'onClose', 'onMount', 'onOpen', 'onUnmount', 'position', 'size', 'style', 'trigger', 'wide'];
-var _default = Popup;
-exports.default = _default;
-process.env.NODE_ENV !== "production" ? Popup.propTypes = {
+exports.default = Popup;
+Popup.propTypes = process.env.NODE_ENV !== "production" ? {
   /** Display the popup without the pointing arrow. */
   basic: _propTypes2.default.bool,
 
@@ -469,8 +431,8 @@ process.env.NODE_ENV !== "production" ? Popup.propTypes = {
   /** Horizontal offset in pixels to be applied to the Popup. */
   offset: _propTypes2.default.number,
 
-  /** Event triggering the popup. */
-  on: _propTypes2.default.oneOf(['hover', 'click', 'focus']),
+  /** Events triggering the popup. */
+  on: _propTypes2.default.oneOfType([_propTypes2.default.oneOf(['hover', 'click', 'focus']), _propTypes2.default.arrayOf(_propTypes2.default.oneOf(['hover', 'click', 'focus']))]),
 
   /**
    * Called when a close event happens.
@@ -521,21 +483,4 @@ process.env.NODE_ENV !== "production" ? Popup.propTypes = {
 
   /**iFly Custom **/
   frame: _propTypes2.default.string
-} : void 0;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(debug, 'debug', 'src/modules/Popup/Popup.js');
-
-  __REACT_HOT_LOADER__.register(POSITIONS, 'POSITIONS', 'src/modules/Popup/Popup.js');
-
-  __REACT_HOT_LOADER__.register(Popup, 'Popup', 'src/modules/Popup/Popup.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Popup/Popup.js');
-}();
-
-;
+} : {};

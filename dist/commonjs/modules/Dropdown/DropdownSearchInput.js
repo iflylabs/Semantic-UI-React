@@ -65,30 +65,16 @@ var DropdownSearchInput = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = DropdownSearchInput.__proto__ || Object.getPrototypeOf(DropdownSearchInput)).call.apply(_ref, [this].concat(args))), _this), _this.handleChange = function () {
-      var _this2;
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = DropdownSearchInput.__proto__ || Object.getPrototypeOf(DropdownSearchInput)).call.apply(_ref, [this].concat(args))), _this), _this.handleChange = function (e) {
+      var value = (0, _get3.default)(e, 'target.value');
 
-      return (_this2 = _this).__handleChange__REACT_HOT_LOADER__.apply(_this2, arguments);
-    }, _this.handleRef = function () {
-      var _this3;
-
-      return (_this3 = _this).__handleRef__REACT_HOT_LOADER__.apply(_this3, arguments);
+      (0, _invoke3.default)(_this.props, 'onChange', e, (0, _extends3.default)({}, _this.props, { value: value }));
+    }, _this.handleRef = function (c) {
+      return (0, _invoke3.default)(_this.props, 'inputRef', c);
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(DropdownSearchInput, [{
-    key: '__handleChange__REACT_HOT_LOADER__',
-    value: function __handleChange__REACT_HOT_LOADER__(e) {
-      var value = (0, _get3.default)(e, 'target.value');
-
-      (0, _invoke3.default)(this.props, 'onChange', e, (0, _extends3.default)({}, this.props, { value: value }));
-    }
-  }, {
-    key: '__handleRef__REACT_HOT_LOADER__',
-    value: function __handleRef__REACT_HOT_LOADER__(c) {
-      return (0, _invoke3.default)(this.props, 'inputRef', c);
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -124,7 +110,7 @@ DropdownSearchInput._meta = {
   type: _lib.META.TYPES.MODULE
 };
 DropdownSearchInput.handledProps = ['as', 'className', 'inputRef', 'tabIndex', 'type', 'value'];
-process.env.NODE_ENV !== "production" ? DropdownSearchInput.propTypes = {
+DropdownSearchInput.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -142,25 +128,11 @@ process.env.NODE_ENV !== "production" ? DropdownSearchInput.propTypes = {
 
   /** Stored value. */
   value: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string])
-} : void 0;
+} : {};
 
 
 DropdownSearchInput.create = (0, _lib.createShorthandFactory)(DropdownSearchInput, function (type) {
   return { type: type };
 });
 
-var _default = DropdownSearchInput;
-exports.default = _default;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(DropdownSearchInput, 'DropdownSearchInput', 'src/modules/Dropdown/DropdownSearchInput.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Dropdown/DropdownSearchInput.js');
-}();
-
-;
+exports.default = DropdownSearchInput;

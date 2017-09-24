@@ -106,7 +106,7 @@ Item.Header = _ItemHeader2.default;
 Item.Image = _ItemImage2.default;
 Item.Meta = _ItemMeta2.default;
 
-process.env.NODE_ENV !== "production" ? Item.propTypes = {
+Item.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -133,20 +133,6 @@ process.env.NODE_ENV !== "production" ? Item.propTypes = {
 
   /** Shorthand for ItemMeta component. */
   meta: _lib.customPropTypes.itemShorthand
-} : void 0;
+} : {};
 
-var _default = Item;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Item, 'Item', 'src/views/Item/Item.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Item/Item.js');
-}();
-
-;
+exports.default = Item;

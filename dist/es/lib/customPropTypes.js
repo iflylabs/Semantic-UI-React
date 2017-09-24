@@ -275,7 +275,7 @@ export var contentShorthand = function contentShorthand() {
  * a props object, or an element.
  */
 export var itemShorthand = function itemShorthand() {
-  return every([disallow(['children']), PropTypes.oneOfType([PropTypes.node, PropTypes.object])]).apply(undefined, arguments);
+  return every([disallow(['children']), PropTypes.oneOfType([PropTypes.node, PropTypes.object, PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.node, PropTypes.object]))])]).apply(undefined, arguments);
 };
 
 /**

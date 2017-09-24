@@ -106,7 +106,7 @@ Image._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? Image.propTypes = {
+Image.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -177,10 +177,8 @@ process.env.NODE_ENV !== "production" ? Image.propTypes = {
   width: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.number]),
 
   /** An image can render wrapped in a `div.ui.image` as alternative HTML markup. */
-  wrapped: _lib.customPropTypes.every([_propTypes2.default.bool,
-  // these props wrap the image in an a tag already
-  _lib.customPropTypes.disallow(['href'])])
-} : void 0;
+  wrapped: _propTypes2.default.bool
+} : {};
 
 Image.defaultProps = {
   as: 'img',
@@ -191,18 +189,4 @@ Image.create = (0, _lib.createShorthandFactory)(Image, function (value) {
   return { src: value };
 });
 
-var _default = Image;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Image, 'Image', 'src/elements/Image/Image.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Image/Image.js');
-}();
-
-;
+exports.default = Image;

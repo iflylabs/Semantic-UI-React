@@ -84,7 +84,7 @@ ItemGroup._meta = {
   parent: 'Item'
 };
 
-process.env.NODE_ENV !== "production" ? ItemGroup.propTypes = {
+ItemGroup.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -108,20 +108,6 @@ process.env.NODE_ENV !== "production" ? ItemGroup.propTypes = {
 
   /** Prevent items from stacking on mobile. */
   unstackable: _propTypes2.default.bool
-} : void 0;
+} : {};
 
-var _default = ItemGroup;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(ItemGroup, 'ItemGroup', 'src/views/Item/ItemGroup.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Item/ItemGroup.js');
-}();
-
-;
+exports.default = ItemGroup;

@@ -42,8 +42,6 @@ var _lib = require('../../lib');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var debug = (0, _lib.makeDebugger)('portal');
-
 /**
  * A component that allows you to render children outside their parent.
  * @see Modal
@@ -51,7 +49,6 @@ var debug = (0, _lib.makeDebugger)('portal');
  * @see Dimmer
  * @see Confirm
  */
-
 var Portal = function (_Component) {
   (0, _inherits3.default)(Portal, _Component);
 
@@ -66,83 +63,217 @@ var Portal = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Portal.__proto__ || Object.getPrototypeOf(Portal)).call.apply(_ref, [this].concat(args))), _this), _this.handleDocumentClick = function () {
-      var _this2;
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Portal.__proto__ || Object.getPrototypeOf(Portal)).call.apply(_ref, [this].concat(args))), _this), _this.handleDocumentClick = function (e) {
+      var _this$props = _this.props,
+          closeOnDocumentClick = _this$props.closeOnDocumentClick,
+          closeOnRootNodeClick = _this$props.closeOnRootNodeClick;
 
-      return (_this2 = _this).__handleDocumentClick__REACT_HOT_LOADER__.apply(_this2, arguments);
-    }, _this.handleEscape = function () {
-      var _this3;
 
-      return (_this3 = _this).__handleEscape__REACT_HOT_LOADER__.apply(_this3, arguments);
-    }, _this.handlePortalMouseLeave = function () {
-      var _this4;
+      if (!_this.rootNode // not mounted
+      || !_this.portalNode // no portal
+      || (0, _invoke3.default)(_this, 'triggerNode.contains', e.target) // event happened in trigger (delegate to trigger handlers)
+      || (0, _invoke3.default)(_this, 'portalNode.contains', e.target) // event happened in the portal
+      ) return; // ignore the click
 
-      return (_this4 = _this).__handlePortalMouseLeave__REACT_HOT_LOADER__.apply(_this4, arguments);
+      var didClickInRootNode = _this.rootNode.contains(e.target);
+
+      if (closeOnDocumentClick && !didClickInRootNode || closeOnRootNodeClick && didClickInRootNode) {
+
+        _this.close(e);
+      }
+    }, _this.handleEscape = function (e) {
+      if (!_this.props.closeOnEscape) return;
+      if (_lib.keyboardKey.getCode(e) !== _lib.keyboardKey.Escape) return;
+
+      _this.close(e);
+    }, _this.handlePortalMouseLeave = function (e) {
+      var _this$props2 = _this.props,
+          closeOnPortalMouseLeave = _this$props2.closeOnPortalMouseLeave,
+          mouseLeaveDelay = _this$props2.mouseLeaveDelay;
+
+
+      if (!closeOnPortalMouseLeave) return;
+
+      _this.mouseLeaveTimer = _this.closeWithTimeout(e, mouseLeaveDelay);
     }, _this.handlePortalMouseEnter = function () {
-      var _this5;
+      // In order to enable mousing from the trigger to the portal, we need to
+      // clear the mouseleave timer that was set when leaving the trigger.
+      var closeOnPortalMouseLeave = _this.props.closeOnPortalMouseLeave;
 
-      return (_this5 = _this).__handlePortalMouseEnter__REACT_HOT_LOADER__.apply(_this5, arguments);
-    }, _this.handleTriggerBlur = function () {
-      var _this6;
 
-      return (_this6 = _this).__handleTriggerBlur__REACT_HOT_LOADER__.apply(_this6, arguments);
-    }, _this.handleTriggerClick = function () {
-      var _this7;
+      if (!closeOnPortalMouseLeave) return;
 
-      return (_this7 = _this).__handleTriggerClick__REACT_HOT_LOADER__.apply(_this7, arguments);
-    }, _this.handleTriggerFocus = function () {
-      var _this8;
+      clearTimeout(_this.mouseLeaveTimer);
+    }, _this.handleTriggerBlur = function (e) {
+      var _this$props3 = _this.props,
+          trigger = _this$props3.trigger,
+          closeOnTriggerBlur = _this$props3.closeOnTriggerBlur;
 
-      return (_this8 = _this).__handleTriggerFocus__REACT_HOT_LOADER__.apply(_this8, arguments);
-    }, _this.handleTriggerMouseLeave = function () {
-      var _this9;
+      // Call original event handler
 
-      return (_this9 = _this).__handleTriggerMouseLeave__REACT_HOT_LOADER__.apply(_this9, arguments);
-    }, _this.handleTriggerMouseEnter = function () {
-      var _this10;
+      (0, _invoke3.default)(trigger, 'props.onBlur', e);
 
-      return (_this10 = _this).__handleTriggerMouseEnter__REACT_HOT_LOADER__.apply(_this10, arguments);
-    }, _this.open = function () {
-      var _this11;
+      // do not close if focus is given to the portal
+      var didFocusPortal = (0, _invoke3.default)(_this, 'rootNode.contains', e.relatedTarget);
 
-      return (_this11 = _this).__open__REACT_HOT_LOADER__.apply(_this11, arguments);
-    }, _this.openWithTimeout = function () {
-      var _this12;
+      if (!closeOnTriggerBlur || didFocusPortal) return;
 
-      return (_this12 = _this).__openWithTimeout__REACT_HOT_LOADER__.apply(_this12, arguments);
-    }, _this.close = function () {
-      var _this13;
+      _this.close(e);
+    }, _this.handleTriggerClick = function (e) {
+      var _this$props4 = _this.props,
+          trigger = _this$props4.trigger,
+          closeOnTriggerClick = _this$props4.closeOnTriggerClick,
+          openOnTriggerClick = _this$props4.openOnTriggerClick;
+      var open = _this.state.open;
 
-      return (_this13 = _this).__close__REACT_HOT_LOADER__.apply(_this13, arguments);
-    }, _this.closeWithTimeout = function () {
-      var _this14;
+      // Call original event handler
 
-      return (_this14 = _this).__closeWithTimeout__REACT_HOT_LOADER__.apply(_this14, arguments);
+      (0, _invoke3.default)(trigger, 'props.onClick', e);
+
+      if (open && closeOnTriggerClick) {
+
+        _this.close(e);
+      } else if (!open && openOnTriggerClick) {
+
+        _this.open(e);
+      }
+    }, _this.handleTriggerFocus = function (e) {
+      var _this$props5 = _this.props,
+          trigger = _this$props5.trigger,
+          openOnTriggerFocus = _this$props5.openOnTriggerFocus;
+
+      // Call original event handler
+
+      (0, _invoke3.default)(trigger, 'props.onFocus', e);
+
+      if (!openOnTriggerFocus) return;
+
+      _this.open(e);
+    }, _this.handleTriggerMouseLeave = function (e) {
+      clearTimeout(_this.mouseEnterTimer);
+
+      var _this$props6 = _this.props,
+          trigger = _this$props6.trigger,
+          closeOnTriggerMouseLeave = _this$props6.closeOnTriggerMouseLeave,
+          mouseLeaveDelay = _this$props6.mouseLeaveDelay;
+
+      // Call original event handler
+
+      (0, _invoke3.default)(trigger, 'props.onMouseLeave', e);
+
+      if (!closeOnTriggerMouseLeave) return;
+
+      _this.mouseLeaveTimer = _this.closeWithTimeout(e, mouseLeaveDelay);
+    }, _this.handleTriggerMouseEnter = function (e) {
+      clearTimeout(_this.mouseLeaveTimer);
+
+      var _this$props7 = _this.props,
+          trigger = _this$props7.trigger,
+          mouseEnterDelay = _this$props7.mouseEnterDelay,
+          openOnTriggerMouseEnter = _this$props7.openOnTriggerMouseEnter;
+
+      // Call original event handler
+
+      (0, _invoke3.default)(trigger, 'props.onMouseEnter', _this.handleTriggerMouseEnter);
+
+      if (!openOnTriggerMouseEnter) return;
+
+      _this.mouseEnterTimer = _this.openWithTimeout(e, mouseEnterDelay);
+    }, _this.open = function (e) {
+      var onOpen = _this.props.onOpen;
+
+      if (onOpen) onOpen(e, _this.props);
+
+      _this.trySetState({ open: true });
+    }, _this.openWithTimeout = function (e, delay) {
+      // React wipes the entire event object and suggests using e.persist() if
+      // you need the event for async access. However, even with e.persist
+      // certain required props (e.g. currentTarget) are null so we're forced to clone.
+      var eventClone = (0, _extends3.default)({}, e);
+      return setTimeout(function () {
+        return _this.open(eventClone);
+      }, delay || 0);
+    }, _this.close = function (e) {
+      var onClose = _this.props.onClose;
+
+      if (onClose) onClose(e, _this.props);
+
+      _this.trySetState({ open: false });
+    }, _this.closeWithTimeout = function (e, delay) {
+      // React wipes the entire event object and suggests using e.persist() if
+      // you need the event for async access. However, even with e.persist
+      // certain required props (e.g. currentTarget) are null so we're forced to clone.
+      var eventClone = (0, _extends3.default)({}, e);
+      return setTimeout(function () {
+        return _this.close(eventClone);
+      }, delay || 0);
     }, _this.mountPortal = function () {
-      var _this15;
+      if (!_lib.isBrowser || _this.rootNode) return;
 
-      return (_this15 = _this).__mountPortal__REACT_HOT_LOADER__.apply(_this15, arguments);
+      var iframeId = void 0;
+      var frameContext = void 0;
+      var frameContextBody = void 0;
+
+      /** iFly Custom Code **/
+      console.log(_this.props.frame);
+      if (_this.props.frame) {
+        iframeId = _this.props.frame;
+        frameContext = document.getElementById(iframeId);
+        frameContextBody = frameContext.contentDocument || frameContext.contentWindow.document;
+      } else {
+        frameContextBody = document;
+      }
+      console.log(frameContextBody);
+      var _this$props8 = _this.props,
+          eventPool = _this$props8.eventPool,
+          _this$props8$mountNod = _this$props8.mountNode,
+          mountNode = _this$props8$mountNod === undefined ? _lib.isBrowser ? frameContextBody.body : null : _this$props8$mountNod,
+          prepend = _this$props8.prepend;
+
+
+      _this.rootNode = document.createElement('div');
+
+      if (prepend) {
+        mountNode.insertBefore(_this.rootNode, mountNode.firstElementChild);
+      } else {
+        mountNode.appendChild(_this.rootNode);
+      }
+
+      _lib.eventStack.sub('click', _this.handleDocumentClick, eventPool);
+      _lib.eventStack.sub('keydown', _this.handleEscape, eventPool);
+      (0, _invoke3.default)(_this.props, 'onMount', null, _this.props);
     }, _this.unmountPortal = function () {
-      var _this16;
+      if (!_lib.isBrowser || !_this.rootNode) return;
 
-      return (_this16 = _this).__unmountPortal__REACT_HOT_LOADER__.apply(_this16, arguments);
-    }, _this.handleRef = function () {
-      var _this17;
+      var eventPool = _this.props.eventPool;
 
-      return (_this17 = _this).__handleRef__REACT_HOT_LOADER__.apply(_this17, arguments);
+
+      _reactDom2.default.unmountComponentAtNode(_this.rootNode);
+      _this.rootNode.parentNode.removeChild(_this.rootNode);
+
+      _lib.eventStack.unsub('mouseleave', _this.handlePortalMouseLeave, { target: _this.portalNode });
+      _lib.eventStack.unsub('mouseenter', _this.handlePortalMouseEnter, { target: _this.portalNode });
+
+      _this.rootNode = null;
+      _this.portalNode = null;
+
+      _lib.eventStack.unsub('click', _this.handleDocumentClick, eventPool);
+      _lib.eventStack.unsub('keydown', _this.handleEscape, eventPool);
+      (0, _invoke3.default)(_this.props, 'onUnmount', null, _this.props);
+    }, _this.handleRef = function (c) {
+      // TODO: Replace findDOMNode with Ref component when it will be merged
+      _this.triggerNode = _reactDom2.default.findDOMNode(c); // eslint-disable-line react/no-find-dom-node
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(Portal, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      debug('componentDidMount()');
       this.renderPortal();
     }
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate(prevProps, prevState) {
-      debug('componentDidUpdate()');
       // NOTE: Ideally the portal rendering would happen in the render() function
       // but React gives a warning about not being pure and suggests doing it
       // within this method.
@@ -151,7 +282,6 @@ var Portal = function (_Component) {
       this.renderPortal();
 
       if (prevState.open && !this.state.open) {
-        debug('portal closed');
         this.unmountPortal();
       }
     }
@@ -169,233 +299,23 @@ var Portal = function (_Component) {
     // Document Event Handlers
     // ----------------------------------------
 
-  }, {
-    key: '__handleDocumentClick__REACT_HOT_LOADER__',
-    value: function __handleDocumentClick__REACT_HOT_LOADER__(e) {
-      var _props = this.props,
-          closeOnDocumentClick = _props.closeOnDocumentClick,
-          closeOnRootNodeClick = _props.closeOnRootNodeClick;
-
-
-      if (!this.rootNode // not mounted
-      || !this.portalNode // no portal
-      || (0, _invoke3.default)(this, 'triggerNode.contains', e.target) // event happened in trigger (delegate to trigger handlers)
-      || (0, _invoke3.default)(this, 'portalNode.contains', e.target) // event happened in the portal
-      ) return; // ignore the click
-
-      var didClickInRootNode = this.rootNode.contains(e.target);
-
-      if (closeOnDocumentClick && !didClickInRootNode || closeOnRootNodeClick && didClickInRootNode) {
-        debug('handleDocumentClick()');
-
-        this.close(e);
-      }
-    }
-  }, {
-    key: '__handleEscape__REACT_HOT_LOADER__',
-
-
     // ----------------------------------------
     // Component Event Handlers
     // ----------------------------------------
-
-    value: function __handleEscape__REACT_HOT_LOADER__(e) {
-      if (!this.props.closeOnEscape) return;
-      if (_lib.keyboardKey.getCode(e) !== _lib.keyboardKey.Escape) return;
-
-      debug('handleEscape()');
-
-      this.close(e);
-    }
-  }, {
-    key: '__handlePortalMouseLeave__REACT_HOT_LOADER__',
-    value: function __handlePortalMouseLeave__REACT_HOT_LOADER__(e) {
-      var _props2 = this.props,
-          closeOnPortalMouseLeave = _props2.closeOnPortalMouseLeave,
-          mouseLeaveDelay = _props2.mouseLeaveDelay;
-
-
-      if (!closeOnPortalMouseLeave) return;
-
-      debug('handlePortalMouseLeave()');
-      this.mouseLeaveTimer = this.closeWithTimeout(e, mouseLeaveDelay);
-    }
-  }, {
-    key: '__handlePortalMouseEnter__REACT_HOT_LOADER__',
-    value: function __handlePortalMouseEnter__REACT_HOT_LOADER__() {
-      // In order to enable mousing from the trigger to the portal, we need to
-      // clear the mouseleave timer that was set when leaving the trigger.
-      var closeOnPortalMouseLeave = this.props.closeOnPortalMouseLeave;
-
-
-      if (!closeOnPortalMouseLeave) return;
-
-      debug('handlePortalMouseEnter()');
-      clearTimeout(this.mouseLeaveTimer);
-    }
-  }, {
-    key: '__handleTriggerBlur__REACT_HOT_LOADER__',
-    value: function __handleTriggerBlur__REACT_HOT_LOADER__(e) {
-      var _props3 = this.props,
-          trigger = _props3.trigger,
-          closeOnTriggerBlur = _props3.closeOnTriggerBlur;
-
-      // Call original event handler
-
-      (0, _invoke3.default)(trigger, 'props.onBlur', e);
-
-      // do not close if focus is given to the portal
-      var didFocusPortal = (0, _invoke3.default)(this, 'rootNode.contains', e.relatedTarget);
-
-      if (!closeOnTriggerBlur || didFocusPortal) return;
-
-      debug('handleTriggerBlur()');
-      this.close(e);
-    }
-  }, {
-    key: '__handleTriggerClick__REACT_HOT_LOADER__',
-    value: function __handleTriggerClick__REACT_HOT_LOADER__(e) {
-      var _props4 = this.props,
-          trigger = _props4.trigger,
-          closeOnTriggerClick = _props4.closeOnTriggerClick,
-          openOnTriggerClick = _props4.openOnTriggerClick;
-      var open = this.state.open;
-
-      // Call original event handler
-
-      (0, _invoke3.default)(trigger, 'props.onClick', e);
-
-      if (open && closeOnTriggerClick) {
-        debug('handleTriggerClick() - close');
-
-        this.close(e);
-      } else if (!open && openOnTriggerClick) {
-        debug('handleTriggerClick() - open');
-
-        this.open(e);
-      }
-    }
-  }, {
-    key: '__handleTriggerFocus__REACT_HOT_LOADER__',
-    value: function __handleTriggerFocus__REACT_HOT_LOADER__(e) {
-      var _props5 = this.props,
-          trigger = _props5.trigger,
-          openOnTriggerFocus = _props5.openOnTriggerFocus;
-
-      // Call original event handler
-
-      (0, _invoke3.default)(trigger, 'props.onFocus', e);
-
-      if (!openOnTriggerFocus) return;
-
-      debug('handleTriggerFocus()');
-      this.open(e);
-    }
-  }, {
-    key: '__handleTriggerMouseLeave__REACT_HOT_LOADER__',
-    value: function __handleTriggerMouseLeave__REACT_HOT_LOADER__(e) {
-      clearTimeout(this.mouseEnterTimer);
-
-      var _props6 = this.props,
-          trigger = _props6.trigger,
-          closeOnTriggerMouseLeave = _props6.closeOnTriggerMouseLeave,
-          mouseLeaveDelay = _props6.mouseLeaveDelay;
-
-      // Call original event handler
-
-      (0, _invoke3.default)(trigger, 'props.onMouseLeave', e);
-
-      if (!closeOnTriggerMouseLeave) return;
-
-      debug('handleTriggerMouseLeave()');
-      this.mouseLeaveTimer = this.closeWithTimeout(e, mouseLeaveDelay);
-    }
-  }, {
-    key: '__handleTriggerMouseEnter__REACT_HOT_LOADER__',
-
 
     // ----------------------------------------
     // Behavior
     // ----------------------------------------
 
-    value: function __handleTriggerMouseEnter__REACT_HOT_LOADER__(e) {
-      clearTimeout(this.mouseLeaveTimer);
-
-      var _props7 = this.props,
-          trigger = _props7.trigger,
-          mouseEnterDelay = _props7.mouseEnterDelay,
-          openOnTriggerMouseEnter = _props7.openOnTriggerMouseEnter;
-
-      // Call original event handler
-
-      (0, _invoke3.default)(trigger, 'props.onMouseEnter', this.handleTriggerMouseEnter);
-
-      if (!openOnTriggerMouseEnter) return;
-
-      debug('handleTriggerMouseEnter()');
-      this.mouseEnterTimer = this.openWithTimeout(e, mouseEnterDelay);
-    }
-  }, {
-    key: '__open__REACT_HOT_LOADER__',
-    value: function __open__REACT_HOT_LOADER__(e) {
-      debug('open()');
-
-      var onOpen = this.props.onOpen;
-
-      if (onOpen) onOpen(e, this.props);
-
-      this.trySetState({ open: true });
-    }
-  }, {
-    key: '__openWithTimeout__REACT_HOT_LOADER__',
-    value: function __openWithTimeout__REACT_HOT_LOADER__(e, delay) {
-      var _this18 = this;
-
-      debug('openWithTimeout()', delay);
-      // React wipes the entire event object and suggests using e.persist() if
-      // you need the event for async access. However, even with e.persist
-      // certain required props (e.g. currentTarget) are null so we're forced to clone.
-      var eventClone = (0, _extends3.default)({}, e);
-      return setTimeout(function () {
-        return _this18.open(eventClone);
-      }, delay || 0);
-    }
-  }, {
-    key: '__close__REACT_HOT_LOADER__',
-    value: function __close__REACT_HOT_LOADER__(e) {
-      debug('close()');
-
-      var onClose = this.props.onClose;
-
-      if (onClose) onClose(e, this.props);
-
-      this.trySetState({ open: false });
-    }
-  }, {
-    key: '__closeWithTimeout__REACT_HOT_LOADER__',
-    value: function __closeWithTimeout__REACT_HOT_LOADER__(e, delay) {
-      var _this19 = this;
-
-      debug('closeWithTimeout()', delay);
-      // React wipes the entire event object and suggests using e.persist() if
-      // you need the event for async access. However, even with e.persist
-      // certain required props (e.g. currentTarget) are null so we're forced to clone.
-      var eventClone = (0, _extends3.default)({}, e);
-      return setTimeout(function () {
-        return _this19.close(eventClone);
-      }, delay || 0);
-    }
   }, {
     key: 'renderPortal',
     value: function renderPortal() {
-      var _this20 = this;
+      var _this2 = this;
 
       if (!this.state.open) return;
-      debug('renderPortal()');
-
-      var _props8 = this.props,
-          children = _props8.children,
-          className = _props8.className;
+      var _props = this.props,
+          children = _props.children,
+          className = _props.className;
 
 
       this.mountPortal();
@@ -407,86 +327,16 @@ var Portal = function (_Component) {
 
       // when re-rendering, first remove listeners before re-adding them to the new node
       if (this.portalNode) {
-        this.portalNode.removeEventListener('mouseleave', this.handlePortalMouseLeave);
-        this.portalNode.removeEventListener('mouseenter', this.handlePortalMouseEnter);
+        _lib.eventStack.unsub('mouseleave', this.handlePortalMouseLeave, { target: this.portalNode });
+        _lib.eventStack.unsub('mouseenter', this.handlePortalMouseEnter, { target: this.portalNode });
       }
 
       _reactDom2.default.unstable_renderSubtreeIntoContainer(this, _react.Children.only(children), this.rootNode, function () {
-        _this20.portalNode = _this20.rootNode.firstElementChild;
+        _this2.portalNode = _this2.rootNode.firstElementChild;
 
-        _this20.portalNode.addEventListener('mouseleave', _this20.handlePortalMouseLeave);
-        _this20.portalNode.addEventListener('mouseenter', _this20.handlePortalMouseEnter);
+        _lib.eventStack.sub('mouseleave', _this2.handlePortalMouseLeave, { target: _this2.portalNode });
+        _lib.eventStack.sub('mouseenter', _this2.handlePortalMouseEnter, { target: _this2.portalNode });
       });
-    }
-  }, {
-    key: '__mountPortal__REACT_HOT_LOADER__',
-    value: function __mountPortal__REACT_HOT_LOADER__() {
-      if (!_lib.isBrowser || this.rootNode) return;
-
-      debug('mountPortal()');
-      var iframeId = void 0;
-      var frameContext = void 0;
-      var frameContextBody = void 0;
-
-      /** iFly Custom Code **/
-      console.log(this.props.frame);
-      if (this.props.frame) {
-        iframeId = this.props.frame;
-        frameContext = document.getElementById(iframeId);
-        frameContextBody = frameContext.contentDocument || frameContext.contentWindow.document;
-      } else {
-        frameContextBody = document;
-      }
-      console.log(frameContextBody);
-      var _props9 = this.props,
-          _props9$mountNode = _props9.mountNode,
-          mountNode = _props9$mountNode === undefined ? _lib.isBrowser ? frameContextBody.body : null : _props9$mountNode,
-          prepend = _props9.prepend;
-
-
-      this.rootNode = document.createElement('div');
-
-      if (prepend) {
-        mountNode.insertBefore(this.rootNode, mountNode.firstElementChild);
-      } else {
-        mountNode.appendChild(this.rootNode);
-      }
-
-      document.addEventListener('click', this.handleDocumentClick);
-      document.addEventListener('keydown', this.handleEscape);
-
-      var onMount = this.props.onMount;
-
-      if (onMount) onMount(null, this.props);
-    }
-  }, {
-    key: '__unmountPortal__REACT_HOT_LOADER__',
-    value: function __unmountPortal__REACT_HOT_LOADER__() {
-      if (!_lib.isBrowser || !this.rootNode) return;
-
-      debug('unmountPortal()');
-
-      _reactDom2.default.unmountComponentAtNode(this.rootNode);
-      this.rootNode.parentNode.removeChild(this.rootNode);
-
-      this.portalNode.removeEventListener('mouseleave', this.handlePortalMouseLeave);
-      this.portalNode.removeEventListener('mouseenter', this.handlePortalMouseEnter);
-
-      this.rootNode = null;
-      this.portalNode = null;
-
-      document.removeEventListener('click', this.handleDocumentClick);
-      document.removeEventListener('keydown', this.handleEscape);
-
-      var onUnmount = this.props.onUnmount;
-
-      if (onUnmount) onUnmount(null, this.props);
-    }
-  }, {
-    key: '__handleRef__REACT_HOT_LOADER__',
-    value: function __handleRef__REACT_HOT_LOADER__(c) {
-      // TODO: Replace findDOMNode with Ref component when it will be merged
-      this.triggerNode = _reactDom2.default.findDOMNode(c); // eslint-disable-line react/no-find-dom-node
     }
   }, {
     key: 'render',
@@ -512,6 +362,7 @@ var Portal = function (_Component) {
 Portal.defaultProps = {
   closeOnDocumentClick: true,
   closeOnEscape: true,
+  eventPool: 'default',
   openOnTriggerClick: true
 };
 Portal.autoControlledProps = ['open'];
@@ -519,8 +370,8 @@ Portal._meta = {
   name: 'Portal',
   type: _lib.META.TYPES.ADDON
 };
-Portal.handledProps = ['children', 'className', 'closeOnDocumentClick', 'closeOnEscape', 'closeOnPortalMouseLeave', 'closeOnRootNodeClick', 'closeOnTriggerBlur', 'closeOnTriggerClick', 'closeOnTriggerMouseLeave', 'defaultOpen', 'frame', 'mountNode', 'mouseEnterDelay', 'mouseLeaveDelay', 'onClose', 'onMount', 'onOpen', 'onUnmount', 'open', 'openOnTriggerClick', 'openOnTriggerFocus', 'openOnTriggerMouseEnter', 'prepend', 'trigger'];
-process.env.NODE_ENV !== "production" ? Portal.propTypes = {
+Portal.handledProps = ['children', 'className', 'closeOnDocumentClick', 'closeOnEscape', 'closeOnPortalMouseLeave', 'closeOnRootNodeClick', 'closeOnTriggerBlur', 'closeOnTriggerClick', 'closeOnTriggerMouseLeave', 'defaultOpen', 'eventPool', 'frame', 'mountNode', 'mouseEnterDelay', 'mouseLeaveDelay', 'onClose', 'onMount', 'onOpen', 'onUnmount', 'open', 'openOnTriggerClick', 'openOnTriggerFocus', 'openOnTriggerMouseEnter', 'prepend', 'trigger'];
+Portal.propTypes = process.env.NODE_ENV !== "production" ? {
   /** Primary content. */
   children: _propTypes2.default.node.isRequired,
 
@@ -559,6 +410,9 @@ process.env.NODE_ENV !== "production" ? Portal.propTypes = {
 
   /** Initial value of open. */
   defaultOpen: _propTypes2.default.bool,
+
+  /** Event pool namespace that is used to handle component events */
+  eventPool: _propTypes2.default.string,
 
   /** The node where the portal should mount. */
   mountNode: _propTypes2.default.any,
@@ -621,21 +475,5 @@ process.env.NODE_ENV !== "production" ? Portal.propTypes = {
 
   /**iFly Custom **/
   frame: _propTypes2.default.string
-} : void 0;
-var _default = Portal;
-exports.default = _default;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(debug, 'debug', 'src/addons/Portal/Portal.js');
-
-  __REACT_HOT_LOADER__.register(Portal, 'Portal', 'src/addons/Portal/Portal.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/addons/Portal/Portal.js');
-}();
-
-;
+} : {};
+exports.default = Portal;

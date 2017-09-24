@@ -81,22 +81,15 @@ var Card = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Card.__proto__ || Object.getPrototypeOf(Card)).call.apply(_ref, [this].concat(args))), _this), _this.handleClick = function () {
-      var _this2;
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Card.__proto__ || Object.getPrototypeOf(Card)).call.apply(_ref, [this].concat(args))), _this), _this.handleClick = function (e) {
+      var onClick = _this.props.onClick;
 
-      return (_this2 = _this).__handleClick__REACT_HOT_LOADER__.apply(_this2, arguments);
+
+      if (onClick) onClick(e, _this.props);
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(Card, [{
-    key: '__handleClick__REACT_HOT_LOADER__',
-    value: function __handleClick__REACT_HOT_LOADER__(e) {
-      var onClick = this.props.onClick;
-
-
-      if (onClick) onClick(e, this.props);
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -156,9 +149,8 @@ Card.Group = _CardGroup2.default;
 Card.Header = _CardHeader2.default;
 Card.Meta = _CardMeta2.default;
 Card.handledProps = ['as', 'centered', 'children', 'className', 'color', 'description', 'extra', 'fluid', 'header', 'href', 'image', 'link', 'meta', 'onClick', 'raised'];
-var _default = Card;
-exports.default = _default;
-process.env.NODE_ENV !== "production" ? Card.propTypes = {
+exports.default = Card;
+Card.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -209,17 +201,4 @@ process.env.NODE_ENV !== "production" ? Card.propTypes = {
 
   /** A Card can be formatted to raise above the page. */
   raised: _propTypes2.default.bool
-} : void 0;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Card, 'Card', 'src/views/Card/Card.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Card/Card.js');
-}();
-
-;
+} : {};

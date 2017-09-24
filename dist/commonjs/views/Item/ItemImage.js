@@ -38,27 +38,13 @@ ItemImage._meta = {
   type: _lib.META.TYPES.VIEW
 };
 
-process.env.NODE_ENV !== "production" ? ItemImage.propTypes = {
+ItemImage.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An image may appear at different sizes. */
   size: _Image2.default.propTypes.size
-} : void 0;
+} : {};
 
 ItemImage.create = (0, _lib.createShorthandFactory)(ItemImage, function (src) {
   return { src: src };
 });
 
-var _default = ItemImage;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(ItemImage, 'ItemImage', 'src/views/Item/ItemImage.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Item/ItemImage.js');
-}();
-
-;
+exports.default = ItemImage;

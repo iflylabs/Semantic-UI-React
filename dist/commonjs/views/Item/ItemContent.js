@@ -84,7 +84,7 @@ ItemContent._meta = {
   type: _lib.META.TYPES.VIEW
 };
 
-process.env.NODE_ENV !== "production" ? ItemContent.propTypes = {
+ItemContent.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -111,20 +111,6 @@ process.env.NODE_ENV !== "production" ? ItemContent.propTypes = {
 
   /** Content can specify its vertical alignment. */
   verticalAlign: _propTypes2.default.oneOf(_lib.SUI.VERTICAL_ALIGNMENTS)
-} : void 0;
+} : {};
 
-var _default = ItemContent;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(ItemContent, 'ItemContent', 'src/views/Item/ItemContent.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Item/ItemContent.js');
-}();
-
-;
+exports.default = ItemContent;

@@ -70,51 +70,26 @@ var Confirm = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Confirm.__proto__ || Object.getPrototypeOf(Confirm)).call.apply(_ref, [this].concat(args))), _this), _this.handleCancel = function () {
-      var _this2;
-
-      return (_this2 = _this).__handleCancel__REACT_HOT_LOADER__.apply(_this2, arguments);
-    }, _this.handleCancelOverrides = function () {
-      var _this3;
-
-      return (_this3 = _this).__handleCancelOverrides__REACT_HOT_LOADER__.apply(_this3, arguments);
-    }, _this.handleConfirmOverrides = function () {
-      var _this4;
-
-      return (_this4 = _this).__handleConfirmOverrides__REACT_HOT_LOADER__.apply(_this4, arguments);
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Confirm.__proto__ || Object.getPrototypeOf(Confirm)).call.apply(_ref, [this].concat(args))), _this), _this.handleCancel = function (e) {
+      (0, _invoke3.default)(_this.props, 'onCancel', e, _this.props);
+    }, _this.handleCancelOverrides = function (predefinedProps) {
+      return {
+        onClick: function onClick(e, buttonProps) {
+          (0, _invoke3.default)(predefinedProps, 'onClick', e, buttonProps);
+          _this.handleCancel(e);
+        }
+      };
+    }, _this.handleConfirmOverrides = function (predefinedProps) {
+      return {
+        onClick: function onClick(e, buttonProps) {
+          (0, _invoke3.default)(predefinedProps, 'onClick', e, buttonProps);
+          (0, _invoke3.default)(_this.props, 'onConfirm', e, _this.props);
+        }
+      };
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(Confirm, [{
-    key: '__handleCancel__REACT_HOT_LOADER__',
-    value: function __handleCancel__REACT_HOT_LOADER__(e) {
-      (0, _invoke3.default)(this.props, 'onCancel', e, this.props);
-    }
-  }, {
-    key: '__handleCancelOverrides__REACT_HOT_LOADER__',
-    value: function __handleCancelOverrides__REACT_HOT_LOADER__(predefinedProps) {
-      var _this5 = this;
-
-      return {
-        onClick: function onClick(e, buttonProps) {
-          (0, _invoke3.default)(predefinedProps, 'onClick', e, buttonProps);
-          _this5.handleCancel(e);
-        }
-      };
-    }
-  }, {
-    key: '__handleConfirmOverrides__REACT_HOT_LOADER__',
-    value: function __handleConfirmOverrides__REACT_HOT_LOADER__(predefinedProps) {
-      var _this6 = this;
-
-      return {
-        onClick: function onClick(e, buttonProps) {
-          (0, _invoke3.default)(predefinedProps, 'onClick', e, buttonProps);
-          (0, _invoke3.default)(_this6.props, 'onConfirm', e, _this6.props);
-        }
-      };
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -162,7 +137,7 @@ Confirm._meta = {
   type: _lib.META.TYPES.ADDON
 };
 Confirm.handledProps = ['cancelButton', 'confirmButton', 'content', 'header', 'onCancel', 'onConfirm', 'open'];
-process.env.NODE_ENV !== "production" ? Confirm.propTypes = {
+Confirm.propTypes = process.env.NODE_ENV !== "production" ? {
   /** The cancel button text. */
   cancelButton: _lib.customPropTypes.itemShorthand,
 
@@ -193,19 +168,5 @@ process.env.NODE_ENV !== "production" ? Confirm.propTypes = {
 
   /** Whether or not the modal is visible. */
   open: _propTypes2.default.bool
-} : void 0;
-var _default = Confirm;
-exports.default = _default;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Confirm, 'Confirm', 'src/addons/Confirm/Confirm.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/addons/Confirm/Confirm.js');
-}();
-
-;
+} : {};
+exports.default = Confirm;

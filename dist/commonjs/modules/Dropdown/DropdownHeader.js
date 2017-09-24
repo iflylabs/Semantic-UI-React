@@ -63,7 +63,7 @@ DropdownHeader._meta = {
   type: _lib.META.TYPES.MODULE
 };
 
-process.env.NODE_ENV !== "production" ? DropdownHeader.propTypes = {
+DropdownHeader.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function) */
   as: _lib.customPropTypes.as,
 
@@ -78,24 +78,10 @@ process.env.NODE_ENV !== "production" ? DropdownHeader.propTypes = {
 
   /** Shorthand for Icon. */
   icon: _lib.customPropTypes.itemShorthand
-} : void 0;
+} : {};
 
 DropdownHeader.create = (0, _lib.createShorthandFactory)(DropdownHeader, function (content) {
   return { content: content };
 });
 
-var _default = DropdownHeader;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(DropdownHeader, 'DropdownHeader', 'src/modules/Dropdown/DropdownHeader.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Dropdown/DropdownHeader.js');
-}();
-
-;
+exports.default = DropdownHeader;

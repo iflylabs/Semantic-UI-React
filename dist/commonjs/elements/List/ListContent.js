@@ -71,7 +71,7 @@ ListContent._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? ListContent.propTypes = {
+ListContent.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -95,24 +95,10 @@ process.env.NODE_ENV !== "production" ? ListContent.propTypes = {
 
   /** An element inside a list can be vertically aligned. */
   verticalAlign: _propTypes2.default.oneOf(_lib.SUI.VERTICAL_ALIGNMENTS)
-} : void 0;
+} : {};
 
 ListContent.create = (0, _lib.createShorthandFactory)(ListContent, function (content) {
   return { content: content };
 });
 
-var _default = ListContent;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(ListContent, 'ListContent', 'src/elements/List/ListContent.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/List/ListContent.js');
-}();
-
-;
+exports.default = ListContent;

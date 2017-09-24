@@ -4,6 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _Responsive = require('./addons/Responsive');
+
+Object.defineProperty(exports, 'Responsive', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_Responsive).default;
+  }
+});
+
 var _Confirm = require('./addons/Confirm');
 
 Object.defineProperty(exports, 'Confirm', {
@@ -679,6 +688,15 @@ Object.defineProperty(exports, 'Accordion', {
   }
 });
 
+var _AccordionAccordion = require('./modules/Accordion/AccordionAccordion');
+
+Object.defineProperty(exports, 'AccordionAccordion', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_AccordionAccordion).default;
+  }
+});
+
 var _AccordionContent = require('./modules/Accordion/AccordionContent');
 
 Object.defineProperty(exports, 'AccordionContent', {
@@ -1337,13 +1355,3 @@ Object.defineProperty(exports, 'StatisticValue', {
 });
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-}();
-
-;

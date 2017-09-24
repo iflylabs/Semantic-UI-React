@@ -11,15 +11,17 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { cloneElement, Component } from 'react';
 
-import { makeDebugger, META, SUI, useKeyOnly } from '../../lib';
+import { META, normalizeTransitionDuration, SUI, useKeyOnly } from '../../lib';
 import TransitionGroup from './TransitionGroup';
 
-var debug = makeDebugger('transition');
+var TRANSITION_TYPE = {
+  ENTERING: 'show',
+  EXITING: 'hide'
 
-/**
- * A transition is an animation usually used to move content in or out of view.
- */
-
+  /**
+   * A transition is an animation usually used to move content in or out of view.
+   */
+};
 var Transition = function (_Component) {
   _inherits(Transition, _Component);
 
@@ -52,15 +54,12 @@ var Transition = function (_Component) {
   _createClass(Transition, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      debug('componentDidMount()');
 
       this.updateStatus();
     }
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      debug('componentWillReceiveProps()');
-
       var _computeStatuses = this.computeStatuses(nextProps),
           status = _computeStatuses.current,
           next = _computeStatuses.next;
@@ -71,15 +70,12 @@ var Transition = function (_Component) {
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
-      debug('componentDidUpdate()');
 
       this.updateStatus();
     }
   }, {
     key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      debug('componentWillUnmount()');
-    }
+    value: function componentWillUnmount() {}
 
     // ----------------------------------------
     // Callback handling
@@ -98,10 +94,6 @@ var Transition = function (_Component) {
     // ----------------------------------------
 
     value: function render() {
-      debug('render()');
-      debug('props', this.props);
-      debug('state', this.state);
-
       var children = this.props.children;
       var status = this.state.status;
 
@@ -148,7 +140,7 @@ var _initialiseProps = function _initialiseProps() {
     _this2.nextStatus = null;
     _this2.setState({ status: status, animating: true }, function () {
       _invoke(_this2.props, 'onStart', null, _extends({}, _this2.props, { status: status }));
-      setTimeout(_this2.handleComplete, duration);
+      setTimeout(_this2.handleComplete, normalizeTransitionDuration(duration, 'show'));
     });
   };
 
@@ -262,15 +254,19 @@ var _initialiseProps = function _initialiseProps() {
     var _props3 = _this2.props,
         children = _props3.children,
         duration = _props3.duration;
+    var status = _this2.state.status;
+
 
     var childStyle = _get(children, 'props.style');
+    var type = TRANSITION_TYPE[status];
+    var animationDuration = type && normalizeTransitionDuration(duration, type) + 'ms';
 
-    return _extends({}, childStyle, { animationDuration: duration + 'ms' });
+    return _extends({}, childStyle, { animationDuration: animationDuration });
   };
 };
 
 export default Transition;
-process.env.NODE_ENV !== "production" ? Transition.propTypes = {
+Transition.propTypes = process.env.NODE_ENV !== "production" ? {
   /** Named animation event to used. Must be defined in CSS. */
   animation: PropTypes.oneOf(SUI.TRANSITIONS),
 
@@ -278,7 +274,10 @@ process.env.NODE_ENV !== "production" ? Transition.propTypes = {
   children: PropTypes.element.isRequired,
 
   /** Duration of the CSS transition animation in milliseconds. */
-  duration: PropTypes.number,
+  duration: PropTypes.oneOfType([PropTypes.number, PropTypes.shape({
+    hide: PropTypes.number,
+    show: PropTypes.number
+  }), PropTypes.string]),
 
   /** Show the component; triggers the enter or exit animation. */
   visible: PropTypes.bool,
@@ -326,4 +325,4 @@ process.env.NODE_ENV !== "production" ? Transition.propTypes = {
 
   /** Unmount the component (remove it from the DOM) when it is not shown. */
   unmountOnHide: PropTypes.bool
-} : void 0;
+} : {};

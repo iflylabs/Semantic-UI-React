@@ -50,7 +50,7 @@ MessageItem._meta = {
   type: _lib.META.TYPES.COLLECTION
 };
 
-process.env.NODE_ENV !== "production" ? MessageItem.propTypes = {
+MessageItem.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -62,7 +62,7 @@ process.env.NODE_ENV !== "production" ? MessageItem.propTypes = {
 
   /** Shorthand for primary content. */
   content: _lib.customPropTypes.contentShorthand
-} : void 0;
+} : {};
 
 MessageItem.defaultProps = {
   as: 'li'
@@ -72,18 +72,4 @@ MessageItem.create = (0, _lib.createShorthandFactory)(MessageItem, function (con
   return { content: content };
 });
 
-var _default = MessageItem;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(MessageItem, 'MessageItem', 'src/collections/Message/MessageItem.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Message/MessageItem.js');
-}();
-
-;
+exports.default = MessageItem;

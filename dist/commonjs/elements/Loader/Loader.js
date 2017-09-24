@@ -57,7 +57,7 @@ Loader._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? Loader.propTypes = {
+Loader.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -87,20 +87,6 @@ process.env.NODE_ENV !== "production" ? Loader.propTypes = {
 
   /** Loaders can have different sizes. */
   size: _propTypes2.default.oneOf(_lib.SUI.SIZES)
-} : void 0;
+} : {};
 
-var _default = Loader;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Loader, 'Loader', 'src/elements/Loader/Loader.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Loader/Loader.js');
-}();
-
-;
+exports.default = Loader;

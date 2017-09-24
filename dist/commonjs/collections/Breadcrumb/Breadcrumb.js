@@ -89,7 +89,7 @@ Breadcrumb._meta = {
   type: _lib.META.TYPES.COLLECTION
 };
 
-process.env.NODE_ENV !== "production" ? Breadcrumb.propTypes = {
+Breadcrumb.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -111,23 +111,9 @@ process.env.NODE_ENV !== "production" ? Breadcrumb.propTypes = {
 
   /** Size of Breadcrumb. */
   size: _propTypes2.default.oneOf((0, _without3.default)(_lib.SUI.SIZES, 'medium'))
-} : void 0;
+} : {};
 
 Breadcrumb.Divider = _BreadcrumbDivider2.default;
 Breadcrumb.Section = _BreadcrumbSection2.default;
 
-var _default = Breadcrumb;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Breadcrumb, 'Breadcrumb', 'src/collections/Breadcrumb/Breadcrumb.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Breadcrumb/Breadcrumb.js');
-}();
-
-;
+exports.default = Breadcrumb;

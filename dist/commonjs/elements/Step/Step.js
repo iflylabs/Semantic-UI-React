@@ -24,6 +24,10 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _invoke2 = require('lodash/invoke');
+
+var _invoke3 = _interopRequireDefault(_invoke2);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -77,22 +81,15 @@ var Step = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Step.__proto__ || Object.getPrototypeOf(Step)).call.apply(_ref, [this].concat(args))), _this), _this.handleClick = function () {
-      var _this2;
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Step.__proto__ || Object.getPrototypeOf(Step)).call.apply(_ref, [this].concat(args))), _this), _this.handleClick = function (e) {
+      var disabled = _this.props.disabled;
 
-      return (_this2 = _this).__handleClick__REACT_HOT_LOADER__.apply(_this2, arguments);
+
+      if (!disabled) (0, _invoke3.default)(_this.props, 'onClick', e, _this.props);
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(Step, [{
-    key: '__handleClick__REACT_HOT_LOADER__',
-    value: function __handleClick__REACT_HOT_LOADER__(e) {
-      var onClick = this.props.onClick;
-
-
-      if (onClick) onClick(e, this.props);
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -143,9 +140,8 @@ Step.Description = _StepDescription2.default;
 Step.Group = _StepGroup2.default;
 Step.Title = _StepTitle2.default;
 Step.handledProps = ['active', 'as', 'children', 'className', 'completed', 'description', 'disabled', 'href', 'icon', 'link', 'onClick', 'ordered', 'title'];
-var _default = Step;
-exports.default = _default;
-process.env.NODE_ENV !== "production" ? Step.propTypes = {
+exports.default = Step;
+Step.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -190,17 +186,4 @@ process.env.NODE_ENV !== "production" ? Step.propTypes = {
 
   /** Shorthand for StepTitle. */
   title: _lib.customPropTypes.itemShorthand
-} : void 0;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Step, 'Step', 'src/elements/Step/Step.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Step/Step.js');
-}();
-
-;
+} : {};

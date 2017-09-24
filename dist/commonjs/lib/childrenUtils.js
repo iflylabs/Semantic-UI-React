@@ -45,18 +45,3 @@ var findByType = exports.findByType = function findByType(children, type) {
 var isNil = exports.isNil = function isNil(children) {
   return children === null || children === undefined || Array.isArray(children) && children.length === 0;
 };
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(someByType, 'someByType', 'src/lib/childrenUtils.js');
-
-  __REACT_HOT_LOADER__.register(findByType, 'findByType', 'src/lib/childrenUtils.js');
-
-  __REACT_HOT_LOADER__.register(isNil, 'isNil', 'src/lib/childrenUtils.js');
-}();
-
-;

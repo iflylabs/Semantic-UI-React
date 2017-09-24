@@ -50,7 +50,7 @@ ItemMeta._meta = {
   type: _lib.META.TYPES.VIEW
 };
 
-process.env.NODE_ENV !== "production" ? ItemMeta.propTypes = {
+ItemMeta.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -62,24 +62,10 @@ process.env.NODE_ENV !== "production" ? ItemMeta.propTypes = {
 
   /** Shorthand for primary content. */
   content: _lib.customPropTypes.contentShorthand
-} : void 0;
+} : {};
 
 ItemMeta.create = (0, _lib.createShorthandFactory)(ItemMeta, function (content) {
   return { content: content };
 });
 
-var _default = ItemMeta;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(ItemMeta, 'ItemMeta', 'src/views/Item/ItemMeta.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Item/ItemMeta.js');
-}();
-
-;
+exports.default = ItemMeta;

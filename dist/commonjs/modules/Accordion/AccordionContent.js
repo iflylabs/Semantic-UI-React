@@ -45,7 +45,7 @@ function AccordionContent(props) {
 }
 
 AccordionContent.handledProps = ['active', 'as', 'children', 'className', 'content'];
-process.env.NODE_ENV !== "production" ? AccordionContent.propTypes = {
+AccordionContent.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -60,7 +60,7 @@ process.env.NODE_ENV !== "production" ? AccordionContent.propTypes = {
 
   /** Shorthand for primary content. */
   content: _lib.customPropTypes.contentShorthand
-} : void 0;
+} : {};
 
 AccordionContent._meta = {
   name: 'AccordionContent',
@@ -72,18 +72,4 @@ AccordionContent.create = (0, _lib.createShorthandFactory)(AccordionContent, fun
   return { content: content };
 });
 
-var _default = AccordionContent;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(AccordionContent, 'AccordionContent', 'src/modules/Accordion/AccordionContent.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Accordion/AccordionContent.js');
-}();
-
-;
+exports.default = AccordionContent;

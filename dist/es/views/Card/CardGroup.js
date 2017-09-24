@@ -1,11 +1,12 @@
 import _extends from 'babel-runtime/helpers/extends';
+import _without from 'lodash/without';
 import _map from 'lodash/map';
 import cx from 'classnames';
 
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { childrenUtils, customPropTypes, getElementType, getUnhandledProps, META, SUI, useKeyOnly, useWidthProp } from '../../lib';
+import { childrenUtils, customPropTypes, getElementType, getUnhandledProps, META, SUI, useKeyOnly, useTextAlignProp, useWidthProp } from '../../lib';
 import Card from './Card';
 
 /**
@@ -17,10 +18,11 @@ function CardGroup(props) {
       doubling = props.doubling,
       items = props.items,
       itemsPerRow = props.itemsPerRow,
-      stackable = props.stackable;
+      stackable = props.stackable,
+      textAlign = props.textAlign;
 
 
-  var classes = cx('ui', useKeyOnly(doubling, 'doubling'), useKeyOnly(stackable, 'stackable'), useWidthProp(itemsPerRow), className, 'cards');
+  var classes = cx('ui', useKeyOnly(doubling, 'doubling'), useKeyOnly(stackable, 'stackable'), useTextAlignProp(textAlign), useWidthProp(itemsPerRow), 'cards', className);
   var rest = getUnhandledProps(CardGroup, props);
   var ElementType = getElementType(CardGroup, props);
 
@@ -44,14 +46,14 @@ function CardGroup(props) {
   );
 }
 
-CardGroup.handledProps = ['as', 'children', 'className', 'doubling', 'items', 'itemsPerRow', 'stackable'];
+CardGroup.handledProps = ['as', 'children', 'className', 'doubling', 'items', 'itemsPerRow', 'stackable', 'textAlign'];
 CardGroup._meta = {
   name: 'CardGroup',
   parent: 'Card',
   type: META.TYPES.VIEW
 };
 
-process.env.NODE_ENV !== "production" ? CardGroup.propTypes = {
+CardGroup.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: customPropTypes.as,
 
@@ -71,7 +73,10 @@ process.env.NODE_ENV !== "production" ? CardGroup.propTypes = {
   itemsPerRow: PropTypes.oneOf(SUI.WIDTHS),
 
   /** A group of cards can automatically stack rows to a single columns on mobile devices. */
-  stackable: PropTypes.bool
-} : void 0;
+  stackable: PropTypes.bool,
+
+  /** A card group can adjust its text alignment. */
+  textAlign: PropTypes.oneOf(_without(SUI.TEXT_ALIGNMENTS, 'justified'))
+} : {};
 
 export default CardGroup;

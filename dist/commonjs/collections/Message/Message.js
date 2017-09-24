@@ -86,22 +86,15 @@ var Message = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Message.__proto__ || Object.getPrototypeOf(Message)).call.apply(_ref, [this].concat(args))), _this), _this.handleDismiss = function () {
-      var _this2;
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Message.__proto__ || Object.getPrototypeOf(Message)).call.apply(_ref, [this].concat(args))), _this), _this.handleDismiss = function (e) {
+      var onDismiss = _this.props.onDismiss;
 
-      return (_this2 = _this).__handleDismiss__REACT_HOT_LOADER__.apply(_this2, arguments);
+
+      if (onDismiss) onDismiss(e, _this.props);
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(Message, [{
-    key: '__handleDismiss__REACT_HOT_LOADER__',
-    value: function __handleDismiss__REACT_HOT_LOADER__(e) {
-      var onDismiss = this.props.onDismiss;
-
-
-      if (onDismiss) onDismiss(e, this.props);
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -169,9 +162,8 @@ Message.Header = _MessageHeader2.default;
 Message.List = _MessageList2.default;
 Message.Item = _MessageItem2.default;
 Message.handledProps = ['as', 'attached', 'children', 'className', 'color', 'compact', 'content', 'error', 'floating', 'header', 'hidden', 'icon', 'info', 'list', 'negative', 'onDismiss', 'positive', 'size', 'success', 'visible', 'warning'];
-var _default = Message;
-exports.default = _default;
-process.env.NODE_ENV !== "production" ? Message.propTypes = {
+exports.default = Message;
+Message.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -240,17 +232,4 @@ process.env.NODE_ENV !== "production" ? Message.propTypes = {
 
   /** A message may be formatted to display warning messages. */
   warning: _propTypes2.default.bool
-} : void 0;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Message, 'Message', 'src/collections/Message/Message.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Message/Message.js');
-}();
-
-;
+} : {};

@@ -54,7 +54,7 @@ TableHeader.defaultProps = {
   as: 'thead'
 };
 
-process.env.NODE_ENV !== "production" ? TableHeader.propTypes = {
+TableHeader.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -66,20 +66,6 @@ process.env.NODE_ENV !== "production" ? TableHeader.propTypes = {
 
   /** A definition table can have a full width header or footer, filling in the gap left by the first column. */
   fullWidth: _propTypes2.default.bool
-} : void 0;
+} : {};
 
-var _default = TableHeader;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(TableHeader, 'TableHeader', 'src/collections/Table/TableHeader.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Table/TableHeader.js');
-}();
-
-;
+exports.default = TableHeader;

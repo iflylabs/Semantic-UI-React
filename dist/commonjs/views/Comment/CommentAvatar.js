@@ -49,7 +49,7 @@ CommentAvatar._meta = {
   type: _lib.META.TYPES.VIEW
 };
 
-process.env.NODE_ENV !== "production" ? CommentAvatar.propTypes = {
+CommentAvatar.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -58,20 +58,6 @@ process.env.NODE_ENV !== "production" ? CommentAvatar.propTypes = {
 
   /** Specifies the URL of the image. */
   src: _propTypes2.default.string
-} : void 0;
+} : {};
 
-var _default = CommentAvatar;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(CommentAvatar, 'CommentAvatar', 'src/views/Comment/CommentAvatar.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Comment/CommentAvatar.js');
-}();
-
-;
+exports.default = CommentAvatar;

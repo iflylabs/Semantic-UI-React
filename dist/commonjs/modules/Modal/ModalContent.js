@@ -53,7 +53,7 @@ ModalContent._meta = {
   parent: 'Modal'
 };
 
-process.env.NODE_ENV !== "production" ? ModalContent.propTypes = {
+ModalContent.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -71,24 +71,10 @@ process.env.NODE_ENV !== "production" ? ModalContent.propTypes = {
 
   /** A modal can use the entire size of the screen. */
   scrolling: _propTypes2.default.bool
-} : void 0;
+} : {};
 
 ModalContent.create = (0, _lib.createShorthandFactory)(ModalContent, function (content) {
   return { content: content };
 });
 
-var _default = ModalContent;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(ModalContent, 'ModalContent', 'src/modules/Modal/ModalContent.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Modal/ModalContent.js');
-}();
-
-;
+exports.default = ModalContent;

@@ -66,71 +66,43 @@ var Dimmer = function (_Component) {
     }
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Dimmer.__proto__ || Object.getPrototypeOf(Dimmer)).call.apply(_ref, [this].concat(args))), _this), _this.handlePortalMount = function () {
-      var _this2;
-
-      return (_this2 = _this).__handlePortalMount__REACT_HOT_LOADER__.apply(_this2, arguments);
-    }, _this.handlePortalUnmount = function () {
-      var _this3;
-
-      return (_this3 = _this).__handlePortalUnmount__REACT_HOT_LOADER__.apply(_this3, arguments);
-    }, _this.handleClick = function () {
-      var _this4;
-
-      return (_this4 = _this).__handleClick__REACT_HOT_LOADER__.apply(_this4, arguments);
-    }, _this.handleCenterRef = function () {
-      var _this5;
-
-      return (_this5 = _this).__handleCenterRef__REACT_HOT_LOADER__.apply(_this5, arguments);
-    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
-  }
-
-  (0, _createClass3.default)(Dimmer, [{
-    key: '__handlePortalMount__REACT_HOT_LOADER__',
-    value: function __handlePortalMount__REACT_HOT_LOADER__() {
       if (!_lib.isBrowser) return;
 
       // Heads up, IE doesn't support second argument in add()
       document.body.classList.add('dimmed');
       document.body.classList.add('dimmable');
-    }
-  }, {
-    key: '__handlePortalUnmount__REACT_HOT_LOADER__',
-    value: function __handlePortalUnmount__REACT_HOT_LOADER__() {
+    }, _this.handlePortalUnmount = function () {
       if (!_lib.isBrowser) return;
 
       // Heads up, IE doesn't support second argument in add()
       document.body.classList.remove('dimmed');
       document.body.classList.remove('dimmable');
-    }
-  }, {
-    key: '__handleClick__REACT_HOT_LOADER__',
-    value: function __handleClick__REACT_HOT_LOADER__(e) {
-      var _props = this.props,
-          onClick = _props.onClick,
-          onClickOutside = _props.onClickOutside;
+    }, _this.handleClick = function (e) {
+      var _this$props = _this.props,
+          onClick = _this$props.onClick,
+          onClickOutside = _this$props.onClickOutside;
 
 
-      if (onClick) onClick(e, this.props);
-      if (this.centerRef && this.centerRef !== e.target && this.centerRef.contains(e.target)) return;
-      if (onClickOutside) onClickOutside(e, this.props);
-    }
-  }, {
-    key: '__handleCenterRef__REACT_HOT_LOADER__',
-    value: function __handleCenterRef__REACT_HOT_LOADER__(c) {
-      return this.centerRef = c;
-    }
-  }, {
+      if (onClick) onClick(e, _this.props);
+      if (_this.centerRef && _this.centerRef !== e.target && _this.centerRef.contains(e.target)) return;
+      if (onClickOutside) onClickOutside(e, _this.props);
+    }, _this.handleCenterRef = function (c) {
+      return _this.centerRef = c;
+    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+  }
+
+  (0, _createClass3.default)(Dimmer, [{
     key: 'render',
     value: function render() {
-      var _props2 = this.props,
-          active = _props2.active,
-          children = _props2.children,
-          className = _props2.className,
-          content = _props2.content,
-          disabled = _props2.disabled,
-          inverted = _props2.inverted,
-          page = _props2.page,
-          simple = _props2.simple;
+      var _props = this.props,
+          active = _props.active,
+          children = _props.children,
+          className = _props.className,
+          content = _props.content,
+          disabled = _props.disabled,
+          inverted = _props.inverted,
+          page = _props.page,
+          simple = _props.simple;
 
 
       var classes = (0, _classnames2.default)('ui', (0, _lib.useKeyOnly)(active, 'active transition visible'), (0, _lib.useKeyOnly)(disabled, 'disabled'), (0, _lib.useKeyOnly)(inverted, 'inverted'), (0, _lib.useKeyOnly)(page, 'page'), (0, _lib.useKeyOnly)(simple, 'simple'), 'dimmer', className);
@@ -180,9 +152,8 @@ Dimmer._meta = {
 };
 Dimmer.Dimmable = _DimmerDimmable2.default;
 Dimmer.handledProps = ['active', 'as', 'children', 'className', 'content', 'disabled', 'inverted', 'onClick', 'onClickOutside', 'page', 'simple'];
-var _default = Dimmer;
-exports.default = _default;
-process.env.NODE_ENV !== "production" ? Dimmer.propTypes = {
+exports.default = Dimmer;
+Dimmer.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -225,22 +196,9 @@ process.env.NODE_ENV !== "production" ? Dimmer.propTypes = {
 
   /** A dimmer can be controlled with simple prop. */
   simple: _propTypes2.default.bool
-} : void 0;
+} : {};
 
 
 Dimmer.create = (0, _lib.createShorthandFactory)(Dimmer, function (value) {
   return { content: value };
 });
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Dimmer, 'Dimmer', 'src/modules/Dimmer/Dimmer.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Dimmer/Dimmer.js');
-}();
-
-;

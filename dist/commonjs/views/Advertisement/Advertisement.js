@@ -52,7 +52,7 @@ Advertisement._meta = {
   type: _lib.META.TYPES.VIEW
 };
 
-process.env.NODE_ENV !== "production" ? Advertisement.propTypes = {
+Advertisement.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -71,20 +71,6 @@ process.env.NODE_ENV !== "production" ? Advertisement.propTypes = {
   /** Varies the size of the advertisement. */
   unit: _propTypes2.default.oneOf(['medium rectangle', 'large rectangle', 'vertical rectangle', 'small rectangle', 'mobile banner', 'banner', 'vertical banner', 'top banner', 'half banner', 'button', 'square button', 'small button', 'skyscraper', 'wide skyscraper', 'leaderboard', 'large leaderboard', 'mobile leaderboard', 'billboard', 'panorama', 'netboard', 'half page', 'square', 'small square']).isRequired
 
-} : void 0;
+} : {};
 
-var _default = Advertisement;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Advertisement, 'Advertisement', 'src/views/Advertisement/Advertisement.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Advertisement/Advertisement.js');
-}();
-
-;
+exports.default = Advertisement;

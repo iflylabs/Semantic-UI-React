@@ -46,7 +46,7 @@ Radio._meta = {
   type: _lib.META.TYPES.ADDON
 };
 
-process.env.NODE_ENV !== "production" ? Radio.propTypes = {
+Radio.propTypes = process.env.NODE_ENV !== "production" ? {
   /** Format to emphasize the current selection state. */
   slider: _Checkbox2.default.propTypes.slider,
 
@@ -55,24 +55,10 @@ process.env.NODE_ENV !== "production" ? Radio.propTypes = {
 
   /** HTML input type, either checkbox or radio. */
   type: _Checkbox2.default.propTypes.type
-} : void 0;
+} : {};
 
 Radio.defaultProps = {
   type: 'radio'
 };
 
-var _default = Radio;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Radio, 'Radio', 'src/addons/Radio/Radio.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/addons/Radio/Radio.js');
-}();
-
-;
+exports.default = Radio;

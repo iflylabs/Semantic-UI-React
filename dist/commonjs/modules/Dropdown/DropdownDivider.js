@@ -44,26 +44,12 @@ DropdownDivider._meta = {
   type: _lib.META.TYPES.MODULE
 };
 
-process.env.NODE_ENV !== "production" ? DropdownDivider.propTypes = {
+DropdownDivider.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
   /** Additional classes. */
   className: _propTypes2.default.string
-} : void 0;
+} : {};
 
-var _default = DropdownDivider;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(DropdownDivider, 'DropdownDivider', 'src/modules/Dropdown/DropdownDivider.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Dropdown/DropdownDivider.js');
-}();
-
-;
+exports.default = DropdownDivider;

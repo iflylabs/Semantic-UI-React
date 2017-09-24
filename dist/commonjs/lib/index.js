@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.objectDiff = exports.numberToWord = exports.numberToWordMap = exports.keyboardKey = exports.SUI = exports.META = exports.leven = exports.isBrowser = exports.partitionHTMLInputProps = exports.htmlInputProps = exports.htmlInputEvents = exports.htmlInputAttrs = exports.getElementType = exports.getUnhandledProps = exports.makeDebugger = exports.debug = exports.customPropTypes = exports.useWidthProp = exports.useVerticalAlignProp = exports.useTextAlignProp = exports.useOnlyProp = exports.useValueAndKey = exports.useKeyOrValueAndKey = exports.useKeyOnly = exports.childrenUtils = exports.mergeChildMappings = exports.getChildMapping = exports.AutoControlledComponent = undefined;
+exports.shallowEqual = exports.objectDiff = exports.normalizeTransitionDuration = exports.normalizeOffset = exports.numberToWord = exports.numberToWordMap = exports.keyboardKey = exports.SUI = exports.META = exports.leven = exports.isBrowser = exports.partitionHTMLInputProps = exports.htmlInputProps = exports.htmlInputEvents = exports.htmlInputAttrs = exports.getElementType = exports.getUnhandledProps = exports.eventStack = exports.makeDebugger = exports.debug = exports.customPropTypes = exports.useWidthProp = exports.useVerticalAlignProp = exports.useTextAlignProp = exports.useOnlyProp = exports.useValueAndKey = exports.useKeyOrValueAndKey = exports.useKeyOnly = exports.childrenUtils = exports.mergeChildMappings = exports.getChildMapping = exports.AutoControlledComponent = undefined;
 
 var _AutoControlledComponent = require('./AutoControlledComponent');
 
@@ -205,6 +205,10 @@ var _customPropTypes2 = require('./customPropTypes');
 
 var _customPropTypes = _interopRequireWildcard(_customPropTypes2);
 
+var _eventStack2 = require('./eventStack');
+
+var _eventStack3 = _interopRequireDefault(_eventStack2);
+
 var _META2 = require('./META');
 
 var _META = _interopRequireWildcard(_META2);
@@ -213,20 +217,27 @@ var _SUI2 = require('./SUI');
 
 var _SUI = _interopRequireWildcard(_SUI2);
 
+var _normalizeOffset2 = require('./normalizeOffset');
+
+var _normalizeOffset3 = _interopRequireDefault(_normalizeOffset2);
+
+var _normalizeTransitionDuration2 = require('./normalizeTransitionDuration');
+
+var _normalizeTransitionDuration3 = _interopRequireDefault(_normalizeTransitionDuration2);
+
+var _shallowEqual2 = require('./shallowEqual');
+
+var _shallowEqual3 = _interopRequireDefault(_shallowEqual2);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.childrenUtils = _childrenUtils;
 exports.customPropTypes = _customPropTypes;
+exports.eventStack = _eventStack3.default;
 exports.META = _META;
 exports.SUI = _SUI;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-}();
-
-;
+exports.normalizeOffset = _normalizeOffset3.default;
+exports.normalizeTransitionDuration = _normalizeTransitionDuration3.default;
+exports.shallowEqual = _shallowEqual3.default;

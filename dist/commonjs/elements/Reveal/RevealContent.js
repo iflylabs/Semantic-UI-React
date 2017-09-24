@@ -52,7 +52,7 @@ RevealContent._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? RevealContent.propTypes = {
+RevealContent.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -67,20 +67,6 @@ process.env.NODE_ENV !== "production" ? RevealContent.propTypes = {
 
   /** A reveal may contain content that is hidden before user interaction. */
   visible: _propTypes2.default.bool
-} : void 0;
+} : {};
 
-var _default = RevealContent;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(RevealContent, 'RevealContent', 'src/elements/Reveal/RevealContent.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Reveal/RevealContent.js');
-}();
-
-;
+exports.default = RevealContent;

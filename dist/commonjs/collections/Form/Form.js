@@ -109,30 +109,10 @@ var Form = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Form.__proto__ || Object.getPrototypeOf(Form)).call.apply(_ref, [this].concat(args))), _this), _this.handleSubmit = function () {
-      var _this2;
-
-      return (_this2 = _this).__handleSubmit__REACT_HOT_LOADER__.apply(_this2, arguments);
-    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Form.__proto__ || Object.getPrototypeOf(Form)).call.apply(_ref, [this].concat(args))), _this), _initialiseProps.call(_this), _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(Form, [{
-    key: '__handleSubmit__REACT_HOT_LOADER__',
-    value: function __handleSubmit__REACT_HOT_LOADER__(e) {
-      var action = this.props.action;
-
-      // Heads up! Third party libs can pass own data as first argument, we need to check that it has preventDefault()
-      // method.
-
-      if (!action) (0, _invoke3.default)(e, 'preventDefault');
-
-      for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-        args[_key2 - 1] = arguments[_key2];
-      }
-
-      _invoke3.default.apply(undefined, [this.props, 'onSubmit', e, this.props].concat(args));
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -185,7 +165,26 @@ Form.Radio = _FormRadio2.default;
 Form.Select = _FormSelect2.default;
 Form.TextArea = _FormTextArea2.default;
 Form.handledProps = ['action', 'as', 'children', 'className', 'error', 'inverted', 'loading', 'onSubmit', 'reply', 'size', 'success', 'unstackable', 'warning', 'widths'];
-process.env.NODE_ENV !== "production" ? Form.propTypes = {
+
+var _initialiseProps = function _initialiseProps() {
+  var _this2 = this;
+
+  this.handleSubmit = function (e) {
+    for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+      args[_key2 - 1] = arguments[_key2];
+    }
+
+    var action = _this2.props.action;
+
+    // Heads up! Third party libs can pass own data as first argument, we need to check that it has preventDefault()
+    // method.
+
+    if (!action) (0, _invoke3.default)(e, 'preventDefault');
+    _invoke3.default.apply(undefined, [_this2.props, 'onSubmit', e, _this2.props].concat(args));
+  };
+};
+
+Form.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -227,19 +226,5 @@ process.env.NODE_ENV !== "production" ? Form.propTypes = {
 
   /** Forms can automatically divide fields to be equal width. */
   widths: _propTypes2.default.oneOf(['equal'])
-} : void 0;
-var _default = Form;
-exports.default = _default;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Form, 'Form', 'src/collections/Form/Form.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Form/Form.js');
-}();
-
-;
+} : {};
+exports.default = Form;

@@ -12,15 +12,12 @@ import _mapValues from 'lodash/mapValues';
 import PropTypes from 'prop-types';
 import React, { cloneElement } from 'react';
 
-import { customPropTypes, getChildMapping, getElementType, getUnhandledProps, makeDebugger, mergeChildMappings, META, SUI } from '../../lib';
+import { customPropTypes, getChildMapping, getElementType, getUnhandledProps, mergeChildMappings, META, SUI } from '../../lib';
 import Transition from './Transition';
-
-var debug = makeDebugger('transition_group');
 
 /**
  * A Transition.Group animates children as they mount and unmount.
  */
-
 var TransitionGroup = function (_React$Component) {
   _inherits(TransitionGroup, _React$Component);
 
@@ -49,8 +46,6 @@ var TransitionGroup = function (_React$Component) {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       var _this2 = this;
-
-      debug('componentWillReceiveProps()');
 
       var prevMapping = this.state.children;
 
@@ -90,10 +85,6 @@ var TransitionGroup = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      debug('render');
-      debug('props', this.props);
-      debug('state', this.state);
-
       var children = this.state.children;
 
       var ElementType = getElementType(TransitionGroup, this.props);
@@ -125,7 +116,6 @@ var _initialiseProps = function _initialiseProps() {
   var _this3 = this;
 
   this.handleOnHide = function (nothing, childProps) {
-    debug('handleOnHide', childProps);
     var reactKey = childProps.reactKey;
 
 
@@ -161,7 +151,7 @@ var _initialiseProps = function _initialiseProps() {
 };
 
 export default TransitionGroup;
-process.env.NODE_ENV !== "production" ? TransitionGroup.propTypes = {
+TransitionGroup.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: customPropTypes.as,
 
@@ -172,5 +162,8 @@ process.env.NODE_ENV !== "production" ? TransitionGroup.propTypes = {
   children: PropTypes.node,
 
   /** Duration of the CSS transition animation in milliseconds. */
-  duration: PropTypes.number
-} : void 0;
+  duration: PropTypes.oneOfType([PropTypes.number, PropTypes.shape({
+    hide: PropTypes.number.isRequired,
+    show: PropTypes.number.isRequired
+  }), PropTypes.string])
+} : {};

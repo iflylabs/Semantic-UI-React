@@ -48,30 +48,16 @@ ListIcon._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? ListIcon.propTypes = {
+ListIcon.propTypes = process.env.NODE_ENV !== "production" ? {
   /** Additional classes. */
   className: _propTypes2.default.string,
 
   /** An element inside a list can be vertically aligned. */
   verticalAlign: _propTypes2.default.oneOf(_lib.SUI.VERTICAL_ALIGNMENTS)
-} : void 0;
+} : {};
 
 ListIcon.create = (0, _lib.createShorthandFactory)(ListIcon, function (name) {
   return { name: name };
 });
 
-var _default = ListIcon;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(ListIcon, 'ListIcon', 'src/elements/List/ListIcon.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/List/ListIcon.js');
-}();
-
-;
+exports.default = ListIcon;

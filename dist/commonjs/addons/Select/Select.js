@@ -40,18 +40,4 @@ Select.Header = _Dropdown2.default.Header;
 Select.Item = _Dropdown2.default.Item;
 Select.Menu = _Dropdown2.default.Menu;
 
-var _default = Select;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Select, 'Select', 'src/addons/Select/Select.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/addons/Select/Select.js');
-}();
-
-;
+exports.default = Select;

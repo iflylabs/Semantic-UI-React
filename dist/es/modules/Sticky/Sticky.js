@@ -8,7 +8,7 @@ import _invoke from 'lodash/invoke';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import { customPropTypes, getElementType, getUnhandledProps, META } from '../../lib';
+import { eventStack, customPropTypes, getElementType, getUnhandledProps, isBrowser, META } from '../../lib';
 
 /**
  * Sticky content stays fixed to the browser viewport while another column of content is visible on the page.
@@ -30,12 +30,23 @@ var Sticky = function (_Component) {
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Sticky.__proto__ || Object.getPrototypeOf(Sticky)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
       sticky: false
+    }, _this.addListener = function () {
+      var scrollContext = _this.props.scrollContext;
+
+
+      eventStack.sub('resize', _this.handleUpdate, { target: scrollContext });
+      eventStack.sub('scroll', _this.handleUpdate, { target: scrollContext });
+    }, _this.removeListener = function () {
+      var scrollContext = _this.props.scrollContext;
+
+
+      eventStack.unsub('resize', _this.handleUpdate, { target: scrollContext });
+      eventStack.unsub('scroll', _this.handleUpdate, { target: scrollContext });
     }, _this.update = function (e) {
       var pushing = _this.state.pushing;
 
 
       _this.ticking = false;
-
       _this.assignRects();
 
       if (pushing) {
@@ -69,8 +80,6 @@ var Sticky = function (_Component) {
       _this.triggerRect = _this.triggerRef.getBoundingClientRect();
       _this.contextRect = (context || document.body).getBoundingClientRect();
       _this.stickyRect = _this.stickyRef.getBoundingClientRect();
-    }, _this.isOversized = function () {
-      return _this.stickyRect.height > window.innerHeight;
     }, _this.didReachContextBottom = function () {
       var offset = _this.props.offset;
 
@@ -85,6 +94,8 @@ var Sticky = function (_Component) {
 
 
       return _this.contextRect.bottom + bottomOffset > window.innerHeight;
+    }, _this.isOversized = function () {
+      return _this.stickyRect.height > window.innerHeight;
     }, _this.pushing = function (pushing) {
       var possible = _this.props.pushing;
 
@@ -131,14 +142,44 @@ var Sticky = function (_Component) {
   _createClass(Sticky, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.handleUpdate();
-      window.addEventListener('scroll', this.handleUpdate);
+      if (!isBrowser) return;
+      var active = this.props.active;
+
+
+      if (active) {
+        this.handleUpdate();
+        this.addListener();
+      }
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(_ref2) {
+      var next = _ref2.active;
+      var current = this.props.active;
+
+
+      if (current === next) return;
+      if (next) {
+        this.handleUpdate();
+        this.addListener();
+        return;
+      }
+      this.removeListener();
+      this.setState({ sticky: false });
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      window.removeEventListener('scroll', this.handleUpdate);
+      if (!isBrowser) return;
+      var active = this.props.active;
+
+
+      if (active) this.removeListener();
     }
+
+    // ----------------------------------------
+    // Events
+    // ----------------------------------------
 
     // ----------------------------------------
     // Handlers
@@ -166,9 +207,6 @@ var Sticky = function (_Component) {
       };
     }
 
-    // Return true if the height of the component is higher than the window
-
-
     // Return true when the component reached the bottom of the context
 
 
@@ -179,6 +217,9 @@ var Sticky = function (_Component) {
 
 
     // Return true when the bottom of the screen overpasses the Sticky component
+
+
+    // Return true if the height of the component is higher than the window
 
 
     // ----------------------------------------
@@ -225,18 +266,23 @@ var Sticky = function (_Component) {
 }(Component);
 
 Sticky.defaultProps = {
+  active: true,
   bottomOffset: 0,
-  offset: 0
+  offset: 0,
+  scrollContext: isBrowser ? window : null
 };
 Sticky._meta = {
   name: 'Sticky',
   type: META.TYPES.MODULE
 };
-Sticky.handledProps = ['as', 'bottomOffset', 'children', 'className', 'context', 'offset', 'onBottom', 'onStick', 'onTop', 'onUnstick', 'pushing'];
+Sticky.handledProps = ['active', 'as', 'bottomOffset', 'children', 'className', 'context', 'offset', 'onBottom', 'onStick', 'onTop', 'onUnstick', 'pushing', 'scrollContext'];
 export default Sticky;
-process.env.NODE_ENV !== "production" ? Sticky.propTypes = {
+Sticky.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: customPropTypes.as,
+
+  /** A Sticky can be active. */
+  active: PropTypes.bool,
 
   /** Offset in pixels from the bottom of the screen when fixing element to viewport. */
   bottomOffset: PropTypes.number,
@@ -286,5 +332,8 @@ process.env.NODE_ENV !== "production" ? Sticky.propTypes = {
   onUnstick: PropTypes.func,
 
   /** Whether element should be "pushed" by the viewport, attaching to the bottom of the screen when scrolling up. */
-  pushing: PropTypes.bool
-} : void 0;
+  pushing: PropTypes.bool,
+
+  /** Context which sticky should attach onscroll events. */
+  scrollContext: PropTypes.object
+} : {};

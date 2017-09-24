@@ -78,7 +78,7 @@ StatisticGroup._meta = {
   parent: 'Statistic'
 };
 
-process.env.NODE_ENV !== "production" ? StatisticGroup.propTypes = {
+StatisticGroup.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -105,20 +105,6 @@ process.env.NODE_ENV !== "production" ? StatisticGroup.propTypes = {
 
   /** A statistic group can have its items divided evenly. */
   widths: _propTypes2.default.oneOf(_lib.SUI.WIDTHS)
-} : void 0;
+} : {};
 
-var _default = StatisticGroup;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(StatisticGroup, 'StatisticGroup', 'src/views/Statistic/StatisticGroup.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Statistic/StatisticGroup.js');
-}();
-
-;
+exports.default = StatisticGroup;

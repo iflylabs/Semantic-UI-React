@@ -47,7 +47,7 @@ StepDescription._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? StepDescription.propTypes = {
+StepDescription.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -59,20 +59,6 @@ process.env.NODE_ENV !== "production" ? StepDescription.propTypes = {
 
   /** Shorthand for primary content. */
   description: _lib.customPropTypes.contentShorthand
-} : void 0;
+} : {};
 
-var _default = StepDescription;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(StepDescription, 'StepDescription', 'src/elements/Step/StepDescription.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Step/StepDescription.js');
-}();
-
-;
+exports.default = StepDescription;

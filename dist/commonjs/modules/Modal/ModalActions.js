@@ -69,29 +69,20 @@ var ModalActions = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = ModalActions.__proto__ || Object.getPrototypeOf(ModalActions)).call.apply(_ref, [this].concat(args))), _this), _this.handleButtonOverrides = function () {
-      var _this2;
-
-      return (_this2 = _this).__handleButtonOverrides__REACT_HOT_LOADER__.apply(_this2, arguments);
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = ModalActions.__proto__ || Object.getPrototypeOf(ModalActions)).call.apply(_ref, [this].concat(args))), _this), _this.handleButtonOverrides = function (predefinedProps) {
+      return {
+        onClick: function onClick(e, buttonProps) {
+          (0, _invoke3.default)(predefinedProps, 'onClick', e, buttonProps);
+          (0, _invoke3.default)(_this.props, 'onActionClick', e, buttonProps);
+        }
+      };
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(ModalActions, [{
-    key: '__handleButtonOverrides__REACT_HOT_LOADER__',
-    value: function __handleButtonOverrides__REACT_HOT_LOADER__(predefinedProps) {
-      var _this3 = this;
-
-      return {
-        onClick: function onClick(e, buttonProps) {
-          (0, _invoke3.default)(predefinedProps, 'onClick', e, buttonProps);
-          (0, _invoke3.default)(_this3.props, 'onActionClick', e, buttonProps);
-        }
-      };
-    }
-  }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
+      var _this2 = this;
 
       var _props = this.props,
           actions = _props.actions,
@@ -112,7 +103,7 @@ var ModalActions = function (_Component) {
         ElementType,
         (0, _extends3.default)({}, rest, { className: classes }),
         (0, _map3.default)(actions, function (action) {
-          return _Button2.default.create(action, { overrideProps: _this4.handleButtonOverrides });
+          return _Button2.default.create(action, { overrideProps: _this2.handleButtonOverrides });
         })
       );
     }
@@ -126,14 +117,13 @@ ModalActions._meta = {
   parent: 'Modal'
 };
 ModalActions.handledProps = ['actions', 'as', 'children', 'className', 'onActionClick'];
-var _default = ModalActions;
-exports.default = _default;
-process.env.NODE_ENV !== "production" ? ModalActions.propTypes = {
+exports.default = ModalActions;
+ModalActions.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
-  /** Elements to render as Modal action buttons. */
-  actions: _lib.customPropTypes.every([_lib.customPropTypes.disallow(['children']), _propTypes2.default.arrayOf(_lib.customPropTypes.itemShorthand)]),
+  /** Array of shorthand buttons. */
+  actions: _lib.customPropTypes.collectionShorthand,
 
   /** Primary content. */
   children: _propTypes2.default.node,
@@ -142,28 +132,15 @@ process.env.NODE_ENV !== "production" ? ModalActions.propTypes = {
   className: _propTypes2.default.string,
 
   /**
-   * onClick handler for an action. Mutually exclusive with children.
+   * Action onClick handler when using shorthand `actions`.
    *
    * @param {SyntheticEvent} event - React's original SyntheticEvent.
-   * @param {object} data - All item props.
+   * @param {object} data - All props from the clicked action.
    */
   onActionClick: _lib.customPropTypes.every([_lib.customPropTypes.disallow(['children']), _propTypes2.default.func])
-} : void 0;
+} : {};
 
 
 ModalActions.create = (0, _lib.createShorthandFactory)(ModalActions, function (actions) {
   return { actions: actions };
 });
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(ModalActions, 'ModalActions', 'src/modules/Modal/ModalActions.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Modal/ModalActions.js');
-}();
-
-;

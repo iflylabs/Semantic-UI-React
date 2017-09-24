@@ -93,22 +93,15 @@ var SearchResult = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref2 = SearchResult.__proto__ || Object.getPrototypeOf(SearchResult)).call.apply(_ref2, [this].concat(args))), _this), _this.handleClick = function () {
-      var _this2;
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref2 = SearchResult.__proto__ || Object.getPrototypeOf(SearchResult)).call.apply(_ref2, [this].concat(args))), _this), _this.handleClick = function (e) {
+      var onClick = _this.props.onClick;
 
-      return (_this2 = _this).__handleClick__REACT_HOT_LOADER__.apply(_this2, arguments);
+
+      if (onClick) onClick(e, _this.props);
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(SearchResult, [{
-    key: '__handleClick__REACT_HOT_LOADER__',
-    value: function __handleClick__REACT_HOT_LOADER__(e) {
-      var onClick = this.props.onClick;
-
-
-      if (onClick) onClick(e, this.props);
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -144,9 +137,8 @@ SearchResult._meta = {
   type: _lib.META.TYPES.MODULE
 };
 SearchResult.handledProps = ['active', 'as', 'className', 'description', 'id', 'image', 'onClick', 'price', 'renderer', 'title'];
-var _default = SearchResult;
-exports.default = _default;
-process.env.NODE_ENV !== "production" ? SearchResult.propTypes = {
+exports.default = SearchResult;
+SearchResult.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -186,19 +178,4 @@ process.env.NODE_ENV !== "production" ? SearchResult.propTypes = {
 
   /** Display title. */
   title: _propTypes2.default.string
-} : void 0;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(defaultRenderer, 'defaultRenderer', 'src/modules/Search/SearchResult.js');
-
-  __REACT_HOT_LOADER__.register(SearchResult, 'SearchResult', 'src/modules/Search/SearchResult.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Search/SearchResult.js');
-}();
-
-;
+} : {};

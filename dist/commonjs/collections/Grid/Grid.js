@@ -78,7 +78,7 @@ Grid._meta = {
   type: _lib.META.TYPES.COLLECTION
 };
 
-process.env.NODE_ENV !== "production" ? Grid.propTypes = {
+Grid.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -129,20 +129,6 @@ process.env.NODE_ENV !== "production" ? Grid.propTypes = {
 
   /** A grid can specify its vertical alignment to have all its columns vertically centered. */
   verticalAlign: _propTypes2.default.oneOf(_lib.SUI.VERTICAL_ALIGNMENTS)
-} : void 0;
+} : {};
 
-var _default = Grid;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Grid, 'Grid', 'src/collections/Grid/Grid.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Grid/Grid.js');
-}();
-
-;
+exports.default = Grid;

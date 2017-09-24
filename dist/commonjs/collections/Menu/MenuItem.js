@@ -28,6 +28,10 @@ var _startCase2 = require('lodash/startCase');
 
 var _startCase3 = _interopRequireDefault(_startCase2);
 
+var _invoke2 = require('lodash/invoke');
+
+var _invoke3 = _interopRequireDefault(_invoke2);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -65,22 +69,15 @@ var MenuItem = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = MenuItem.__proto__ || Object.getPrototypeOf(MenuItem)).call.apply(_ref, [this].concat(args))), _this), _this.handleClick = function () {
-      var _this2;
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = MenuItem.__proto__ || Object.getPrototypeOf(MenuItem)).call.apply(_ref, [this].concat(args))), _this), _this.handleClick = function (e) {
+      var disabled = _this.props.disabled;
 
-      return (_this2 = _this).__handleClick__REACT_HOT_LOADER__.apply(_this2, arguments);
+
+      if (!disabled) (0, _invoke3.default)(_this.props, 'onClick', e, _this.props);
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(MenuItem, [{
-    key: '__handleClick__REACT_HOT_LOADER__',
-    value: function __handleClick__REACT_HOT_LOADER__(e) {
-      var onClick = this.props.onClick;
-
-
-      if (onClick) onClick(e, this.props);
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -130,9 +127,8 @@ MenuItem._meta = {
   parent: 'Menu'
 };
 MenuItem.handledProps = ['active', 'as', 'children', 'className', 'color', 'content', 'disabled', 'fitted', 'header', 'icon', 'index', 'link', 'name', 'onClick', 'position'];
-var _default = MenuItem;
-exports.default = _default;
-process.env.NODE_ENV !== "production" ? MenuItem.propTypes = {
+exports.default = MenuItem;
+MenuItem.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -183,22 +179,9 @@ process.env.NODE_ENV !== "production" ? MenuItem.propTypes = {
 
   /** A menu item can take left or right position. */
   position: _propTypes2.default.oneOf(['left', 'right'])
-} : void 0;
+} : {};
 
 
 MenuItem.create = (0, _lib.createShorthandFactory)(MenuItem, function (val) {
   return { content: val, name: val };
 });
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(MenuItem, 'MenuItem', 'src/collections/Menu/MenuItem.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Menu/MenuItem.js');
-}();
-
-;

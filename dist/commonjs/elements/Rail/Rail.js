@@ -59,7 +59,7 @@ Rail._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? Rail.propTypes = {
+Rail.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -86,20 +86,6 @@ process.env.NODE_ENV !== "production" ? Rail.propTypes = {
 
   /** A rail can have different sizes. */
   size: _propTypes2.default.oneOf((0, _without3.default)(_lib.SUI.SIZES, 'medium'))
-} : void 0;
+} : {};
 
-var _default = Rail;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Rail, 'Rail', 'src/elements/Rail/Rail.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Rail/Rail.js');
-}();
-
-;
+exports.default = Rail;

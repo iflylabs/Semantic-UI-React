@@ -49,7 +49,7 @@ CommentMetadata._meta = {
   type: _lib.META.TYPES.VIEW
 };
 
-process.env.NODE_ENV !== "production" ? CommentMetadata.propTypes = {
+CommentMetadata.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -58,20 +58,6 @@ process.env.NODE_ENV !== "production" ? CommentMetadata.propTypes = {
 
   /** Additional classes. */
   className: _propTypes2.default.string
-} : void 0;
+} : {};
 
-var _default = CommentMetadata;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(CommentMetadata, 'CommentMetadata', 'src/views/Comment/CommentMetadata.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Comment/CommentMetadata.js');
-}();
-
-;
+exports.default = CommentMetadata;

@@ -49,7 +49,7 @@ TableHeaderCell._meta = {
   parent: 'Table'
 };
 
-process.env.NODE_ENV !== "production" ? TableHeaderCell.propTypes = {
+TableHeaderCell.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -58,24 +58,10 @@ process.env.NODE_ENV !== "production" ? TableHeaderCell.propTypes = {
 
   /** A header cell can be sorted in ascending or descending order. */
   sorted: _propTypes2.default.oneOf(['ascending', 'descending'])
-} : void 0;
+} : {};
 
 TableHeaderCell.defaultProps = {
   as: 'th'
 };
 
-var _default = TableHeaderCell;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(TableHeaderCell, 'TableHeaderCell', 'src/collections/Table/TableHeaderCell.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Table/TableHeaderCell.js');
-}();
-
-;
+exports.default = TableHeaderCell;

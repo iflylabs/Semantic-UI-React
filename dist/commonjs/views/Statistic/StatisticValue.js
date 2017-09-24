@@ -52,7 +52,7 @@ StatisticValue._meta = {
   type: _lib.META.TYPES.VIEW
 };
 
-process.env.NODE_ENV !== "production" ? StatisticValue.propTypes = {
+StatisticValue.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -67,20 +67,6 @@ process.env.NODE_ENV !== "production" ? StatisticValue.propTypes = {
 
   /** Primary content of the StatisticValue. Mutually exclusive with the children prop. */
   value: _lib.customPropTypes.contentShorthand
-} : void 0;
+} : {};
 
-var _default = StatisticValue;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(StatisticValue, 'StatisticValue', 'src/views/Statistic/StatisticValue.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Statistic/StatisticValue.js');
-}();
-
-;
+exports.default = StatisticValue;

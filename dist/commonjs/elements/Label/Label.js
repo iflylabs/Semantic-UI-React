@@ -81,38 +81,22 @@ var Label = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Label.__proto__ || Object.getPrototypeOf(Label)).call.apply(_ref, [this].concat(args))), _this), _this.handleClick = function () {
-      var _this2;
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Label.__proto__ || Object.getPrototypeOf(Label)).call.apply(_ref, [this].concat(args))), _this), _this.handleClick = function (e) {
+      var onClick = _this.props.onClick;
 
-      return (_this2 = _this).__handleClick__REACT_HOT_LOADER__.apply(_this2, arguments);
-    }, _this.handleIconOverrides = function () {
-      var _this3;
 
-      return (_this3 = _this).__handleIconOverrides__REACT_HOT_LOADER__.apply(_this3, arguments);
+      if (onClick) onClick(e, _this.props);
+    }, _this.handleIconOverrides = function (predefinedProps) {
+      return {
+        onClick: function onClick(e) {
+          (0, _invoke3.default)(predefinedProps, 'onClick', e);
+          (0, _invoke3.default)(_this.props, 'onRemove', e, _this.props);
+        }
+      };
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(Label, [{
-    key: '__handleClick__REACT_HOT_LOADER__',
-    value: function __handleClick__REACT_HOT_LOADER__(e) {
-      var onClick = this.props.onClick;
-
-
-      if (onClick) onClick(e, this.props);
-    }
-  }, {
-    key: '__handleIconOverrides__REACT_HOT_LOADER__',
-    value: function __handleIconOverrides__REACT_HOT_LOADER__(predefinedProps) {
-      var _this4 = this;
-
-      return {
-        onClick: function onClick(e) {
-          (0, _invoke3.default)(predefinedProps, 'onClick', e);
-          (0, _invoke3.default)(_this4.props, 'onRemove', e, _this4.props);
-        }
-      };
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -178,9 +162,8 @@ Label._meta = {
 Label.Detail = _LabelDetail2.default;
 Label.Group = _LabelGroup2.default;
 Label.handledProps = ['active', 'as', 'attached', 'basic', 'children', 'circular', 'className', 'color', 'content', 'corner', 'detail', 'empty', 'floating', 'horizontal', 'icon', 'image', 'onClick', 'onRemove', 'pointing', 'removeIcon', 'ribbon', 'size', 'tag'];
-var _default = Label;
-exports.default = _default;
-process.env.NODE_ENV !== "production" ? Label.propTypes = {
+exports.default = Label;
+Label.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -259,22 +242,9 @@ process.env.NODE_ENV !== "production" ? Label.propTypes = {
 
   /** A label can appear as a tag. */
   tag: _propTypes2.default.bool
-} : void 0;
+} : {};
 
 
 Label.create = (0, _lib.createShorthandFactory)(Label, function (value) {
   return { content: value };
 });
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Label, 'Label', 'src/elements/Label/Label.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Label/Label.js');
-}();
-
-;

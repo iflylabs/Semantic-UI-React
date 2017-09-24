@@ -124,7 +124,7 @@ Feed._meta = {
   type: _lib.META.TYPES.VIEW
 };
 
-process.env.NODE_ENV !== "production" ? Feed.propTypes = {
+Feed.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -139,7 +139,7 @@ process.env.NODE_ENV !== "production" ? Feed.propTypes = {
 
   /** A feed can have different sizes. */
   size: _propTypes2.default.oneOf((0, _without3.default)(_lib.SUI.SIZES, 'mini', 'tiny', 'medium', 'big', 'huge', 'massive'))
-} : void 0;
+} : {};
 
 Feed.Content = _FeedContent2.default;
 Feed.Date = _FeedDate2.default;
@@ -151,18 +151,4 @@ Feed.Meta = _FeedMeta2.default;
 Feed.Summary = _FeedSummary2.default;
 Feed.User = _FeedUser2.default;
 
-var _default = Feed;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Feed, 'Feed', 'src/views/Feed/Feed.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Feed/Feed.js');
-}();
-
-;
+exports.default = Feed;

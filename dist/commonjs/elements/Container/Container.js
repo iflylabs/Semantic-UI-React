@@ -51,7 +51,7 @@ Container._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? Container.propTypes = {
+Container.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -69,20 +69,6 @@ process.env.NODE_ENV !== "production" ? Container.propTypes = {
 
   /** Align container text. */
   textAlign: _propTypes2.default.oneOf(_lib.SUI.TEXT_ALIGNMENTS)
-} : void 0;
+} : {};
 
-var _default = Container;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Container, 'Container', 'src/elements/Container/Container.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Container/Container.js');
-}();
-
-;
+exports.default = Container;

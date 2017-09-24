@@ -62,7 +62,7 @@ GridColumn._meta = {
   type: _lib.META.TYPES.COLLECTION
 };
 
-process.env.NODE_ENV !== "production" ? GridColumn.propTypes = {
+GridColumn.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -107,20 +107,10 @@ process.env.NODE_ENV !== "production" ? GridColumn.propTypes = {
 
   /** Represents width of column. */
   width: _propTypes2.default.oneOf(_lib.SUI.WIDTHS)
-} : void 0;
+} : {};
 
-var _default = GridColumn;
-exports.default = _default;
-;
+GridColumn.create = (0, _lib.createShorthandFactory)(GridColumn, function (children) {
+  return { children: children };
+});
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(GridColumn, 'GridColumn', 'src/collections/Grid/GridColumn.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Grid/GridColumn.js');
-}();
-
-;
+exports.default = GridColumn;

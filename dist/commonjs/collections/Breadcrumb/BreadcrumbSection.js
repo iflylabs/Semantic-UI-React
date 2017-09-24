@@ -57,22 +57,15 @@ var BreadcrumbSection = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = BreadcrumbSection.__proto__ || Object.getPrototypeOf(BreadcrumbSection)).call.apply(_ref, [this].concat(args))), _this), _this.handleClick = function () {
-      var _this2;
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = BreadcrumbSection.__proto__ || Object.getPrototypeOf(BreadcrumbSection)).call.apply(_ref, [this].concat(args))), _this), _this.handleClick = function (e) {
+      var onClick = _this.props.onClick;
 
-      return (_this2 = _this).__handleClick__REACT_HOT_LOADER__.apply(_this2, arguments);
+
+      if (onClick) onClick(e, _this.props);
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(BreadcrumbSection, [{
-    key: '__handleClick__REACT_HOT_LOADER__',
-    value: function __handleClick__REACT_HOT_LOADER__(e) {
-      var onClick = this.props.onClick;
-
-
-      if (onClick) onClick(e, this.props);
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -107,9 +100,8 @@ BreadcrumbSection._meta = {
   parent: 'Breadcrumb'
 };
 BreadcrumbSection.handledProps = ['active', 'as', 'children', 'className', 'content', 'href', 'link', 'onClick'];
-var _default = BreadcrumbSection;
-exports.default = _default;
-process.env.NODE_ENV !== "production" ? BreadcrumbSection.propTypes = {
+exports.default = BreadcrumbSection;
+BreadcrumbSection.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -139,22 +131,9 @@ process.env.NODE_ENV !== "production" ? BreadcrumbSection.propTypes = {
    * @param {object} data - All props.
    */
   onClick: _propTypes2.default.func
-} : void 0;
+} : {};
 
 
 BreadcrumbSection.create = (0, _lib.createShorthandFactory)(BreadcrumbSection, function (content) {
   return { content: content, link: true };
 });
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(BreadcrumbSection, 'BreadcrumbSection', 'src/collections/Breadcrumb/BreadcrumbSection.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Breadcrumb/BreadcrumbSection.js');
-}();
-
-;

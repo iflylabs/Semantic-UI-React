@@ -13,11 +13,13 @@ import _findIndex from 'lodash/findIndex';
 import _find from 'lodash/find';
 import _reduce from 'lodash/reduce';
 import _some from 'lodash/some';
+import _deburr from 'lodash/deburr';
 import _escapeRegExp from 'lodash/escapeRegExp';
 import _filter from 'lodash/filter';
 import _isFunction from 'lodash/isFunction';
 import _dropRight from 'lodash/dropRight';
 import _isEmpty from 'lodash/isEmpty';
+import _size from 'lodash/size';
 import _union from 'lodash/union';
 import _get from 'lodash/get';
 import _includes from 'lodash/includes';
@@ -31,7 +33,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React, { Children, cloneElement } from 'react';
 
-import { AutoControlledComponent as Component, childrenUtils, customPropTypes, getElementType, getUnhandledProps, isBrowser, keyboardKey, makeDebugger, META, objectDiff, useKeyOnly, useKeyOrValueAndKey } from '../../lib';
+import { AutoControlledComponent as Component, childrenUtils, customPropTypes, eventStack, getElementType, getUnhandledProps, keyboardKey, META, objectDiff, useKeyOnly, useKeyOrValueAndKey } from '../../lib';
 import Icon from '../../elements/Icon';
 import Label from '../../elements/Label';
 import DropdownDivider from './DropdownDivider';
@@ -39,8 +41,6 @@ import DropdownItem from './DropdownItem';
 import DropdownHeader from './DropdownHeader';
 import DropdownMenu from './DropdownMenu';
 import DropdownSearchInput from './DropdownSearchInput';
-
-var debug = makeDebugger('dropdown');
 
 var getKeyOrValue = function getKeyOrValue(key, value) {
   return _isNil(key) ? value : key;
@@ -68,7 +68,6 @@ var Dropdown = function (_Component) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Dropdown.__proto__ || Object.getPrototypeOf(Dropdown)).call.apply(_ref, [this].concat(args))), _this), _this.handleChange = function (e, value) {
-      debug('handleChange()', value);
       _invoke(_this.props, 'onChange', e, _extends({}, _this.props, { value: value }));
     }, _this.closeOnChange = function (e) {
       var _this$props = _this.props,
@@ -85,9 +84,9 @@ var Dropdown = function (_Component) {
     }, _this.moveSelectionOnKeyDown = function (e) {
       var _moves;
 
-      debug('moveSelectionOnKeyDown()', keyboardKey.getName(e));
-
-      var multiple = _this.props.multiple;
+      var _this$props2 = _this.props,
+          multiple = _this$props2.multiple,
+          selectOnNavigation = _this$props2.selectOnNavigation;
 
       var moves = (_moves = {}, _defineProperty(_moves, keyboardKey.ArrowDown, 1), _defineProperty(_moves, keyboardKey.ArrowUp, -1), _moves);
       var move = moves[keyboardKey.getCode(e)];
@@ -95,9 +94,8 @@ var Dropdown = function (_Component) {
       if (move === undefined) return;
       e.preventDefault();
       _this.moveSelectionBy(move);
-      if (!multiple) _this.makeSelectedItemActive(e);
+      if (!multiple && selectOnNavigation) _this.makeSelectedItemActive(e);
     }, _this.openOnSpace = function (e) {
-      debug('openOnSpace()');
 
       if (keyboardKey.getCode(e) !== keyboardKey.Spacebar) return;
       if (_this.state.open) return;
@@ -106,7 +104,6 @@ var Dropdown = function (_Component) {
 
       _this.open(e);
     }, _this.openOnArrow = function (e) {
-      debug('openOnArrow()');
 
       var code = keyboardKey.getCode(e);
       if (!_includes([keyboardKey.ArrowDown, keyboardKey.ArrowUp], code)) return;
@@ -117,9 +114,9 @@ var Dropdown = function (_Component) {
       _this.open(e);
     }, _this.makeSelectedItemActive = function (e) {
       var open = _this.state.open;
-      var _this$props2 = _this.props,
-          multiple = _this$props2.multiple,
-          onAddItem = _this$props2.onAddItem;
+      var _this$props3 = _this.props,
+          multiple = _this$props3.multiple,
+          onAddItem = _this$props3.onAddItem;
 
 
       var item = _this.getSelectedItem();
@@ -127,7 +124,7 @@ var Dropdown = function (_Component) {
 
       // prevent selecting null if there was no selected item value
       // prevent selecting duplicate items when the dropdown is closed
-      if (!value || !open) return;
+      if (_isNil(value) || !open) return;
 
       // notify the onAddItem prop if this is a new value
       if (onAddItem && item['data-additional']) onAddItem(e, _extends({}, _this.props, { value: value }));
@@ -140,28 +137,30 @@ var Dropdown = function (_Component) {
       _this.setSelectedIndex(newValue);
       _this.handleChange(e, newValue);
     }, _this.selectItemOnEnter = function (e) {
-      debug('selectItemOnEnter()', keyboardKey.getName(e));
-      var _this$props3 = _this.props,
-          multiple = _this$props3.multiple,
-          search = _this$props3.search;
+      var _this$props4 = _this.props,
+          multiple = _this$props4.multiple,
+          onAddItem = _this$props4.onAddItem,
+          search = _this$props4.search;
 
 
       if (keyboardKey.getCode(e) !== keyboardKey.Enter) return;
       e.preventDefault();
 
-      if (search && _isEmpty(_this.getMenuOptions())) return;
+      var optionSize = _size(_this.getMenuOptions());
+      if (search && optionSize === 0) return;
+
+      var item = _this.getSelectedItem();
+      var isAdditionItem = onAddItem && item['data-additional'];
 
       _this.makeSelectedItemActive(e);
       _this.closeOnChange(e);
 
-      if (!multiple) _this.clearSearchQuery();
+      if (!multiple || isAdditionItem || optionSize === 1) _this.clearSearchQuery();
       if (search && _this.searchRef) _this.searchRef.focus();
     }, _this.removeItemOnBackspace = function (e) {
-      debug('removeItemOnBackspace()', keyboardKey.getName(e));
-
-      var _this$props4 = _this.props,
-          multiple = _this$props4.multiple,
-          search = _this$props4.search;
+      var _this$props5 = _this.props,
+          multiple = _this$props5.multiple,
+          search = _this$props5.search;
       var _this$state = _this.state,
           searchQuery = _this$state.searchQuery,
           value = _this$state.value;
@@ -178,32 +177,26 @@ var Dropdown = function (_Component) {
       _this.setSelectedIndex(newValue);
       _this.handleChange(e, newValue);
     }, _this.closeOnDocumentClick = function (e) {
-      debug('closeOnDocumentClick()');
-      debug(e);
+
+      if (!_this.props.closeOnBlur) return;
 
       // If event happened in the dropdown, ignore it
       if (_this.ref && _isFunction(_this.ref.contains) && _this.ref.contains(e.target)) return;
 
       _this.close();
     }, _this.handleMouseDown = function (e) {
-      debug('handleMouseDown()');
 
       _this.isMouseDown = true;
+      eventStack.sub('mouseup', _this.handleDocumentMouseUp);
       _invoke(_this.props, 'onMouseDown', e, _this.props);
-      // Do not access document when server side rendering
-      if (isBrowser) document.addEventListener('mouseup', _this.handleDocumentMouseUp);
     }, _this.handleDocumentMouseUp = function () {
-      debug('handleDocumentMouseUp()');
 
       _this.isMouseDown = false;
-      // Do not access document when server side rendering
-      if (isBrowser) document.removeEventListener('mouseup', _this.handleDocumentMouseUp);
+      eventStack.unsub('mouseup', _this.handleDocumentMouseUp);
     }, _this.handleClick = function (e) {
-      debug('handleClick()', e);
-
-      var _this$props5 = _this.props,
-          minCharacters = _this$props5.minCharacters,
-          search = _this$props5.search;
+      var _this$props6 = _this.props,
+          minCharacters = _this$props6.minCharacters,
+          search = _this$props6.search;
       var _this$state2 = _this.state,
           open = _this$state2.open,
           searchQuery = _this$state2.searchQuery;
@@ -221,19 +214,16 @@ var Dropdown = function (_Component) {
       }
       if (_this.searchRef) _this.searchRef.focus();
     }, _this.handleIconClick = function (e) {
-      debug('handleIconClick()', e);
 
       _invoke(_this.props, 'onClick', e, _this.props);
       // prevent handleClick()
       e.stopPropagation();
       _this.toggle(e);
     }, _this.handleItemClick = function (e, item) {
-      debug('handleItemClick()', item);
-
-      var _this$props6 = _this.props,
-          multiple = _this$props6.multiple,
-          onAddItem = _this$props6.onAddItem,
-          search = _this$props6.search;
+      var _this$props7 = _this.props,
+          multiple = _this$props7.multiple,
+          onAddItem = _this$props7.onAddItem,
+          search = _this$props7.search;
       var value = item.value;
 
       // prevent toggle() in handleClick()
@@ -244,21 +234,23 @@ var Dropdown = function (_Component) {
       if (item.disabled) return;
 
       // notify the onAddItem prop if this is a new value
-      if (onAddItem && item['data-additional']) onAddItem(e, _extends({}, _this.props, { value: value }));
+      var isAdditionItem = onAddItem && item['data-additional'];
+      if (isAdditionItem) onAddItem(e, _extends({}, _this.props, { value: value }));
 
       var newValue = multiple ? _union(_this.state.value, [value]) : value;
 
       // notify the onChange prop that the user is trying to change value
       _this.setValue(newValue);
       _this.setSelectedIndex(value);
-      if (!multiple) _this.clearSearchQuery();
+
+      var optionSize = _size(_this.getMenuOptions());
+      if (!multiple || isAdditionItem || optionSize === 1) _this.clearSearchQuery();
 
       _this.handleChange(e, newValue);
       _this.closeOnChange(e);
 
       if (multiple && search && _this.searchRef) _this.searchRef.focus();
     }, _this.handleFocus = function (e) {
-      debug('handleFocus()');
       var focus = _this.state.focus;
 
 
@@ -267,18 +259,17 @@ var Dropdown = function (_Component) {
       _invoke(_this.props, 'onFocus', e, _this.props);
       _this.setState({ focus: true });
     }, _this.handleBlur = function (e) {
-      debug('handleBlur()');
 
       // Heads up! Don't remove this.
       // https://github.com/Semantic-Org/Semantic-UI-React/issues/1315
       var currentTarget = _get(e, 'currentTarget');
       if (currentTarget && currentTarget.contains(document.activeElement)) return;
 
-      var _this$props7 = _this.props,
-          closeOnBlur = _this$props7.closeOnBlur,
-          multiple = _this$props7.multiple,
-          onBlur = _this$props7.onBlur,
-          selectOnBlur = _this$props7.selectOnBlur;
+      var _this$props8 = _this.props,
+          closeOnBlur = _this$props8.closeOnBlur,
+          multiple = _this$props8.multiple,
+          onBlur = _this$props8.onBlur,
+          selectOnBlur = _this$props8.selectOnBlur;
       // do not "blur" when the mouse is down inside of the Dropdown
 
       if (_this.isMouseDown) return;
@@ -292,8 +283,6 @@ var Dropdown = function (_Component) {
     }, _this.handleSearchChange = function (e, _ref2) {
       var value = _ref2.value;
 
-      debug('handleSearchChange()');
-      debug(value);
 
       // prevent propagating to this.props.onChange()
       e.stopPropagation();
@@ -303,11 +292,8 @@ var Dropdown = function (_Component) {
 
       var newQuery = value;
 
-      _invoke(_this.props, 'onSearchChange', e, newQuery);
-      _this.setState({
-        selectedIndex: 0,
-        searchQuery: newQuery
-      });
+      _invoke(_this.props, 'onSearchChange', e, _extends({}, _this.props, { searchQuery: newQuery }));
+      _this.trySetState({ searchQuery: newQuery }, { selectedIndex: 0 });
 
       // open search dropdown on search query
       if (!open && newQuery.length >= minCharacters) {
@@ -319,12 +305,12 @@ var Dropdown = function (_Component) {
     }, _this.getMenuOptions = function () {
       var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this.state.value;
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _this.props.options;
-      var _this$props8 = _this.props,
-          multiple = _this$props8.multiple,
-          search = _this$props8.search,
-          allowAdditions = _this$props8.allowAdditions,
-          additionPosition = _this$props8.additionPosition,
-          additionLabel = _this$props8.additionLabel;
+      var _this$props9 = _this.props,
+          multiple = _this$props9.multiple,
+          search = _this$props9.search,
+          allowAdditions = _this$props9.allowAdditions,
+          additionPosition = _this$props9.additionPosition,
+          additionLabel = _this$props9.additionLabel;
       var searchQuery = _this.state.searchQuery;
 
 
@@ -343,8 +329,9 @@ var Dropdown = function (_Component) {
           filteredOptions = search(filteredOptions, searchQuery);
         } else {
           var re = new RegExp(_escapeRegExp(searchQuery), 'i');
+          // remove diacritics on search
           filteredOptions = _filter(filteredOptions, function (opt) {
-            return re.test(opt.text);
+            return re.test(_deburr(opt.text));
           });
         }
       }
@@ -393,11 +380,11 @@ var Dropdown = function (_Component) {
 
       return _findIndex(options, ['value', value]);
     }, _this.getDropdownAriaOptions = function () {
-      var _this$props9 = _this.props,
-          loading = _this$props9.loading,
-          disabled = _this$props9.disabled,
-          search = _this$props9.search,
-          multiple = _this$props9.multiple;
+      var _this$props10 = _this.props,
+          loading = _this$props10.loading,
+          disabled = _this$props10.disabled,
+          search = _this$props10.search,
+          multiple = _this$props10.multiple;
       var open = _this.state.open;
 
       var ariaOptions = {
@@ -411,10 +398,8 @@ var Dropdown = function (_Component) {
       }
       return ariaOptions;
     }, _this.clearSearchQuery = function () {
-      debug('clearSearchQuery()');
-      _this.setState({ searchQuery: '' });
+      _this.trySetState({ searchQuery: '' });
     }, _this.setValue = function (value) {
-      debug('setValue()', value);
       _this.trySetState({ value: value });
     }, _this.setSelectedIndex = function () {
       var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this.state.value;
@@ -455,7 +440,6 @@ var Dropdown = function (_Component) {
 
       _this.setState({ selectedIndex: newSelectedIndex });
     }, _this.handleLabelClick = function (e, labelProps) {
-      debug('handleLabelClick()');
       // prevent focusing search input on click
       e.stopPropagation();
 
@@ -465,16 +449,12 @@ var Dropdown = function (_Component) {
 
       if (onLabelClick) onLabelClick(e, labelProps);
     }, _this.handleLabelRemove = function (e, labelProps) {
-      debug('handleLabelRemove()');
       // prevent focusing search input on click
       e.stopPropagation();
       var value = _this.state.value;
 
       var newValue = _without(value, labelProps.value);
-      debug('label props:', labelProps);
-      debug('current value:', value);
-      debug('remove value:', labelProps.value);
-      debug('new value:', newValue);
+
 
       _this.setValue(newValue);
       _this.setSelectedIndex(newValue);
@@ -482,8 +462,6 @@ var Dropdown = function (_Component) {
     }, _this.moveSelectionBy = function (offset) {
       var startIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _this.state.selectedIndex;
 
-      debug('moveSelectionBy()');
-      debug('offset: ' + offset);
 
       var options = _this.getMenuOptions();
       var lastIndex = options.length - 1;
@@ -517,9 +495,9 @@ var Dropdown = function (_Component) {
     }, _this.handleRef = function (c) {
       return _this.ref = c;
     }, _this.computeSearchInputTabIndex = function () {
-      var _this$props10 = _this.props,
-          disabled = _this$props10.disabled,
-          tabIndex = _this$props10.tabIndex;
+      var _this$props11 = _this.props,
+          disabled = _this$props11.disabled,
+          tabIndex = _this$props11.tabIndex;
 
 
       if (!_isNil(tabIndex)) return tabIndex;
@@ -539,24 +517,23 @@ var Dropdown = function (_Component) {
         return searchWidth;
       }
     }, _this.computeTabIndex = function () {
-      var _this$props11 = _this.props,
-          disabled = _this$props11.disabled,
-          search = _this$props11.search,
-          tabIndex = _this$props11.tabIndex;
+      var _this$props12 = _this.props,
+          disabled = _this$props12.disabled,
+          search = _this$props12.search,
+          tabIndex = _this$props12.tabIndex;
 
-
-      if (!_isNil(tabIndex)) return tabIndex;
       // don't set a root node tabIndex as the search input has its own tabIndex
-      if (!search) return disabled ? -1 : 0;
+
+      if (search) return undefined;
+      if (disabled) return -1;
+      return _isNil(tabIndex) ? 0 : tabIndex;
     }, _this.scrollSelectedItemIntoView = function () {
-      debug('scrollSelectedItemIntoView()');
       if (!_this.ref) return;
       var menu = _this.ref.querySelector('.menu.visible');
       if (!menu) return;
       var item = menu.querySelector('.item.selected');
       if (!item) return;
-      debug('menu: ' + menu);
-      debug('item: ' + item);
+
       var isOutOfUpperView = item.offsetTop < menu.scrollTop;
       var isOutOfLowerView = item.offsetTop + item.clientHeight > menu.scrollTop + menu.clientHeight;
 
@@ -566,12 +543,10 @@ var Dropdown = function (_Component) {
         menu.scrollTop = item.offsetTop + item.clientHeight - menu.clientHeight;
       }
     }, _this.open = function (e) {
-      debug('open()');
-
-      var _this$props12 = _this.props,
-          disabled = _this$props12.disabled,
-          onOpen = _this$props12.onOpen,
-          search = _this$props12.search;
+      var _this$props13 = _this.props,
+          disabled = _this$props13.disabled,
+          onOpen = _this$props13.onOpen,
+          search = _this$props13.search;
 
       if (disabled) return;
       if (search && _this.searchRef) _this.searchRef.focus();
@@ -580,15 +555,12 @@ var Dropdown = function (_Component) {
       _this.trySetState({ open: true });
       _this.scrollSelectedItemIntoView();
     }, _this.close = function (e) {
-      debug('close()');
-
       var onClose = _this.props.onClose;
 
       if (onClose) onClose(e, _this.props);
 
       _this.trySetState({ open: false });
     }, _this.handleClose = function () {
-      debug('handleClose()');
       var hasSearchFocus = document.activeElement === _this.searchRef;
       var hasDropdownFocus = document.activeElement === _this.ref;
       var hasFocus = hasSearchFocus || hasDropdownFocus;
@@ -605,11 +577,11 @@ var Dropdown = function (_Component) {
     }, _this.toggle = function (e) {
       return _this.state.open ? _this.close(e) : _this.open(e);
     }, _this.renderText = function () {
-      var _this$props13 = _this.props,
-          multiple = _this$props13.multiple,
-          placeholder = _this$props13.placeholder,
-          search = _this$props13.search,
-          text = _this$props13.text;
+      var _this$props14 = _this.props,
+          multiple = _this$props14.multiple,
+          placeholder = _this$props14.placeholder,
+          search = _this$props14.search,
+          text = _this$props14.text;
       var _this$state3 = _this.state,
           searchQuery = _this$state3.searchQuery,
           value = _this$state3.value,
@@ -635,9 +607,9 @@ var Dropdown = function (_Component) {
         _text
       );
     }, _this.renderSearchInput = function () {
-      var _this$props14 = _this.props,
-          search = _this$props14.search,
-          searchInput = _this$props14.searchInput;
+      var _this$props15 = _this.props,
+          search = _this$props15.search,
+          searchInput = _this$props15.searchInput;
       var searchQuery = _this.state.searchQuery;
 
 
@@ -650,18 +622,17 @@ var Dropdown = function (_Component) {
           value: searchQuery
         } });
     }, _this.renderSearchSizer = function () {
-      var _this$props15 = _this.props,
-          search = _this$props15.search,
-          multiple = _this$props15.multiple;
+      var _this$props16 = _this.props,
+          search = _this$props16.search,
+          multiple = _this$props16.multiple;
 
 
       if (!(search && multiple)) return null;
       return React.createElement('span', { className: 'sizer', ref: _this.handleSizerRef });
     }, _this.renderLabels = function () {
-      debug('renderLabels()');
-      var _this$props16 = _this.props,
-          multiple = _this$props16.multiple,
-          renderLabel = _this$props16.renderLabel;
+      var _this$props17 = _this.props,
+          multiple = _this$props17.multiple,
+          renderLabel = _this$props17.renderLabel;
       var _this$state4 = _this.state,
           selectedLabel = _this$state4.selectedLabel,
           value = _this$state4.value;
@@ -670,7 +641,7 @@ var Dropdown = function (_Component) {
         return;
       }
       var selectedItems = _map(value, _this.getItemByValue);
-      debug('selectedItems', selectedItems);
+
 
       // if no item could be found for a given state value the selected item will be undefined
       // compact the selectedItems so we only have actual objects left
@@ -687,10 +658,10 @@ var Dropdown = function (_Component) {
         return Label.create(renderLabel(item, index, defaultProps), { defaultProps: defaultProps });
       });
     }, _this.renderOptions = function () {
-      var _this$props17 = _this.props,
-          multiple = _this$props17.multiple,
-          search = _this$props17.search,
-          noResultsMessage = _this$props17.noResultsMessage;
+      var _this$props18 = _this.props,
+          multiple = _this$props18.multiple,
+          search = _this$props18.search,
+          noResultsMessage = _this$props18.noResultsMessage;
       var _this$state5 = _this.state,
           selectedIndex = _this$state5.selectedIndex,
           value = _this$state5.value;
@@ -723,9 +694,9 @@ var Dropdown = function (_Component) {
         }));
       });
     }, _this.renderMenu = function () {
-      var _this$props18 = _this.props,
-          children = _this$props18.children,
-          header = _this$props18.header;
+      var _this$props19 = _this.props,
+          children = _this$props19.children,
+          header = _this$props19.header;
       var open = _this.state.open;
 
       var menuClasses = open ? 'visible' : '';
@@ -756,7 +727,6 @@ var Dropdown = function (_Component) {
   }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
-      debug('componentWillMount()');
       var _state = this.state,
           open = _state.open,
           value = _state.value;
@@ -776,9 +746,7 @@ var Dropdown = function (_Component) {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       _get2(Dropdown.prototype.__proto__ || Object.getPrototypeOf(Dropdown.prototype), 'componentWillReceiveProps', this).call(this, nextProps);
-      debug('componentWillReceiveProps()');
-      // TODO objectDiff still runs in prod, stop it
-      debug('to props:', objectDiff(this.props, nextProps));
+
 
       /* eslint-disable no-console */
       if (process.env.NODE_ENV !== 'production') {
@@ -795,7 +763,6 @@ var Dropdown = function (_Component) {
       /* eslint-enable no-console */
 
       if (!_isEqual(nextProps.value, this.props.value)) {
-        debug('value changed, setting', nextProps.value);
         this.setValue(nextProps.value);
         this.setSelectedIndex(nextProps.value);
       }
@@ -807,17 +774,10 @@ var Dropdown = function (_Component) {
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate(prevProps, prevState) {
-      // eslint-disable-line complexity
-      debug('componentDidUpdate()');
-      // TODO objectDiff still runs in prod, stop it
-      debug('to state:', objectDiff(prevState, this.state));
-
-      // Do not access document when server side rendering
-      if (!isBrowser) return;
 
       // focused / blurred
+      // eslint-disable-line complexity
       if (!prevState.focus && this.state.focus) {
-        debug('dropdown focused');
         if (!this.isMouseDown) {
           var _props = this.props,
               minCharacters = _props.minCharacters,
@@ -826,70 +786,44 @@ var Dropdown = function (_Component) {
 
           var openable = !search || search && minCharacters === 1;
 
-          debug('mouse is not down, opening');
           if (openOnFocus && openable) this.open();
         }
         if (!this.state.open) {
-          document.addEventListener('keydown', this.openOnArrow);
-          document.addEventListener('keydown', this.openOnSpace);
+          eventStack.sub('keydown', [this.openOnArrow, this.openOnSpace]);
         } else {
-          document.addEventListener('keydown', this.moveSelectionOnKeyDown);
-          document.addEventListener('keydown', this.selectItemOnEnter);
+          eventStack.sub('keydown', [this.moveSelectionOnKeyDown, this.selectItemOnEnter]);
         }
-        document.addEventListener('keydown', this.removeItemOnBackspace);
+        eventStack.sub('keydown', this.removeItemOnBackspace);
       } else if (prevState.focus && !this.state.focus) {
-        debug('dropdown blurred');
         var closeOnBlur = this.props.closeOnBlur;
 
         if (!this.isMouseDown && closeOnBlur) {
-          debug('mouse is not down and closeOnBlur=true, closing');
           this.close();
         }
-        document.removeEventListener('keydown', this.openOnArrow);
-        document.removeEventListener('keydown', this.openOnSpace);
-        document.removeEventListener('keydown', this.moveSelectionOnKeyDown);
-        document.removeEventListener('keydown', this.selectItemOnEnter);
-        document.removeEventListener('keydown', this.removeItemOnBackspace);
+        eventStack.unsub('keydown', [this.openOnArrow, this.openOnSpace, this.moveSelectionOnKeyDown, this.selectItemOnEnter, this.removeItemOnBackspace]);
       }
 
       // opened / closed
       if (!prevState.open && this.state.open) {
-        debug('dropdown opened');
-        document.addEventListener('keydown', this.closeOnEscape);
-        document.addEventListener('keydown', this.moveSelectionOnKeyDown);
-        document.addEventListener('keydown', this.selectItemOnEnter);
-        document.addEventListener('keydown', this.removeItemOnBackspace);
-        document.addEventListener('click', this.closeOnDocumentClick);
-        document.removeEventListener('keydown', this.openOnArrow);
-        document.removeEventListener('keydown', this.openOnSpace);
+        eventStack.sub('keydown', [this.closeOnEscape, this.moveSelectionOnKeyDown, this.selectItemOnEnter, this.removeItemOnBackspace]);
+        eventStack.sub('click', this.closeOnDocumentClick);
+        eventStack.unsub('keydown', [this.openOnArrow, this.openOnSpace]);
         this.scrollSelectedItemIntoView();
       } else if (prevState.open && !this.state.open) {
-        debug('dropdown closed');
         this.handleClose();
-        document.removeEventListener('keydown', this.closeOnEscape);
-        document.removeEventListener('keydown', this.moveSelectionOnKeyDown);
-        document.removeEventListener('keydown', this.selectItemOnEnter);
-        document.removeEventListener('click', this.closeOnDocumentClick);
+        eventStack.unsub('keydown', [this.closeOnEscape, this.moveSelectionOnKeyDown, this.selectItemOnEnter]);
+        eventStack.unsub('click', this.closeOnDocumentClick);
         if (!this.state.focus) {
-          document.removeEventListener('keydown', this.removeItemOnBackspace);
+          eventStack.unsub('keydown', this.removeItemOnBackspace);
         }
       }
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      debug('componentWillUnmount()');
 
-      // Do not access document when server side rendering
-      if (!isBrowser) return;
-
-      document.removeEventListener('keydown', this.openOnArrow);
-      document.removeEventListener('keydown', this.openOnSpace);
-      document.removeEventListener('keydown', this.moveSelectionOnKeyDown);
-      document.removeEventListener('keydown', this.selectItemOnEnter);
-      document.removeEventListener('keydown', this.removeItemOnBackspace);
-      document.removeEventListener('keydown', this.closeOnEscape);
-      document.removeEventListener('click', this.closeOnDocumentClick);
+      eventStack.unsub('keydown', [this.openOnArrow, this.openOnSpace, this.moveSelectionOnKeyDown, this.selectItemOnEnter, this.removeItemOnBackspace, this.closeOnEscape]);
+      eventStack.unsub('click', this.closeOnDocumentClick);
     }
 
     // ----------------------------------------
@@ -954,10 +888,6 @@ var Dropdown = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      debug('render()');
-      debug('props', this.props);
-      debug('state', this.state);
-
       var _props3 = this.props,
           basic = _props3.basic,
           button = _props3.button,
@@ -1034,9 +964,10 @@ Dropdown.defaultProps = {
     return text;
   },
   searchInput: 'text',
-  selectOnBlur: true
+  selectOnBlur: true,
+  selectOnNavigation: true
 };
-Dropdown.autoControlledProps = ['open', 'selectedLabel', 'value'];
+Dropdown.autoControlledProps = ['open', 'searchQuery', 'selectedLabel', 'value'];
 Dropdown._meta = {
   name: 'Dropdown',
   type: META.TYPES.MODULE
@@ -1046,9 +977,9 @@ Dropdown.Header = DropdownHeader;
 Dropdown.Item = DropdownItem;
 Dropdown.Menu = DropdownMenu;
 Dropdown.SearchInput = DropdownSearchInput;
-Dropdown.handledProps = ['additionLabel', 'additionPosition', 'allowAdditions', 'as', 'basic', 'button', 'children', 'className', 'closeOnBlur', 'closeOnChange', 'compact', 'defaultOpen', 'defaultSelectedLabel', 'defaultValue', 'disabled', 'error', 'floating', 'fluid', 'header', 'icon', 'inline', 'item', 'labeled', 'loading', 'minCharacters', 'multiple', 'noResultsMessage', 'onAddItem', 'onBlur', 'onChange', 'onClick', 'onClose', 'onFocus', 'onLabelClick', 'onMouseDown', 'onOpen', 'onSearchChange', 'open', 'openOnFocus', 'options', 'placeholder', 'pointing', 'renderLabel', 'scrolling', 'search', 'searchInput', 'selectOnBlur', 'selectedLabel', 'selection', 'simple', 'tabIndex', 'text', 'trigger', 'upward', 'value'];
+Dropdown.handledProps = ['additionLabel', 'additionPosition', 'allowAdditions', 'as', 'basic', 'button', 'children', 'className', 'closeOnBlur', 'closeOnChange', 'compact', 'defaultOpen', 'defaultSearchQuery', 'defaultSelectedLabel', 'defaultValue', 'disabled', 'error', 'floating', 'fluid', 'header', 'icon', 'inline', 'item', 'labeled', 'loading', 'minCharacters', 'multiple', 'noResultsMessage', 'onAddItem', 'onBlur', 'onChange', 'onClick', 'onClose', 'onFocus', 'onLabelClick', 'onMouseDown', 'onOpen', 'onSearchChange', 'open', 'openOnFocus', 'options', 'placeholder', 'pointing', 'renderLabel', 'scrolling', 'search', 'searchInput', 'searchQuery', 'selectOnBlur', 'selectOnNavigation', 'selectedLabel', 'selection', 'simple', 'tabIndex', 'text', 'trigger', 'upward', 'value'];
 export default Dropdown;
-process.env.NODE_ENV !== "production" ? Dropdown.propTypes = {
+Dropdown.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: customPropTypes.as,
 
@@ -1091,6 +1022,9 @@ process.env.NODE_ENV !== "production" ? Dropdown.propTypes = {
 
   /** Initial value of open. */
   defaultOpen: PropTypes.bool,
+
+  /** Initial value of searchQuery. */
+  defaultSearchQuery: PropTypes.string,
 
   /** Currently selected label in multi-select. */
   defaultSelectedLabel: customPropTypes.every([customPropTypes.demand(['multiple']), PropTypes.oneOfType([PropTypes.number, PropTypes.string])]),
@@ -1213,7 +1147,7 @@ process.env.NODE_ENV !== "production" ? Dropdown.propTypes = {
    * Called on search input change.
    *
    * @param {SyntheticEvent} event - React's original SyntheticEvent.
-   * @param {string} value - Current value of search input.
+   * @param {object} data - All props, includes current value of searchQuery.
    */
   onSearchChange: PropTypes.func,
 
@@ -1255,10 +1189,19 @@ process.env.NODE_ENV !== "production" ? Dropdown.propTypes = {
   /** A shorthand for a search input. */
   searchInput: PropTypes.oneOfType([PropTypes.array, PropTypes.node, PropTypes.object]),
 
+  /** Current value of searchQuery. Creates a controlled component. */
+  searchQuery: PropTypes.string,
+
   // TODO 'searchInMenu' or 'search='in menu' or ???  How to handle this markup and functionality?
 
   /** Define whether the highlighted item should be selected on blur. */
   selectOnBlur: PropTypes.bool,
+
+  /**
+   * Whether or not to change the value when navigating the menu using arrow keys.
+   * Setting to false will require enter or left click to confirm a choice.
+   */
+  selectOnNavigation: PropTypes.bool,
 
   /** Currently selected label in multi-select. */
   selectedLabel: customPropTypes.every([customPropTypes.demand(['multiple']), PropTypes.oneOfType([PropTypes.string, PropTypes.number])]),
@@ -1283,4 +1226,4 @@ process.env.NODE_ENV !== "production" ? Dropdown.propTypes = {
 
   /** A dropdown can open upward. */
   upward: PropTypes.bool
-} : void 0;
+} : {};

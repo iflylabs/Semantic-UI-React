@@ -8,6 +8,10 @@ var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
 
+var _without2 = require('lodash/without');
+
+var _without3 = _interopRequireDefault(_without2);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -45,10 +49,11 @@ function CardContent(props) {
       description = props.description,
       extra = props.extra,
       header = props.header,
-      meta = props.meta;
+      meta = props.meta,
+      textAlign = props.textAlign;
 
 
-  var classes = (0, _classnames2.default)(className, (0, _lib.useKeyOnly)(extra, 'extra'), 'content');
+  var classes = (0, _classnames2.default)((0, _lib.useKeyOnly)(extra, 'extra'), (0, _lib.useTextAlignProp)(textAlign), 'content', className);
   var rest = (0, _lib.getUnhandledProps)(CardContent, props);
   var ElementType = (0, _lib.getElementType)(CardContent, props);
 
@@ -75,14 +80,14 @@ function CardContent(props) {
   );
 }
 
-CardContent.handledProps = ['as', 'children', 'className', 'description', 'extra', 'header', 'meta'];
+CardContent.handledProps = ['as', 'children', 'className', 'description', 'extra', 'header', 'meta', 'textAlign'];
 CardContent._meta = {
   name: 'CardContent',
   parent: 'Card',
   type: _lib.META.TYPES.VIEW
 };
 
-process.env.NODE_ENV !== "production" ? CardContent.propTypes = {
+CardContent.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -102,21 +107,10 @@ process.env.NODE_ENV !== "production" ? CardContent.propTypes = {
   header: _lib.customPropTypes.itemShorthand,
 
   /** Shorthand for CardMeta. */
-  meta: _lib.customPropTypes.itemShorthand
-} : void 0;
+  meta: _lib.customPropTypes.itemShorthand,
 
-var _default = CardContent;
-exports.default = _default;
-;
+  /** A card content can adjust its text alignment. */
+  textAlign: _propTypes2.default.oneOf((0, _without3.default)(_lib.SUI.TEXT_ALIGNMENTS, 'justified'))
+} : {};
 
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(CardContent, 'CardContent', 'src/views/Card/CardContent.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Card/CardContent.js');
-}();
-
-;
+exports.default = CardContent;

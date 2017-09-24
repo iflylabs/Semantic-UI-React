@@ -76,14 +76,11 @@ var _ModalDescription2 = _interopRequireDefault(_ModalDescription);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var debug = (0, _lib.makeDebugger)('modal');
-
 /**
  * A modal displays content that temporarily blocks interactions with the main view of a site.
  * @see Confirm
  * @see Portal
  */
-
 var Modal = function (_Component) {
   (0, _inherits3.default)(Modal, _Component);
 
@@ -99,182 +96,91 @@ var Modal = function (_Component) {
     }
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Modal.__proto__ || Object.getPrototypeOf(Modal)).call.apply(_ref, [this].concat(args))), _this), _this.getMountNode = function () {
-      var _this2;
-
-      return (_this2 = _this).__getMountNode__REACT_HOT_LOADER__.apply(_this2, arguments);
-    }, _this.handleActionsOverrides = function () {
-      var _this3;
-
-      return (_this3 = _this).__handleActionsOverrides__REACT_HOT_LOADER__.apply(_this3, arguments);
-    }, _this.handleClose = function () {
-      var _this4;
-
-      return (_this4 = _this).__handleClose__REACT_HOT_LOADER__.apply(_this4, arguments);
-    }, _this.handleIconOverrides = function () {
-      var _this5;
-
-      return (_this5 = _this).__handleIconOverrides__REACT_HOT_LOADER__.apply(_this5, arguments);
-    }, _this.handleOpen = function () {
-      var _this6;
-
-      return (_this6 = _this).__handleOpen__REACT_HOT_LOADER__.apply(_this6, arguments);
-    }, _this.handlePortalMount = function () {
-      var _this7;
-
-      return (_this7 = _this).__handlePortalMount__REACT_HOT_LOADER__.apply(_this7, arguments);
-    }, _this.handlePortalUnmount = function () {
-      var _this8;
-
-      return (_this8 = _this).__handlePortalUnmount__REACT_HOT_LOADER__.apply(_this8, arguments);
-    }, _this.handleRef = function () {
-      var _this9;
-
-      return (_this9 = _this).__handleRef__REACT_HOT_LOADER__.apply(_this9, arguments);
-    }, _this.setPosition = function () {
-      var _this10;
-
-      return (_this10 = _this).__setPosition__REACT_HOT_LOADER__.apply(_this10, arguments);
-    }, _this.renderContent = function () {
-      var _this11;
-
-      return (_this11 = _this).__renderContent__REACT_HOT_LOADER__.apply(_this11, arguments);
-    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
-  }
-
-  (0, _createClass3.default)(Modal, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      debug('componentWillUnmount()');
-      this.handlePortalUnmount();
-    }
-
-    // Do not access document when server side rendering
-
-  }, {
-    key: '__getMountNode__REACT_HOT_LOADER__',
-    value: function __getMountNode__REACT_HOT_LOADER__() {
-      return _lib.isBrowser ? this.props.mountNode || document.body : null;
-    }
-  }, {
-    key: '__handleActionsOverrides__REACT_HOT_LOADER__',
-    value: function __handleActionsOverrides__REACT_HOT_LOADER__(predefinedProps) {
-      var _this12 = this;
-
+      return _lib.isBrowser ? _this.props.mountNode || document.body : null;
+    }, _this.handleActionsOverrides = function (predefinedProps) {
       return {
         onActionClick: function onActionClick(e, actionProps) {
-          var triggerClose = actionProps.triggerClose;
-
-
           (0, _invoke3.default)(predefinedProps, 'onActionClick', e, actionProps);
-          if (triggerClose) _this12.handleClose(e);
+          (0, _invoke3.default)(_this.props, 'onActionClick', e, _this.props);
+
+          _this.handleClose(e);
         }
       };
-    }
-  }, {
-    key: '__handleClose__REACT_HOT_LOADER__',
-    value: function __handleClose__REACT_HOT_LOADER__(e) {
-      debug('close()');
+    }, _this.handleClose = function (e) {
+      var onClose = _this.props.onClose;
 
-      var onClose = this.props.onClose;
+      if (onClose) onClose(e, _this.props);
 
-      if (onClose) onClose(e, this.props);
-
-      this.trySetState({ open: false });
-    }
-  }, {
-    key: '__handleIconOverrides__REACT_HOT_LOADER__',
-    value: function __handleIconOverrides__REACT_HOT_LOADER__(predefinedProps) {
-      var _this13 = this;
-
+      _this.trySetState({ open: false });
+    }, _this.handleIconOverrides = function (predefinedProps) {
       return {
         onClick: function onClick(e) {
           (0, _invoke3.default)(predefinedProps, 'onClick', e);
-          _this13.handleClose(e);
+          _this.handleClose(e);
         }
       };
-    }
-  }, {
-    key: '__handleOpen__REACT_HOT_LOADER__',
-    value: function __handleOpen__REACT_HOT_LOADER__(e) {
-      debug('open()');
+    }, _this.handleOpen = function (e) {
+      var onOpen = _this.props.onOpen;
 
-      var onOpen = this.props.onOpen;
+      if (onOpen) onOpen(e, _this.props);
 
-      if (onOpen) onOpen(e, this.props);
+      _this.trySetState({ open: true });
+    }, _this.handlePortalMount = function (e) {
+      var dimmer = _this.props.dimmer;
 
-      this.trySetState({ open: true });
-    }
-  }, {
-    key: '__handlePortalMount__REACT_HOT_LOADER__',
-    value: function __handlePortalMount__REACT_HOT_LOADER__(e) {
-      debug('handlePortalMount()');
-      var dimmer = this.props.dimmer;
-
-      var mountNode = this.getMountNode();
+      var mountNode = _this.getMountNode();
 
       if (dimmer) {
-        debug('adding dimmer');
         mountNode.classList.add('dimmable');
         mountNode.classList.add('dimmed');
 
         if (dimmer === 'blurring') {
-          debug('adding blurred dimmer');
           mountNode.classList.add('blurring');
         }
       }
 
-      this.setPosition();
+      _this.setPosition();
 
-      var onMount = this.props.onMount;
+      var onMount = _this.props.onMount;
 
-      if (onMount) onMount(e, this.props);
-    }
-  }, {
-    key: '__handlePortalUnmount__REACT_HOT_LOADER__',
-    value: function __handlePortalUnmount__REACT_HOT_LOADER__(e) {
-      debug('handlePortalUnmount()');
+      if (onMount) onMount(e, _this.props);
+    }, _this.handlePortalUnmount = function (e) {
 
       // Always remove all dimmer classes.
       // If the dimmer value changes while the modal is open, then removing its
       // current value could leave cruft classes previously added.
-      var mountNode = this.getMountNode();
+      var mountNode = _this.getMountNode();
 
       // Heads up, IE doesn't support second argument in remove()
       mountNode.classList.remove('blurring');
       mountNode.classList.remove('dimmable');
       mountNode.classList.remove('dimmed');
-      mountNode.classList.remove('scrollable');
+      mountNode.classList.remove('scrolling');
 
-      cancelAnimationFrame(this.animationRequestId);
+      cancelAnimationFrame(_this.animationRequestId);
 
-      var onUnmount = this.props.onUnmount;
+      var onUnmount = _this.props.onUnmount;
 
-      if (onUnmount) onUnmount(e, this.props);
-    }
-  }, {
-    key: '__handleRef__REACT_HOT_LOADER__',
-    value: function __handleRef__REACT_HOT_LOADER__(c) {
-      return this.ref = c;
-    }
-  }, {
-    key: '__setPosition__REACT_HOT_LOADER__',
-    value: function __setPosition__REACT_HOT_LOADER__() {
-      if (this.ref) {
-        var mountNode = this.getMountNode();
+      if (onUnmount) onUnmount(e, _this.props);
+    }, _this.handleRef = function (c) {
+      return _this.ref = c;
+    }, _this.setPosition = function () {
+      if (_this.ref) {
+        var mountNode = _this.getMountNode();
 
-        var _ref$getBoundingClien = this.ref.getBoundingClientRect(),
-            height = _ref$getBoundingClien.height;
+        var _this$ref$getBounding = _this.ref.getBoundingClientRect(),
+            height = _this$ref$getBounding.height;
 
         var marginTop = -Math.round(height / 2);
         var scrolling = height >= window.innerHeight;
 
         var newState = {};
 
-        if (this.state.marginTop !== marginTop) {
+        if (_this.state.marginTop !== marginTop) {
           newState.marginTop = marginTop;
         }
 
-        if (this.state.scrolling !== scrolling) {
+        if (_this.state.scrolling !== scrolling) {
           newState.scrolling = scrolling;
 
           if (scrolling) {
@@ -284,39 +190,36 @@ var Modal = function (_Component) {
           }
         }
 
-        if (Object.keys(newState).length > 0) this.setState(newState);
+        if (Object.keys(newState).length > 0) _this.setState(newState);
       }
 
-      this.animationRequestId = requestAnimationFrame(this.setPosition);
-    }
-  }, {
-    key: '__renderContent__REACT_HOT_LOADER__',
-    value: function __renderContent__REACT_HOT_LOADER__(rest) {
-      var _props = this.props,
-          actions = _props.actions,
-          basic = _props.basic,
-          children = _props.children,
-          className = _props.className,
-          closeIcon = _props.closeIcon,
-          content = _props.content,
-          header = _props.header,
-          size = _props.size,
-          style = _props.style;
-      var _state = this.state,
-          marginTop = _state.marginTop,
-          scrolling = _state.scrolling;
+      _this.animationRequestId = requestAnimationFrame(_this.setPosition);
+    }, _this.renderContent = function (rest) {
+      var _this$props = _this.props,
+          actions = _this$props.actions,
+          basic = _this$props.basic,
+          children = _this$props.children,
+          className = _this$props.className,
+          closeIcon = _this$props.closeIcon,
+          content = _this$props.content,
+          header = _this$props.header,
+          size = _this$props.size,
+          style = _this$props.style;
+      var _this$state = _this.state,
+          marginTop = _this$state.marginTop,
+          scrolling = _this$state.scrolling;
 
 
       var classes = (0, _classnames2.default)('ui', size, (0, _lib.useKeyOnly)(basic, 'basic'), (0, _lib.useKeyOnly)(scrolling, 'scrolling'), 'modal transition visible active', className);
-      var ElementType = (0, _lib.getElementType)(Modal, this.props);
+      var ElementType = (0, _lib.getElementType)(Modal, _this.props);
 
       var closeIconName = closeIcon === true ? 'close' : closeIcon;
-      var closeIconJSX = _Icon2.default.create(closeIconName, { overrideProps: this.handleIconOverrides });
+      var closeIconJSX = _Icon2.default.create(closeIconName, { overrideProps: _this.handleIconOverrides });
 
       if (!_lib.childrenUtils.isNil(children)) {
         return _react2.default.createElement(
           ElementType,
-          (0, _extends3.default)({}, rest, { className: classes, style: (0, _extends3.default)({ marginTop: marginTop }, style), ref: this.handleRef }),
+          (0, _extends3.default)({}, rest, { className: classes, style: (0, _extends3.default)({ marginTop: marginTop }, style), ref: _this.handleRef }),
           closeIconJSX,
           children
         );
@@ -324,21 +227,32 @@ var Modal = function (_Component) {
 
       return _react2.default.createElement(
         ElementType,
-        (0, _extends3.default)({}, rest, { className: classes, style: (0, _extends3.default)({ marginTop: marginTop }, style), ref: this.handleRef }),
+        (0, _extends3.default)({}, rest, { className: classes, style: (0, _extends3.default)({ marginTop: marginTop }, style), ref: _this.handleRef }),
         closeIconJSX,
         _ModalHeader2.default.create(header),
         _ModalContent2.default.create(content),
-        _ModalActions2.default.create(actions, { overrideProps: this.handleActionsOverrides })
+        _ModalActions2.default.create(actions, { overrideProps: _this.handleActionsOverrides })
       );
+    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+  }
+
+  (0, _createClass3.default)(Modal, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.handlePortalUnmount();
     }
+
+    // Do not access document when server side rendering
+
   }, {
     key: 'render',
     value: function render() {
       var open = this.state.open;
-      var _props2 = this.props,
-          closeOnDimmerClick = _props2.closeOnDimmerClick,
-          closeOnDocumentClick = _props2.closeOnDocumentClick,
-          dimmer = _props2.dimmer;
+      var _props = this.props,
+          closeOnDimmerClick = _props.closeOnDimmerClick,
+          closeOnDocumentClick = _props.closeOnDocumentClick,
+          dimmer = _props.dimmer,
+          eventPool = _props.eventPool;
 
       var mountNode = this.getMountNode();
 
@@ -372,6 +286,7 @@ var Modal = function (_Component) {
           closeOnRootNodeClick: closeOnDimmerClick
         }, portalProps, {
           className: dimmerClasses,
+          eventPool: eventPool,
           mountNode: mountNode,
           open: open,
           onClose: this.handleClose,
@@ -389,7 +304,8 @@ var Modal = function (_Component) {
 Modal.defaultProps = {
   dimmer: true,
   closeOnDimmerClick: true,
-  closeOnDocumentClick: false
+  closeOnDocumentClick: false,
+  eventPool: 'Modal'
 };
 Modal.autoControlledProps = ['open'];
 Modal._meta = {
@@ -400,13 +316,13 @@ Modal.Header = _ModalHeader2.default;
 Modal.Content = _ModalContent2.default;
 Modal.Description = _ModalDescription2.default;
 Modal.Actions = _ModalActions2.default;
-Modal.handledProps = ['actions', 'as', 'basic', 'children', 'className', 'closeIcon', 'closeOnDimmerClick', 'closeOnDocumentClick', 'content', 'defaultOpen', 'dimmer', 'header', 'mountNode', 'onClose', 'onMount', 'onOpen', 'onUnmount', 'open', 'size', 'style'];
-process.env.NODE_ENV !== "production" ? Modal.propTypes = {
+Modal.handledProps = ['actions', 'as', 'basic', 'children', 'className', 'closeIcon', 'closeOnDimmerClick', 'closeOnDocumentClick', 'content', 'defaultOpen', 'dimmer', 'eventPool', 'header', 'mountNode', 'onActionClick', 'onClose', 'onMount', 'onOpen', 'onUnmount', 'open', 'size', 'style'];
+Modal.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
-  /** Elements to render as Modal action buttons. */
-  actions: _propTypes2.default.arrayOf(_lib.customPropTypes.itemShorthand),
+  /** Shorthand for Modal.Actions. Typically an array of button shorthand. */
+  actions: _lib.customPropTypes.itemShorthand,
 
   /** A modal can reduce its complexity */
   basic: _propTypes2.default.bool,
@@ -417,7 +333,7 @@ process.env.NODE_ENV !== "production" ? Modal.propTypes = {
   /** Additional classes. */
   className: _propTypes2.default.string,
 
-  /** Icon. */
+  /** Shorthand for the close icon. Closes the modal on click. */
   closeIcon: _propTypes2.default.oneOfType([_propTypes2.default.node, _propTypes2.default.object, _propTypes2.default.bool]),
 
   /** Whether or not the Modal should close when the dimmer is clicked. */
@@ -435,11 +351,22 @@ process.env.NODE_ENV !== "production" ? Modal.propTypes = {
   /** A Modal can appear in a dimmer. */
   dimmer: _propTypes2.default.oneOfType([_propTypes2.default.bool, _propTypes2.default.oneOf(['inverted', 'blurring'])]),
 
+  /** Event pool namespace that is used to handle component events */
+  eventPool: _propTypes2.default.string,
+
   /** Modal displayed above the content in bold. */
   header: _lib.customPropTypes.itemShorthand,
 
   /** The node where the modal should mount. Defaults to document.body. */
   mountNode: _propTypes2.default.any,
+
+  /**
+   * Action onClick handler when using shorthand `actions`.
+   *
+   * @param {SyntheticEvent} event - React's original SyntheticEvent.
+   * @param {object} data - All props.
+   */
+  onActionClick: _propTypes2.default.func,
 
   /**
    * Called when a close event happens.
@@ -486,21 +413,5 @@ process.env.NODE_ENV !== "production" ? Modal.propTypes = {
    * NOTE: Any unhandled props that are defined in Portal are passed-through
    * to the wrapping Portal.
    */
-} : void 0;
-var _default = Modal;
-exports.default = _default;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(debug, 'debug', 'src/modules/Modal/Modal.js');
-
-  __REACT_HOT_LOADER__.register(Modal, 'Modal', 'src/modules/Modal/Modal.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Modal/Modal.js');
-}();
-
-;
+} : {};
+exports.default = Modal;

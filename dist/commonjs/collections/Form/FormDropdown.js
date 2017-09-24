@@ -45,31 +45,17 @@ FormDropdown._meta = {
   type: _lib.META.TYPES.COLLECTION
 };
 
-process.env.NODE_ENV !== "production" ? FormDropdown.propTypes = {
+FormDropdown.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
   /** A FormField control prop. */
   control: _FormField2.default.propTypes.control
-} : void 0;
+} : {};
 
 FormDropdown.defaultProps = {
   as: _FormField2.default,
   control: _Dropdown2.default
 };
 
-var _default = FormDropdown;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(FormDropdown, 'FormDropdown', 'src/collections/Form/FormDropdown.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Form/FormDropdown.js');
-}();
-
-;
+exports.default = FormDropdown;

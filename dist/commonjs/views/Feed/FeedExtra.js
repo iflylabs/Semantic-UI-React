@@ -72,7 +72,7 @@ FeedExtra._meta = {
   type: _lib.META.TYPES.VIEW
 };
 
-process.env.NODE_ENV !== "production" ? FeedExtra.propTypes = {
+FeedExtra.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -90,20 +90,6 @@ process.env.NODE_ENV !== "production" ? FeedExtra.propTypes = {
 
   /** An event can contain additional text information. */
   text: _propTypes2.default.bool
-} : void 0;
+} : {};
 
-var _default = FeedExtra;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(FeedExtra, 'FeedExtra', 'src/views/Feed/FeedExtra.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/views/Feed/FeedExtra.js');
-}();
-
-;
+exports.default = FeedExtra;

@@ -87,7 +87,7 @@ TableRow.defaultProps = {
   cellAs: 'td'
 };
 
-process.env.NODE_ENV !== "production" ? TableRow.propTypes = {
+TableRow.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -126,24 +126,10 @@ process.env.NODE_ENV !== "production" ? TableRow.propTypes = {
 
   /** A row may warn a user. */
   warning: _propTypes2.default.bool
-} : void 0;
+} : {};
 
 TableRow.create = (0, _lib.createShorthandFactory)(TableRow, function (cells) {
   return { cells: cells };
 });
 
-var _default = TableRow;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(TableRow, 'TableRow', 'src/collections/Table/TableRow.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Table/TableRow.js');
-}();
-
-;
+exports.default = TableRow;

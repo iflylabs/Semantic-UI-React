@@ -46,16 +46,3 @@ var numberToWordMap = exports.numberToWordMap = {
 
   return '';
 }
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(numberToWordMap, 'numberToWordMap', 'src/lib/numberToWord.js');
-
-  __REACT_HOT_LOADER__.register(numberToWord, 'numberToWord', 'src/lib/numberToWord.js');
-}();
-
-;

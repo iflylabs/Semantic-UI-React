@@ -45,7 +45,7 @@ ButtonOr._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? ButtonOr.propTypes = {
+ButtonOr.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -54,20 +54,6 @@ process.env.NODE_ENV !== "production" ? ButtonOr.propTypes = {
 
   /** Or buttons can have their text localized, or adjusted by using the text prop. */
   text: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string])
-} : void 0;
+} : {};
 
-var _default = ButtonOr;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(ButtonOr, 'ButtonOr', 'src/elements/Button/ButtonOr.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Button/ButtonOr.js');
-}();
-
-;
+exports.default = ButtonOr;

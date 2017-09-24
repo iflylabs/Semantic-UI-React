@@ -82,34 +82,25 @@ var Menu = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Menu.__proto__ || Object.getPrototypeOf(Menu)).call.apply(_ref, [this].concat(args))), _this), _this.handleItemOverrides = function () {
-      var _this2;
-
-      return (_this2 = _this).__handleItemOverrides__REACT_HOT_LOADER__.apply(_this2, arguments);
-    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
-  }
-
-  (0, _createClass3.default)(Menu, [{
-    key: '__handleItemOverrides__REACT_HOT_LOADER__',
-    value: function __handleItemOverrides__REACT_HOT_LOADER__(predefinedProps) {
-      var _this3 = this;
-
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Menu.__proto__ || Object.getPrototypeOf(Menu)).call.apply(_ref, [this].concat(args))), _this), _this.handleItemOverrides = function (predefinedProps) {
       return {
         onClick: function onClick(e, itemProps) {
           var index = itemProps.index;
 
 
-          _this3.trySetState({ activeIndex: index });
+          _this.trySetState({ activeIndex: index });
 
           (0, _invoke3.default)(predefinedProps, 'onClick', e, itemProps);
-          (0, _invoke3.default)(_this3.props, 'onItemClick', e, itemProps);
+          (0, _invoke3.default)(_this.props, 'onItemClick', e, itemProps);
         }
       };
-    }
-  }, {
+    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+  }
+
+  (0, _createClass3.default)(Menu, [{
     key: 'renderItems',
     value: function renderItems() {
-      var _this4 = this;
+      var _this2 = this;
 
       var items = this.props.items;
       var activeIndex = this.state.activeIndex;
@@ -121,7 +112,7 @@ var Menu = function (_Component) {
             active: parseInt(activeIndex, 10) === index,
             index: index
           },
-          overrideProps: _this4.handleItemOverrides
+          overrideProps: _this2.handleItemOverrides
         });
       });
     }
@@ -173,7 +164,7 @@ Menu.Header = _MenuHeader2.default;
 Menu.Item = _MenuItem2.default;
 Menu.Menu = _MenuMenu2.default;
 Menu.handledProps = ['activeIndex', 'as', 'attached', 'borderless', 'children', 'className', 'color', 'compact', 'defaultActiveIndex', 'fixed', 'floated', 'fluid', 'icon', 'inverted', 'items', 'onItemClick', 'pagination', 'pointing', 'secondary', 'size', 'stackable', 'tabular', 'text', 'vertical', 'widths'];
-process.env.NODE_ENV !== "production" ? Menu.propTypes = {
+Menu.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -253,25 +244,11 @@ process.env.NODE_ENV !== "production" ? Menu.propTypes = {
 
   /** A menu can have its items divided evenly. */
   widths: _propTypes2.default.oneOf(_lib.SUI.WIDTHS)
-} : void 0;
+} : {};
 
 
 Menu.create = (0, _lib.createShorthandFactory)(Menu, function (items) {
   return { items: items };
 });
 
-var _default = Menu;
-exports.default = _default;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Menu, 'Menu', 'src/collections/Menu/Menu.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Menu/Menu.js');
-}();
-
-;
+exports.default = Menu;

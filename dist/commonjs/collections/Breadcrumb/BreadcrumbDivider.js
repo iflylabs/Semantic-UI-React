@@ -67,7 +67,7 @@ BreadcrumbDivider._meta = {
   parent: 'Breadcrumb'
 };
 
-process.env.NODE_ENV !== "production" ? BreadcrumbDivider.propTypes = {
+BreadcrumbDivider.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -82,24 +82,10 @@ process.env.NODE_ENV !== "production" ? BreadcrumbDivider.propTypes = {
 
   /** Render as an `Icon` component with `divider` class instead of a `div`. */
   icon: _lib.customPropTypes.itemShorthand
-} : void 0;
+} : {};
 
 BreadcrumbDivider.create = (0, _lib.createShorthandFactory)(BreadcrumbDivider, function (icon) {
   return { icon: icon };
 });
 
-var _default = BreadcrumbDivider;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(BreadcrumbDivider, 'BreadcrumbDivider', 'src/collections/Breadcrumb/BreadcrumbDivider.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/collections/Breadcrumb/BreadcrumbDivider.js');
-}();
-
-;
+exports.default = BreadcrumbDivider;

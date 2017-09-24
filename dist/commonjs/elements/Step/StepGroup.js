@@ -81,7 +81,7 @@ StepGroup._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? StepGroup.propTypes = {
+StepGroup.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -111,20 +111,6 @@ process.env.NODE_ENV !== "production" ? StepGroup.propTypes = {
 
   /** A step can be displayed stacked vertically. */
   vertical: _propTypes2.default.bool
-} : void 0;
+} : {};
 
-var _default = StepGroup;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(StepGroup, 'StepGroup', 'src/elements/Step/StepGroup.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Step/StepGroup.js');
-}();
-
-;
+exports.default = StepGroup;

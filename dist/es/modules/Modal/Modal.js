@@ -11,7 +11,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { AutoControlledComponent as Component, childrenUtils, customPropTypes, getElementType, getUnhandledProps, isBrowser, makeDebugger, META, useKeyOnly } from '../../lib';
+import { AutoControlledComponent as Component, childrenUtils, customPropTypes, getElementType, getUnhandledProps, isBrowser, META, useKeyOnly } from '../../lib';
 import Icon from '../../elements/Icon';
 import Portal from '../../addons/Portal';
 import ModalHeader from './ModalHeader';
@@ -19,14 +19,11 @@ import ModalContent from './ModalContent';
 import ModalActions from './ModalActions';
 import ModalDescription from './ModalDescription';
 
-var debug = makeDebugger('modal');
-
 /**
  * A modal displays content that temporarily blocks interactions with the main view of a site.
  * @see Confirm
  * @see Portal
  */
-
 var Modal = function (_Component) {
   _inherits(Modal, _Component);
 
@@ -46,16 +43,13 @@ var Modal = function (_Component) {
     }, _this.handleActionsOverrides = function (predefinedProps) {
       return {
         onActionClick: function onActionClick(e, actionProps) {
-          var triggerClose = actionProps.triggerClose;
-
-
           _invoke(predefinedProps, 'onActionClick', e, actionProps);
-          if (triggerClose) _this.handleClose(e);
+          _invoke(_this.props, 'onActionClick', e, _this.props);
+
+          _this.handleClose(e);
         }
       };
     }, _this.handleClose = function (e) {
-      debug('close()');
-
       var onClose = _this.props.onClose;
 
       if (onClose) onClose(e, _this.props);
@@ -69,26 +63,21 @@ var Modal = function (_Component) {
         }
       };
     }, _this.handleOpen = function (e) {
-      debug('open()');
-
       var onOpen = _this.props.onOpen;
 
       if (onOpen) onOpen(e, _this.props);
 
       _this.trySetState({ open: true });
     }, _this.handlePortalMount = function (e) {
-      debug('handlePortalMount()');
       var dimmer = _this.props.dimmer;
 
       var mountNode = _this.getMountNode();
 
       if (dimmer) {
-        debug('adding dimmer');
         mountNode.classList.add('dimmable');
         mountNode.classList.add('dimmed');
 
         if (dimmer === 'blurring') {
-          debug('adding blurred dimmer');
           mountNode.classList.add('blurring');
         }
       }
@@ -99,7 +88,6 @@ var Modal = function (_Component) {
 
       if (onMount) onMount(e, _this.props);
     }, _this.handlePortalUnmount = function (e) {
-      debug('handlePortalUnmount()');
 
       // Always remove all dimmer classes.
       // If the dimmer value changes while the modal is open, then removing its
@@ -110,7 +98,7 @@ var Modal = function (_Component) {
       mountNode.classList.remove('blurring');
       mountNode.classList.remove('dimmable');
       mountNode.classList.remove('dimmed');
-      mountNode.classList.remove('scrollable');
+      mountNode.classList.remove('scrolling');
 
       cancelAnimationFrame(_this.animationRequestId);
 
@@ -194,7 +182,6 @@ var Modal = function (_Component) {
   _createClass(Modal, [{
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      debug('componentWillUnmount()');
       this.handlePortalUnmount();
     }
 
@@ -207,7 +194,8 @@ var Modal = function (_Component) {
       var _props = this.props,
           closeOnDimmerClick = _props.closeOnDimmerClick,
           closeOnDocumentClick = _props.closeOnDocumentClick,
-          dimmer = _props.dimmer;
+          dimmer = _props.dimmer,
+          eventPool = _props.eventPool;
 
       var mountNode = this.getMountNode();
 
@@ -241,6 +229,7 @@ var Modal = function (_Component) {
           closeOnRootNodeClick: closeOnDimmerClick
         }, portalProps, {
           className: dimmerClasses,
+          eventPool: eventPool,
           mountNode: mountNode,
           open: open,
           onClose: this.handleClose,
@@ -259,7 +248,8 @@ var Modal = function (_Component) {
 Modal.defaultProps = {
   dimmer: true,
   closeOnDimmerClick: true,
-  closeOnDocumentClick: false
+  closeOnDocumentClick: false,
+  eventPool: 'Modal'
 };
 Modal.autoControlledProps = ['open'];
 Modal._meta = {
@@ -270,13 +260,13 @@ Modal.Header = ModalHeader;
 Modal.Content = ModalContent;
 Modal.Description = ModalDescription;
 Modal.Actions = ModalActions;
-Modal.handledProps = ['actions', 'as', 'basic', 'children', 'className', 'closeIcon', 'closeOnDimmerClick', 'closeOnDocumentClick', 'content', 'defaultOpen', 'dimmer', 'header', 'mountNode', 'onClose', 'onMount', 'onOpen', 'onUnmount', 'open', 'size', 'style'];
-process.env.NODE_ENV !== "production" ? Modal.propTypes = {
+Modal.handledProps = ['actions', 'as', 'basic', 'children', 'className', 'closeIcon', 'closeOnDimmerClick', 'closeOnDocumentClick', 'content', 'defaultOpen', 'dimmer', 'eventPool', 'header', 'mountNode', 'onActionClick', 'onClose', 'onMount', 'onOpen', 'onUnmount', 'open', 'size', 'style'];
+Modal.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: customPropTypes.as,
 
-  /** Elements to render as Modal action buttons. */
-  actions: PropTypes.arrayOf(customPropTypes.itemShorthand),
+  /** Shorthand for Modal.Actions. Typically an array of button shorthand. */
+  actions: customPropTypes.itemShorthand,
 
   /** A modal can reduce its complexity */
   basic: PropTypes.bool,
@@ -287,7 +277,7 @@ process.env.NODE_ENV !== "production" ? Modal.propTypes = {
   /** Additional classes. */
   className: PropTypes.string,
 
-  /** Icon. */
+  /** Shorthand for the close icon. Closes the modal on click. */
   closeIcon: PropTypes.oneOfType([PropTypes.node, PropTypes.object, PropTypes.bool]),
 
   /** Whether or not the Modal should close when the dimmer is clicked. */
@@ -305,11 +295,22 @@ process.env.NODE_ENV !== "production" ? Modal.propTypes = {
   /** A Modal can appear in a dimmer. */
   dimmer: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['inverted', 'blurring'])]),
 
+  /** Event pool namespace that is used to handle component events */
+  eventPool: PropTypes.string,
+
   /** Modal displayed above the content in bold. */
   header: customPropTypes.itemShorthand,
 
   /** The node where the modal should mount. Defaults to document.body. */
   mountNode: PropTypes.any,
+
+  /**
+   * Action onClick handler when using shorthand `actions`.
+   *
+   * @param {SyntheticEvent} event - React's original SyntheticEvent.
+   * @param {object} data - All props.
+   */
+  onActionClick: PropTypes.func,
 
   /**
    * Called when a close event happens.
@@ -356,7 +357,7 @@ process.env.NODE_ENV !== "production" ? Modal.propTypes = {
    * NOTE: Any unhandled props that are defined in Portal are passed-through
    * to the wrapping Portal.
    */
-} : void 0;
+} : {};
 
 
 export default Modal;

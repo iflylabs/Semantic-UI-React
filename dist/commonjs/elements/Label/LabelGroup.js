@@ -54,7 +54,7 @@ LabelGroup._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? LabelGroup.propTypes = {
+LabelGroup.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -75,20 +75,6 @@ process.env.NODE_ENV !== "production" ? LabelGroup.propTypes = {
 
   /** Label group can share tag formatting. */
   tag: _propTypes2.default.bool
-} : void 0;
+} : {};
 
-var _default = LabelGroup;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(LabelGroup, 'LabelGroup', 'src/elements/Label/LabelGroup.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Label/LabelGroup.js');
-}();
-
-;
+exports.default = LabelGroup;

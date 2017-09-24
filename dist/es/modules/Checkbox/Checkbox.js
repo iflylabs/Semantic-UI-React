@@ -11,16 +11,13 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { AutoControlledComponent as Component, createHTMLLabel, customPropTypes, getElementType, getUnhandledProps, makeDebugger, META, partitionHTMLInputProps, useKeyOnly } from '../../lib';
-
-var debug = makeDebugger('checkbox');
+import { AutoControlledComponent as Component, createHTMLLabel, customPropTypes, getElementType, getUnhandledProps, META, partitionHTMLInputProps, useKeyOnly } from '../../lib';
 
 /**
  * A checkbox allows a user to select a value from a small set of options, often binary.
  * @see Form
  * @see Radio
  */
-
 var Checkbox = function (_Component) {
   _inherits(Checkbox, _Component);
 
@@ -55,7 +52,6 @@ var Checkbox = function (_Component) {
     }, _this.handleInputRef = function (c) {
       return _this.inputRef = c;
     }, _this.handleClick = function (e) {
-      debug('handleClick()');
       var _this$state = _this.state,
           checked = _this$state.checked,
           indeterminate = _this$state.indeterminate;
@@ -63,12 +59,11 @@ var Checkbox = function (_Component) {
 
       if (!_this.canToggle()) return;
 
-      _invoke(_this.props, 'onClick', e, _extends({}, _this.props, { checked: !!checked, indeterminate: !!indeterminate }));
+      _invoke(_this.props, 'onClick', e, _extends({}, _this.props, { checked: !checked, indeterminate: !!indeterminate }));
       _invoke(_this.props, 'onChange', e, _extends({}, _this.props, { checked: !checked, indeterminate: false }));
 
       _this.trySetState({ checked: !checked, indeterminate: false });
     }, _this.handleMouseDown = function (e) {
-      debug('handleMouseDown()');
       var _this$state2 = _this.state,
           checked = _this$state2.checked,
           indeterminate = _this$state2.indeterminate;
@@ -168,7 +163,7 @@ Checkbox._meta = {
 };
 Checkbox.handledProps = ['as', 'checked', 'className', 'defaultChecked', 'defaultIndeterminate', 'disabled', 'fitted', 'indeterminate', 'label', 'name', 'onChange', 'onClick', 'onMouseDown', 'radio', 'readOnly', 'slider', 'tabIndex', 'toggle', 'type', 'value'];
 export default Checkbox;
-process.env.NODE_ENV !== "production" ? Checkbox.propTypes = {
+Checkbox.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: customPropTypes.as,
 
@@ -243,4 +238,4 @@ process.env.NODE_ENV !== "production" ? Checkbox.propTypes = {
 
   /** The HTML input value. */
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-} : void 0;
+} : {};

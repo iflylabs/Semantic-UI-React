@@ -52,14 +52,11 @@ var _lib = require('../../lib');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var debug = (0, _lib.makeDebugger)('checkbox');
-
 /**
  * A checkbox allows a user to select a value from a small set of options, often binary.
  * @see Form
  * @see Radio
  */
-
 var Checkbox = function (_Component) {
   (0, _inherits3.default)(Checkbox, _Component);
 
@@ -75,29 +72,51 @@ var Checkbox = function (_Component) {
     }
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Checkbox.__proto__ || Object.getPrototypeOf(Checkbox)).call.apply(_ref, [this].concat(args))), _this), _this.canToggle = function () {
-      var _this2;
+      var _this$props = _this.props,
+          disabled = _this$props.disabled,
+          radio = _this$props.radio,
+          readOnly = _this$props.readOnly;
+      var checked = _this.state.checked;
 
-      return (_this2 = _this).__canToggle__REACT_HOT_LOADER__.apply(_this2, arguments);
+
+      return !disabled && !readOnly && !(radio && checked);
     }, _this.computeTabIndex = function () {
-      var _this3;
+      var _this$props2 = _this.props,
+          disabled = _this$props2.disabled,
+          tabIndex = _this$props2.tabIndex;
 
-      return (_this3 = _this).__computeTabIndex__REACT_HOT_LOADER__.apply(_this3, arguments);
-    }, _this.handleInputRef = function () {
-      var _this4;
 
-      return (_this4 = _this).__handleInputRef__REACT_HOT_LOADER__.apply(_this4, arguments);
-    }, _this.handleClick = function () {
-      var _this5;
+      if (!(0, _isNil3.default)(tabIndex)) return tabIndex;
+      return disabled ? -1 : 0;
+    }, _this.handleInputRef = function (c) {
+      return _this.inputRef = c;
+    }, _this.handleClick = function (e) {
+      var _this$state = _this.state,
+          checked = _this$state.checked,
+          indeterminate = _this$state.indeterminate;
 
-      return (_this5 = _this).__handleClick__REACT_HOT_LOADER__.apply(_this5, arguments);
-    }, _this.handleMouseDown = function () {
-      var _this6;
 
-      return (_this6 = _this).__handleMouseDown__REACT_HOT_LOADER__.apply(_this6, arguments);
+      if (!_this.canToggle()) return;
+
+      (0, _invoke3.default)(_this.props, 'onClick', e, (0, _extends3.default)({}, _this.props, { checked: !checked, indeterminate: !!indeterminate }));
+      (0, _invoke3.default)(_this.props, 'onChange', e, (0, _extends3.default)({}, _this.props, { checked: !checked, indeterminate: false }));
+
+      _this.trySetState({ checked: !checked, indeterminate: false });
+    }, _this.handleMouseDown = function (e) {
+      var _this$state2 = _this.state,
+          checked = _this$state2.checked,
+          indeterminate = _this$state2.indeterminate;
+
+
+      (0, _invoke3.default)(_this.props, 'onMouseDown', e, (0, _extends3.default)({}, _this.props, { checked: !!checked, indeterminate: !!indeterminate }));
+      (0, _invoke3.default)(_this.inputRef, 'focus');
+
+      e.preventDefault();
     }, _this.setIndeterminate = function () {
-      var _this7;
+      var indeterminate = _this.state.indeterminate;
 
-      return (_this7 = _this).__setIndeterminate__REACT_HOT_LOADER__.apply(_this7, arguments);
+
+      if (_this.inputRef) _this.inputRef.indeterminate = !!indeterminate;
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
@@ -111,94 +130,28 @@ var Checkbox = function (_Component) {
     value: function componentDidUpdate() {
       this.setIndeterminate();
     }
-  }, {
-    key: '__canToggle__REACT_HOT_LOADER__',
-    value: function __canToggle__REACT_HOT_LOADER__() {
-      var _props = this.props,
-          disabled = _props.disabled,
-          radio = _props.radio,
-          readOnly = _props.readOnly;
-      var checked = this.state.checked;
-
-
-      return !disabled && !readOnly && !(radio && checked);
-    }
-  }, {
-    key: '__computeTabIndex__REACT_HOT_LOADER__',
-    value: function __computeTabIndex__REACT_HOT_LOADER__() {
-      var _props2 = this.props,
-          disabled = _props2.disabled,
-          tabIndex = _props2.tabIndex;
-
-
-      if (!(0, _isNil3.default)(tabIndex)) return tabIndex;
-      return disabled ? -1 : 0;
-    }
-  }, {
-    key: '__handleInputRef__REACT_HOT_LOADER__',
-    value: function __handleInputRef__REACT_HOT_LOADER__(c) {
-      return this.inputRef = c;
-    }
-  }, {
-    key: '__handleClick__REACT_HOT_LOADER__',
-    value: function __handleClick__REACT_HOT_LOADER__(e) {
-      debug('handleClick()');
-      var _state = this.state,
-          checked = _state.checked,
-          indeterminate = _state.indeterminate;
-
-
-      if (!this.canToggle()) return;
-
-      (0, _invoke3.default)(this.props, 'onClick', e, (0, _extends3.default)({}, this.props, { checked: !!checked, indeterminate: !!indeterminate }));
-      (0, _invoke3.default)(this.props, 'onChange', e, (0, _extends3.default)({}, this.props, { checked: !checked, indeterminate: false }));
-
-      this.trySetState({ checked: !checked, indeterminate: false });
-    }
-  }, {
-    key: '__handleMouseDown__REACT_HOT_LOADER__',
-
 
     // Note: You can't directly set the indeterminate prop on the input, so we
     // need to maintain a ref to the input and set it manually whenever the
     // component updates.
-    value: function __handleMouseDown__REACT_HOT_LOADER__(e) {
-      debug('handleMouseDown()');
-      var _state2 = this.state,
-          checked = _state2.checked,
-          indeterminate = _state2.indeterminate;
 
-
-      (0, _invoke3.default)(this.props, 'onMouseDown', e, (0, _extends3.default)({}, this.props, { checked: !!checked, indeterminate: !!indeterminate }));
-      (0, _invoke3.default)(this.inputRef, 'focus');
-
-      e.preventDefault();
-    }
-  }, {
-    key: '__setIndeterminate__REACT_HOT_LOADER__',
-    value: function __setIndeterminate__REACT_HOT_LOADER__() {
-      var indeterminate = this.state.indeterminate;
-
-
-      if (this.inputRef) this.inputRef.indeterminate = !!indeterminate;
-    }
   }, {
     key: 'render',
     value: function render() {
-      var _props3 = this.props,
-          className = _props3.className,
-          disabled = _props3.disabled,
-          label = _props3.label,
-          name = _props3.name,
-          radio = _props3.radio,
-          readOnly = _props3.readOnly,
-          slider = _props3.slider,
-          toggle = _props3.toggle,
-          type = _props3.type,
-          value = _props3.value;
-      var _state3 = this.state,
-          checked = _state3.checked,
-          indeterminate = _state3.indeterminate;
+      var _props = this.props,
+          className = _props.className,
+          disabled = _props.disabled,
+          label = _props.label,
+          name = _props.name,
+          radio = _props.radio,
+          readOnly = _props.readOnly,
+          slider = _props.slider,
+          toggle = _props.toggle,
+          type = _props.type,
+          value = _props.value;
+      var _state = this.state,
+          checked = _state.checked,
+          indeterminate = _state.indeterminate;
 
 
       var classes = (0, _classnames2.default)('ui', (0, _lib.useKeyOnly)(checked, 'checked'), (0, _lib.useKeyOnly)(disabled, 'disabled'), (0, _lib.useKeyOnly)(indeterminate, 'indeterminate'),
@@ -247,9 +200,8 @@ Checkbox._meta = {
   type: _lib.META.TYPES.MODULE
 };
 Checkbox.handledProps = ['as', 'checked', 'className', 'defaultChecked', 'defaultIndeterminate', 'disabled', 'fitted', 'indeterminate', 'label', 'name', 'onChange', 'onClick', 'onMouseDown', 'radio', 'readOnly', 'slider', 'tabIndex', 'toggle', 'type', 'value'];
-var _default = Checkbox;
-exports.default = _default;
-process.env.NODE_ENV !== "production" ? Checkbox.propTypes = {
+exports.default = Checkbox;
+Checkbox.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -324,19 +276,4 @@ process.env.NODE_ENV !== "production" ? Checkbox.propTypes = {
 
   /** The HTML input value. */
   value: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.number])
-} : void 0;
-;
-
-var _temp2 = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(debug, 'debug', 'src/modules/Checkbox/Checkbox.js');
-
-  __REACT_HOT_LOADER__.register(Checkbox, 'Checkbox', 'src/modules/Checkbox/Checkbox.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Checkbox/Checkbox.js');
-}();
-
-;
+} : {};

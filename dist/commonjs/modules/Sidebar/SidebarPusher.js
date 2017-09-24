@@ -51,7 +51,7 @@ SidebarPusher._meta = {
   parent: 'Sidebar'
 };
 
-process.env.NODE_ENV !== "production" ? SidebarPusher.propTypes = {
+SidebarPusher.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -63,20 +63,6 @@ process.env.NODE_ENV !== "production" ? SidebarPusher.propTypes = {
 
   /** Controls whether or not the dim is displayed. */
   dimmed: _propTypes2.default.bool
-} : void 0;
+} : {};
 
-var _default = SidebarPusher;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(SidebarPusher, 'SidebarPusher', 'src/modules/Sidebar/SidebarPusher.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/modules/Sidebar/SidebarPusher.js');
-}();
-
-;
+exports.default = SidebarPusher;

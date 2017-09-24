@@ -110,7 +110,7 @@ Header._meta = {
   type: _lib.META.TYPES.ELEMENT
 };
 
-process.env.NODE_ENV !== "production" ? Header.propTypes = {
+Header.propTypes = process.env.NODE_ENV !== "production" ? {
   /** An element type to render as (string or function). */
   as: _lib.customPropTypes.as,
 
@@ -161,23 +161,9 @@ process.env.NODE_ENV !== "production" ? Header.propTypes = {
 
   /** Align header content. */
   textAlign: _propTypes2.default.oneOf(_lib.SUI.TEXT_ALIGNMENTS)
-} : void 0;
+} : {};
 
 Header.Content = _HeaderContent2.default;
 Header.Subheader = _HeaderSubheader2.default;
 
-var _default = Header;
-exports.default = _default;
-;
-
-var _temp = function () {
-  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-    return;
-  }
-
-  __REACT_HOT_LOADER__.register(Header, 'Header', 'src/elements/Header/Header.js');
-
-  __REACT_HOT_LOADER__.register(_default, 'default', 'src/elements/Header/Header.js');
-}();
-
-;
+exports.default = Header;
