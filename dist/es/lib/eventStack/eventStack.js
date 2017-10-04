@@ -1,7 +1,4 @@
 import _classCallCheck from 'babel-runtime/helpers/classCallCheck';
-import _without from 'lodash/without';
-
-
 import isBrowser from '../isBrowser';
 import EventTarget from './EventTarget';
 import normalizeTarget from './normalizeTarget';
@@ -11,27 +8,24 @@ var EventStack = function EventStack() {
 
   _classCallCheck(this, EventStack);
 
-  this._eventTargets = {};
-  this._targets = [];
-
   this._find = function (target) {
+    var autoCreate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
     var normalized = normalizeTarget(target);
-    var index = _this._targets.indexOf(normalized);
 
-    if (index !== -1) return _this._eventTargets[index];
+    if (_this._targets.has(normalized)) return _this._targets.get(normalized);
+    if (!autoCreate) return;
 
-    index = _this._targets.push(normalized) - 1;
-    _this._eventTargets[index] = new EventTarget(normalized);
+    var eventTarget = new EventTarget(normalized);
+    _this._targets.set(normalized, eventTarget);
 
-    return _this._eventTargets[index];
+    return eventTarget;
   };
 
   this._remove = function (target) {
     var normalized = normalizeTarget(target);
-    var index = _this._targets.indexOf(normalized);
 
-    _this._targets = _without(_this._targets, normalized);
-    delete _this._eventTargets[index];
+    _this._targets.delete(normalized);
   };
 
   this.sub = function (name, handlers) {
@@ -59,11 +53,15 @@ var EventStack = function EventStack() {
         _options$pool2 = options.pool,
         pool = _options$pool2 === undefined ? 'default' : _options$pool2;
 
-    var eventTarget = _this._find(target);
+    var eventTarget = _this._find(target, false);
 
-    eventTarget.unsub(name, handlers, pool);
-    if (eventTarget.empty()) _this._remove(target);
+    if (eventTarget) {
+      eventTarget.unsub(name, handlers, pool);
+      if (eventTarget.empty()) _this._remove(target);
+    }
   };
+
+  this._targets = new Map();
 }
 
 // ------------------------------------

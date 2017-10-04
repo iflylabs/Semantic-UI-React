@@ -395,7 +395,7 @@ Visibility.propTypes = process.env.NODE_ENV !== "production" ? {
    * Value that context should be adjusted in pixels. Useful for making content appear below content fixed to the
    * page.
    */
-  offset: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string, _propTypes2.default.arrayOf([_propTypes2.default.number, _propTypes2.default.string])]),
+  offset: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string, _propTypes2.default.arrayOf(_propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]))]),
 
   /** When set to false a callback will occur each time an element passes the threshold for a condition. */
   once: _propTypes2.default.bool,

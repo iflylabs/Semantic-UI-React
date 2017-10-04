@@ -8,10 +8,6 @@ var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _without2 = require('lodash/without');
-
-var _without3 = _interopRequireDefault(_without2);
-
 var _isBrowser = require('../isBrowser');
 
 var _isBrowser2 = _interopRequireDefault(_isBrowser);
@@ -30,27 +26,25 @@ var EventStack = function EventStack() {
   var _this = this;
 
   (0, _classCallCheck3.default)(this, EventStack);
-  this._eventTargets = {};
-  this._targets = [];
 
   this._find = function (target) {
+    var autoCreate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
     var normalized = (0, _normalizeTarget2.default)(target);
-    var index = _this._targets.indexOf(normalized);
 
-    if (index !== -1) return _this._eventTargets[index];
+    if (_this._targets.has(normalized)) return _this._targets.get(normalized);
+    if (!autoCreate) return;
 
-    index = _this._targets.push(normalized) - 1;
-    _this._eventTargets[index] = new _EventTarget2.default(normalized);
+    var eventTarget = new _EventTarget2.default(normalized);
+    _this._targets.set(normalized, eventTarget);
 
-    return _this._eventTargets[index];
+    return eventTarget;
   };
 
   this._remove = function (target) {
     var normalized = (0, _normalizeTarget2.default)(target);
-    var index = _this._targets.indexOf(normalized);
 
-    _this._targets = (0, _without3.default)(_this._targets, normalized);
-    delete _this._eventTargets[index];
+    _this._targets.delete(normalized);
   };
 
   this.sub = function (name, handlers) {
@@ -78,11 +72,15 @@ var EventStack = function EventStack() {
         _options$pool2 = options.pool,
         pool = _options$pool2 === undefined ? 'default' : _options$pool2;
 
-    var eventTarget = _this._find(target);
+    var eventTarget = _this._find(target, false);
 
-    eventTarget.unsub(name, handlers, pool);
-    if (eventTarget.empty()) _this._remove(target);
+    if (eventTarget) {
+      eventTarget.unsub(name, handlers, pool);
+      if (eventTarget.empty()) _this._remove(target);
+    }
   };
+
+  this._targets = new Map();
 }
 
 // ------------------------------------

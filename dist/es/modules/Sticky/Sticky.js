@@ -30,13 +30,13 @@ var Sticky = function (_Component) {
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Sticky.__proto__ || Object.getPrototypeOf(Sticky)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
       sticky: false
-    }, _this.addListener = function () {
-      var scrollContext = _this.props.scrollContext;
+    }, _this.addListeners = function (props) {
+      var scrollContext = props.scrollContext;
 
 
       eventStack.sub('resize', _this.handleUpdate, { target: scrollContext });
       eventStack.sub('scroll', _this.handleUpdate, { target: scrollContext });
-    }, _this.removeListener = function () {
+    }, _this.removeListeners = function () {
       var scrollContext = _this.props.scrollContext;
 
 
@@ -148,23 +148,23 @@ var Sticky = function (_Component) {
 
       if (active) {
         this.handleUpdate();
-        this.addListener();
+        this.addListeners(this.props);
       }
     }
   }, {
     key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(_ref2) {
-      var next = _ref2.active;
+    value: function componentWillReceiveProps(nextProps) {
       var current = this.props.active;
+      var next = nextProps.active;
 
 
       if (current === next) return;
       if (next) {
         this.handleUpdate();
-        this.addListener();
+        this.addListeners(nextProps);
         return;
       }
-      this.removeListener();
+      this.removeListeners();
       this.setState({ sticky: false });
     }
   }, {
@@ -174,7 +174,7 @@ var Sticky = function (_Component) {
       var active = this.props.active;
 
 
-      if (active) this.removeListener();
+      if (active) this.removeListeners();
     }
 
     // ----------------------------------------

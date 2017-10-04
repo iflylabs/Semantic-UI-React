@@ -122,7 +122,7 @@ SearchResult.propTypes = process.env.NODE_ENV !== "production" ? {
   description: PropTypes.string,
 
   /** A unique identifier. */
-  id: PropTypes.number,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
   /** Add an image to the item. */
   image: PropTypes.string,

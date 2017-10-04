@@ -116,10 +116,6 @@ var _has2 = require('lodash/has');
 
 var _has3 = _interopRequireDefault(_has2);
 
-var _isEqual2 = require('lodash/isEqual');
-
-var _isEqual3 = _interopRequireDefault(_isEqual2);
-
 var _isNil2 = require('lodash/isNil');
 
 var _isNil3 = _interopRequireDefault(_isNil2);
@@ -240,9 +236,7 @@ var Dropdown = function (_Component) {
       _this.open(e);
     }, _this.makeSelectedItemActive = function (e) {
       var open = _this.state.open;
-      var _this$props3 = _this.props,
-          multiple = _this$props3.multiple,
-          onAddItem = _this$props3.onAddItem;
+      var multiple = _this.props.multiple;
 
 
       var item = _this.getSelectedItem();
@@ -252,9 +246,6 @@ var Dropdown = function (_Component) {
       // prevent selecting duplicate items when the dropdown is closed
       if ((0, _isNil3.default)(value) || !open) return;
 
-      // notify the onAddItem prop if this is a new value
-      if (onAddItem && item['data-additional']) onAddItem(e, (0, _extends3.default)({}, _this.props, { value: value }));
-
       // state value may be undefined
       var newValue = multiple ? (0, _union3.default)(_this.state.value, [value]) : value;
 
@@ -262,11 +253,12 @@ var Dropdown = function (_Component) {
       _this.setValue(newValue);
       _this.setSelectedIndex(newValue);
       _this.handleChange(e, newValue);
+
+      // Heads up! This event handler should be called after `onChange`
+      // Notify the onAddItem prop if this is a new value
+      if (item['data-additional']) (0, _invoke3.default)(_this.props, 'onAddItem', e, (0, _extends3.default)({}, _this.props, { value: value }));
     }, _this.selectItemOnEnter = function (e) {
-      var _this$props4 = _this.props,
-          multiple = _this$props4.multiple,
-          onAddItem = _this$props4.onAddItem,
-          search = _this$props4.search;
+      var search = _this.props.search;
 
 
       if (_lib.keyboardKey.getCode(e) !== _lib.keyboardKey.Enter) return;
@@ -276,17 +268,17 @@ var Dropdown = function (_Component) {
       if (search && optionSize === 0) return;
 
       var item = _this.getSelectedItem();
-      var isAdditionItem = onAddItem && item['data-additional'];
+      var isAdditionItem = item['data-additional'];
 
       _this.makeSelectedItemActive(e);
       _this.closeOnChange(e);
 
-      if (!multiple || isAdditionItem || optionSize === 1) _this.clearSearchQuery();
+      if (isAdditionItem || optionSize === 1) _this.clearSearchQuery();
       if (search && _this.searchRef) _this.searchRef.focus();
     }, _this.removeItemOnBackspace = function (e) {
-      var _this$props5 = _this.props,
-          multiple = _this$props5.multiple,
-          search = _this$props5.search;
+      var _this$props3 = _this.props,
+          multiple = _this$props3.multiple,
+          search = _this$props3.search;
       var _this$state = _this.state,
           searchQuery = _this$state.searchQuery,
           value = _this$state.value;
@@ -320,9 +312,9 @@ var Dropdown = function (_Component) {
       _this.isMouseDown = false;
       _lib.eventStack.unsub('mouseup', _this.handleDocumentMouseUp);
     }, _this.handleClick = function (e) {
-      var _this$props6 = _this.props,
-          minCharacters = _this$props6.minCharacters,
-          search = _this$props6.search;
+      var _this$props4 = _this.props,
+          minCharacters = _this$props4.minCharacters,
+          search = _this$props4.search;
       var _this$state2 = _this.state,
           open = _this$state2.open,
           searchQuery = _this$state2.searchQuery;
@@ -346,10 +338,9 @@ var Dropdown = function (_Component) {
       e.stopPropagation();
       _this.toggle(e);
     }, _this.handleItemClick = function (e, item) {
-      var _this$props7 = _this.props,
-          multiple = _this$props7.multiple,
-          onAddItem = _this$props7.onAddItem,
-          search = _this$props7.search;
+      var _this$props5 = _this.props,
+          multiple = _this$props5.multiple,
+          search = _this$props5.search;
       var value = item.value;
 
       // prevent toggle() in handleClick()
@@ -359,10 +350,7 @@ var Dropdown = function (_Component) {
       if (multiple || item.disabled) e.nativeEvent.stopImmediatePropagation();
       if (item.disabled) return;
 
-      // notify the onAddItem prop if this is a new value
-      var isAdditionItem = onAddItem && item['data-additional'];
-      if (isAdditionItem) onAddItem(e, (0, _extends3.default)({}, _this.props, { value: value }));
-
+      var isAdditionItem = item['data-additional'];
       var newValue = multiple ? (0, _union3.default)(_this.state.value, [value]) : value;
 
       // notify the onChange prop that the user is trying to change value
@@ -374,6 +362,10 @@ var Dropdown = function (_Component) {
 
       _this.handleChange(e, newValue);
       _this.closeOnChange(e);
+
+      // Heads up! This event handler should be called after `onChange`
+      // Notify the onAddItem prop if this is a new value
+      if (isAdditionItem) (0, _invoke3.default)(_this.props, 'onAddItem', e, (0, _extends3.default)({}, _this.props, { value: value }));
 
       if (multiple && search && _this.searchRef) _this.searchRef.focus();
     }, _this.handleFocus = function (e) {
@@ -391,11 +383,11 @@ var Dropdown = function (_Component) {
       var currentTarget = (0, _get6.default)(e, 'currentTarget');
       if (currentTarget && currentTarget.contains(document.activeElement)) return;
 
-      var _this$props8 = _this.props,
-          closeOnBlur = _this$props8.closeOnBlur,
-          multiple = _this$props8.multiple,
-          onBlur = _this$props8.onBlur,
-          selectOnBlur = _this$props8.selectOnBlur;
+      var _this$props6 = _this.props,
+          closeOnBlur = _this$props6.closeOnBlur,
+          multiple = _this$props6.multiple,
+          onBlur = _this$props6.onBlur,
+          selectOnBlur = _this$props6.selectOnBlur;
       // do not "blur" when the mouse is down inside of the Dropdown
 
       if (_this.isMouseDown) return;
@@ -431,12 +423,12 @@ var Dropdown = function (_Component) {
     }, _this.getMenuOptions = function () {
       var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this.state.value;
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _this.props.options;
-      var _this$props9 = _this.props,
-          multiple = _this$props9.multiple,
-          search = _this$props9.search,
-          allowAdditions = _this$props9.allowAdditions,
-          additionPosition = _this$props9.additionPosition,
-          additionLabel = _this$props9.additionLabel;
+      var _this$props7 = _this.props,
+          multiple = _this$props7.multiple,
+          search = _this$props7.search,
+          allowAdditions = _this$props7.allowAdditions,
+          additionPosition = _this$props7.additionPosition,
+          additionLabel = _this$props7.additionLabel;
       var searchQuery = _this.state.searchQuery;
 
 
@@ -506,11 +498,11 @@ var Dropdown = function (_Component) {
 
       return (0, _findIndex3.default)(options, ['value', value]);
     }, _this.getDropdownAriaOptions = function () {
-      var _this$props10 = _this.props,
-          loading = _this$props10.loading,
-          disabled = _this$props10.disabled,
-          search = _this$props10.search,
-          multiple = _this$props10.multiple;
+      var _this$props8 = _this.props,
+          loading = _this$props8.loading,
+          disabled = _this$props8.disabled,
+          search = _this$props8.search,
+          multiple = _this$props8.multiple;
       var open = _this.state.open;
 
       var ariaOptions = {
@@ -590,11 +582,12 @@ var Dropdown = function (_Component) {
 
 
       var options = _this.getMenuOptions();
-      var lastIndex = options.length - 1;
 
       // Prevent infinite loop
-      if ((0, _every3.default)(options, 'disabled')) return;
+      // TODO: remove left part of condition after children API will be removed
+      if (options === undefined || (0, _every3.default)(options, 'disabled')) return;
 
+      var lastIndex = options.length - 1;
       // next is after last, wrap to beginning
       // next is before first, wrap to end
       var nextIndex = startIndex + offset;
@@ -621,9 +614,9 @@ var Dropdown = function (_Component) {
     }, _this.handleRef = function (c) {
       return _this.ref = c;
     }, _this.computeSearchInputTabIndex = function () {
-      var _this$props11 = _this.props,
-          disabled = _this$props11.disabled,
-          tabIndex = _this$props11.tabIndex;
+      var _this$props9 = _this.props,
+          disabled = _this$props9.disabled,
+          tabIndex = _this$props9.tabIndex;
 
 
       if (!(0, _isNil3.default)(tabIndex)) return tabIndex;
@@ -643,10 +636,10 @@ var Dropdown = function (_Component) {
         return searchWidth;
       }
     }, _this.computeTabIndex = function () {
-      var _this$props12 = _this.props,
-          disabled = _this$props12.disabled,
-          search = _this$props12.search,
-          tabIndex = _this$props12.tabIndex;
+      var _this$props10 = _this.props,
+          disabled = _this$props10.disabled,
+          search = _this$props10.search,
+          tabIndex = _this$props10.tabIndex;
 
       // don't set a root node tabIndex as the search input has its own tabIndex
 
@@ -669,10 +662,10 @@ var Dropdown = function (_Component) {
         menu.scrollTop = item.offsetTop + item.clientHeight - menu.clientHeight;
       }
     }, _this.open = function (e) {
-      var _this$props13 = _this.props,
-          disabled = _this$props13.disabled,
-          onOpen = _this$props13.onOpen,
-          search = _this$props13.search;
+      var _this$props11 = _this.props,
+          disabled = _this$props11.disabled,
+          onOpen = _this$props11.onOpen,
+          search = _this$props11.search;
 
       if (disabled) return;
       if (search && _this.searchRef) _this.searchRef.focus();
@@ -703,11 +696,11 @@ var Dropdown = function (_Component) {
     }, _this.toggle = function (e) {
       return _this.state.open ? _this.close(e) : _this.open(e);
     }, _this.renderText = function () {
-      var _this$props14 = _this.props,
-          multiple = _this$props14.multiple,
-          placeholder = _this$props14.placeholder,
-          search = _this$props14.search,
-          text = _this$props14.text;
+      var _this$props12 = _this.props,
+          multiple = _this$props12.multiple,
+          placeholder = _this$props12.placeholder,
+          search = _this$props12.search,
+          text = _this$props12.text;
       var _this$state3 = _this.state,
           searchQuery = _this$state3.searchQuery,
           value = _this$state3.value,
@@ -733,9 +726,9 @@ var Dropdown = function (_Component) {
         _text
       );
     }, _this.renderSearchInput = function () {
-      var _this$props15 = _this.props,
-          search = _this$props15.search,
-          searchInput = _this$props15.searchInput;
+      var _this$props13 = _this.props,
+          search = _this$props13.search,
+          searchInput = _this$props13.searchInput;
       var searchQuery = _this.state.searchQuery;
 
 
@@ -748,17 +741,17 @@ var Dropdown = function (_Component) {
           value: searchQuery
         } });
     }, _this.renderSearchSizer = function () {
-      var _this$props16 = _this.props,
-          search = _this$props16.search,
-          multiple = _this$props16.multiple;
+      var _this$props14 = _this.props,
+          search = _this$props14.search,
+          multiple = _this$props14.multiple;
 
 
       if (!(search && multiple)) return null;
       return _react2.default.createElement('span', { className: 'sizer', ref: _this.handleSizerRef });
     }, _this.renderLabels = function () {
-      var _this$props17 = _this.props,
-          multiple = _this$props17.multiple,
-          renderLabel = _this$props17.renderLabel;
+      var _this$props15 = _this.props,
+          multiple = _this$props15.multiple,
+          renderLabel = _this$props15.renderLabel;
       var _this$state4 = _this.state,
           selectedLabel = _this$state4.selectedLabel,
           value = _this$state4.value;
@@ -784,10 +777,10 @@ var Dropdown = function (_Component) {
         return _Label2.default.create(renderLabel(item, index, defaultProps), { defaultProps: defaultProps });
       });
     }, _this.renderOptions = function () {
-      var _this$props18 = _this.props,
-          multiple = _this$props18.multiple,
-          search = _this$props18.search,
-          noResultsMessage = _this$props18.noResultsMessage;
+      var _this$props16 = _this.props,
+          multiple = _this$props16.multiple,
+          search = _this$props16.search,
+          noResultsMessage = _this$props16.noResultsMessage;
       var _this$state5 = _this.state,
           selectedIndex = _this$state5.selectedIndex,
           value = _this$state5.value;
@@ -820,9 +813,9 @@ var Dropdown = function (_Component) {
         }));
       });
     }, _this.renderMenu = function () {
-      var _this$props19 = _this.props,
-          children = _this$props19.children,
-          header = _this$props19.header;
+      var _this$props17 = _this.props,
+          children = _this$props17.children,
+          header = _this$props17.header;
       var open = _this.state.open;
 
       var menuClasses = open ? 'visible' : '';
@@ -864,11 +857,6 @@ var Dropdown = function (_Component) {
       if (open) this.open();
     }
   }, {
-    key: 'shouldComponentUpdate',
-    value: function shouldComponentUpdate(nextProps, nextState) {
-      return !(0, _isEqual3.default)(nextProps, this.props) || !(0, _isEqual3.default)(nextState, this.state);
-    }
-  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       (0, _get4.default)(Dropdown.prototype.__proto__ || Object.getPrototypeOf(Dropdown.prototype), 'componentWillReceiveProps', this).call(this, nextProps);
@@ -888,14 +876,19 @@ var Dropdown = function (_Component) {
       }
       /* eslint-enable no-console */
 
-      if (!(0, _isEqual3.default)(nextProps.value, this.props.value)) {
+      if (!(0, _lib.shallowEqual)(nextProps.value, this.props.value)) {
         this.setValue(nextProps.value);
         this.setSelectedIndex(nextProps.value);
       }
 
-      if (!(0, _isEqual3.default)(nextProps.options, this.props.options)) {
+      if (!(0, _lib.shallowEqual)(nextProps.options, this.props.options)) {
         this.setSelectedIndex(undefined, nextProps.options);
       }
+    }
+  }, {
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps, nextState) {
+      return !(0, _lib.shallowEqual)(nextProps, this.props) || !(0, _lib.shallowEqual)(nextState, this.state);
     }
   }, {
     key: 'componentDidUpdate',
