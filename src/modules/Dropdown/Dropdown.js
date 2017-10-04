@@ -14,6 +14,7 @@ import {
   makeDebugger,
   META,
   objectDiff,
+  shallowEqual,
   useKeyOnly,
   useKeyOrValueAndKey,
 } from '../../lib'
@@ -395,10 +396,6 @@ export default class Dropdown extends Component {
     if (open) this.open()
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return !_.isEqual(nextProps, this.props) || !_.isEqual(nextState, this.state)
-  }
-
   componentWillReceiveProps(nextProps) {
     super.componentWillReceiveProps(nextProps)
     debug('componentWillReceiveProps()')
@@ -424,15 +421,19 @@ export default class Dropdown extends Component {
     }
     /* eslint-enable no-console */
 
-    if (!_.isEqual(nextProps.value, this.props.value)) {
+    if (!shallowEqual(nextProps.value, this.props.value)) {
       debug('value changed, setting', nextProps.value)
       this.setValue(nextProps.value)
       this.setSelectedIndex(nextProps.value)
     }
 
-    if (!_.isEqual(nextProps.options, this.props.options)) {
+    if (!shallowEqual(nextProps.options, this.props.options)) {
       this.setSelectedIndex(undefined, nextProps.options)
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !shallowEqual(nextProps, this.props) || !shallowEqual(nextState, this.state)
   }
 
   componentDidUpdate(prevProps, prevState) { // eslint-disable-line complexity
@@ -579,7 +580,7 @@ export default class Dropdown extends Component {
 
   makeSelectedItemActive = (e) => {
     const { open } = this.state
-    const { multiple, onAddItem } = this.props
+    const { multiple } = this.props
 
     const item = this.getSelectedItem()
     const value = _.get(item, 'value')
@@ -588,9 +589,6 @@ export default class Dropdown extends Component {
     // prevent selecting duplicate items when the dropdown is closed
     if (_.isNil(value) || !open) return
 
-    // notify the onAddItem prop if this is a new value
-    if (onAddItem && item['data-additional']) onAddItem(e, { ...this.props, value })
-
     // state value may be undefined
     const newValue = multiple ? _.union(this.state.value, [value]) : value
 
@@ -598,11 +596,15 @@ export default class Dropdown extends Component {
     this.setValue(newValue)
     this.setSelectedIndex(newValue)
     this.handleChange(e, newValue)
+
+    // Heads up! This event handler should be called after `onChange`
+    // Notify the onAddItem prop if this is a new value
+    if (item['data-additional']) _.invoke(this.props, 'onAddItem', e, { ...this.props, value })
   }
 
   selectItemOnEnter = (e) => {
     debug('selectItemOnEnter()', keyboardKey.getName(e))
-    const { multiple, onAddItem, search } = this.props
+    const { search } = this.props
 
     if (keyboardKey.getCode(e) !== keyboardKey.Enter) return
     e.preventDefault()
@@ -611,12 +613,12 @@ export default class Dropdown extends Component {
     if (search && optionSize === 0) return
 
     const item = this.getSelectedItem()
-    const isAdditionItem = onAddItem && item['data-additional']
+    const isAdditionItem = item['data-additional']
 
     this.makeSelectedItemActive(e)
     this.closeOnChange(e)
 
-    if (!multiple || isAdditionItem || optionSize === 1) this.clearSearchQuery()
+    if (isAdditionItem || optionSize === 1) this.clearSearchQuery()
     if (search && this.searchRef) this.searchRef.focus()
   }
 
@@ -700,7 +702,7 @@ export default class Dropdown extends Component {
   handleItemClick = (e, item) => {
     debug('handleItemClick()', item)
 
-    const { multiple, onAddItem, search } = this.props
+    const { multiple, search } = this.props
     const { value } = item
 
     // prevent toggle() in handleClick()
@@ -709,10 +711,7 @@ export default class Dropdown extends Component {
     if (multiple || item.disabled) e.nativeEvent.stopImmediatePropagation()
     if (item.disabled) return
 
-    // notify the onAddItem prop if this is a new value
-    const isAdditionItem = onAddItem && item['data-additional']
-    if (isAdditionItem) onAddItem(e, { ...this.props, value })
-
+    const isAdditionItem = item['data-additional']
     const newValue = multiple ? _.union(this.state.value, [value]) : value
 
     // notify the onChange prop that the user is trying to change value
@@ -724,6 +723,10 @@ export default class Dropdown extends Component {
 
     this.handleChange(e, newValue)
     this.closeOnChange(e)
+
+    // Heads up! This event handler should be called after `onChange`
+    // Notify the onAddItem prop if this is a new value
+    if (isAdditionItem) _.invoke(this.props, 'onAddItem', e, { ...this.props, value })
 
     if (multiple && search && this.searchRef) this.searchRef.focus()
   }
@@ -973,11 +976,12 @@ export default class Dropdown extends Component {
     debug(`offset: ${offset}`)
 
     const options = this.getMenuOptions()
-    const lastIndex = options.length - 1
 
     // Prevent infinite loop
-    if (_.every(options, 'disabled')) return
+    // TODO: remove left part of condition after children API will be removed
+    if (options === undefined || _.every(options, 'disabled')) return
 
+    const lastIndex = options.length - 1
     // next is after last, wrap to beginning
     // next is before first, wrap to end
     let nextIndex = startIndex + offset

@@ -1,12 +1,12 @@
-npm-debug.log*
-node_modules/
-bower_components/
-coverage/
-docs/build/
-docs/app/docgenInfo.json
-dll/
+*.log*
+*.iml
 
 .DS_Store
 .idea/
+.yarn-cache/
 
-*.iml
+coverage/
+docs/app/docgenInfo.json
+docs/build/
+dll/
+node_modules/

@@ -72,12 +72,13 @@ Here are some helpful links:
 These great products are built on Semantic UI React. Add yours [here][22].
 
 - Netflix's Edge Developer Experience team's numerous [internal apps](https://github.com/Semantic-Org/Semantic-UI-React/issues/1604)
+- Amazon Publishing — the full-service publisher of Amazon — [APub.com](https://amazonpublishing.amazon.com)
 - http://stoplight.io
 - https://roadmap.space
 - https://edabit.com
 - https://blackship.com
 - http://www.brewhousesolutions.com
-- https://www.lifebot.fr
+- https://www.seeuletter.com
 - https://www.stackforge.co
 - https://sublimefund.org
 - https://thefaithcircle.com
@@ -143,15 +144,15 @@ Any other issue labeled [`help wanted`][4] is ready for a PR.
 On the latest clean `master`:
 
 ```sh
-npm run release:major
-npm run release:minor
-npm run release:patch
+yarn release:major
+yarn release:minor
+yarn release:patch
 ```
 
 Deploy the docs:
 
 ```sh
-npm run deploy:docs
+yarn deploy:docs
 ```
 
 Update the changelog (requires [github_changelog_generator][15]):
